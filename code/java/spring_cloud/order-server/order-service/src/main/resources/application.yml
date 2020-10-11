@@ -1,0 +1,27 @@
+server:
+  port: 32002
+
+ribbon:
+  ConnectTimeout: 1000  #毫秒    连接超时时间
+  ReadTimeout: 3000     #毫秒      逻辑处理超时时间
+  OkToRetryOnAllOperations: false    # 是否对所有操作都进行重试
+  MaxAutoRetries: 0     # 对当前实例的最大重试次数(请求服务超时6s则会再请求一次)
+  MaxAutoRetriesNextServer: 0     # 切换实例的最大重试次数(如果还失败就切换下
+
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+  client:
+    config:
+      default:
+        maxConnections: 200
+        loggerLevel: full
+        connectTimeout: 1000
+        readTimeout: 3000
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: false

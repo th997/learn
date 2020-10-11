@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: zipkin-server
+  cloud:
+    config:
+      uri: http://config-server:31000
+      #profile: prod
+      name: zipkin-server

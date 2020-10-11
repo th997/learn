@@ -1,0 +1,85 @@
+"
+set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+language message zh_CN.UTF-8
+set fileencodings=UTF-8,GBK,GB2312
+
+"
+colorscheme desert
+syntax on
+syntax enable
+autocmd GUIEnter * simalt ~x
+set autochdir
+set autoindent
+set autoread
+set autowrite
+set backspace=indent,eol,start
+set backupcopy=yes
+set cindent
+set clipboard+=unnamed 
+set completeopt=preview,menu
+set foldmethod=manual
+set gdefault
+set guioptions-=m
+set guioptions-=T
+set hidden
+set history=500
+set hlsearch
+set incsearch
+set matchtime=1
+set magic
+set nobackup
+set nocompatible
+set noswapfile
+set nu
+set ruler
+set scrolloff=3
+set shiftwidth=4
+set showcmd
+set showmatch
+set smartindent
+set softtabstop=4
+set syntax=on
+set tabstop=4
+set wildmenu
+
+
+"
+:inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR> 
+:inoremap { {}<ESC>i
+:inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+:inoremap < <><ESC>i
+:inoremap > <c-r>=ClosePair('>')<CR>
+":inoremap " ""<ESC>i
+":inoremap ' ''<ESC>i
+function ClosePair(char)  
+    if getline('.')[col('.') - 1] == a:char  
+        return "\<Right>"  
+    else  
+        return a:char  
+    endif  
+endf 
+
+"
+filetype plugin on
+filetype on
+filetype indent on
+
+"
+map <C-s> <ESC>:w<CR>
+map <C-w> :tabclose<CR>
+map <C-n> :tabnew<CR>
+map <C-Tab> :tabn<CR>
+map <C-o> :browse tabnew<CR>
+map <C-q> :NERDTreeToggle<CR>
+
+"
+set rtp+=$GOROOT/misc/vim
+au BufRead,BufNewFile *.go set filetype=go
+autocmd BufWritePre *.go Fmt
+map <C-F11> :w<cr>:!go run %<cr>
+imap <A-/> <C-x><C-o>
+

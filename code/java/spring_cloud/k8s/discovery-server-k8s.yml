@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: discovery-server
+  labels:
+    app: discovery-server
+spec:
+  serviceName: discovery-server
+  replicas: 3 # in product env 3+
+  selector:
+    matchLabels:
+      app: discovery-server
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+        - name: discovery-server
+          image: th9976/discovery-server
+          imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          resources:
+            limits:
+              memory: 512Mi # jvm limit
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+  labels:
+    app: discovery-server
+spec:
+  type: NodePort
+  selector:
+    app: discovery-server
+  ports:
+    - port: 31001
+      targetPort: 31001
+      nodePort: 31001
+

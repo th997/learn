@@ -1,0 +1,86 @@
+version: "3"
+services:
+
+  redis1:
+    image: redis
+    container_name: redis1
+    command: redis-server  /config/redis.conf 
+    volumes:
+      - redis_data1:/data
+      - ./config/:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.11
+  redis2:
+    image: redis
+    container_name: redis2
+    command: redis-server  /config/redis.conf 
+    volumes:
+      - redis_data2:/data
+      - ./config/:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.12
+  redis3:
+    image: redis
+    container_name: redis3
+    command: redis-server  /config/redis.conf 
+    volumes:
+      - redis_data3:/data
+      - ./config/:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.13
+  redis4:
+    image: redis
+    container_name: redis4
+    command: redis-server  /config/redis.conf 
+    volumes:
+      - redis_data4:/data
+      - ./config/:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.14
+  redis5:
+    image: redis
+    container_name: redis5
+    command: redis-server  /config/redis.conf 
+    volumes:
+      - redis_data5:/data
+      - ./config/:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.15
+  redis6:
+    image: redis
+    container_name: redis6
+    command: redis-server  /config/redis.conf 
+    volumes:
+      - redis_data6:/data
+      - ./config/:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.16
+   
+networks:
+  default:
+    external:
+      name: mynetwork
+
+volumes:
+  redis_data1:
+  redis_data2:
+  redis_data3:
+  redis_data4:
+  redis_data5:
+  redis_data6:
+
+
+# docker exec -it redis1 redis-cli -a redis_666888 --cluster create 172.16.16.11:6379 172.16.16.12:6379 172.16.16.13:6379 172.16.16.14:6379 172.16.16.15:6379 172.16.16.16:6379 --cluster-replicas 1
+# docker volume rm redis_redis_data1
+# docker volume rm redis_redis_data2
+# docker volume rm redis_redis_data3
+# docker volume rm redis_redis_data4
+# docker volume rm redis_redis_data5
+# docker volume rm redis_redis_data6
+# redis-cli -c -a redis_666888

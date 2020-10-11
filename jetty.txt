@@ -1,0 +1,53 @@
+Jetty有4个核心组件Server，Connector，Handler，ThreadPool
+Connector负责监听接收客户端请求，Handler负责处理请求并给予响应，所需要的线程资源都从线程池ThreadPool中获取
+Server负责创建并初始化Connector、Handler、ThreadPool组件，然后调用start方法启动他们，让所有组件都处于待命状态，调用stop方法可以终止服务，Server是一个典型的Facade
+Server本身也是一个Handler
+
+ThreadPool
+Jetty内置了两个ThreadPool的实现类QueuedThreadPool和ExecutorThreadPool
+其中QueuedThreadPool为默认，当Server不指定线程池时会默认创建一个QueuedThreadPool，用户可以设置线程池大小等参数
+ExecutorThreadPool是根据java 5中ThreadPoolExecutor包装而成的
+
+Connector
+Jetty Server可以有多个Connector在不同的端口上监听客户请求，而每个Connector根据具体的使用场景不同可以有不同的实现，例如采用非阻塞和阻塞模式
+Server默认创建SelectChannelConnector，为非阻塞模式
+
+Handler
+Handler需要用户来添加，对于不同的请求可以由不同的Handler来处理，因此Jetty内置了多个Handler，用户可以设置多个来顺序执行
+当需要多个Handler的时候可以用HandlerList和HandlerConnection来添加
+HandlerList和HandlerConnection都可以设置若干Handler， Handler按顺序一个接一个的执行。对于HandlerList而言，只要有一个Handler将请求标记为已处理，或抛出异常，Handler的调用就到此结束。而HandlerConnection则不会结束，一直调用到最后一个Handler
+Jetty内置了多个Handler，如ResourceHandler用来处理静态资源，ServletHandler用来支持Servlet，WebAppContext用来支持Web应用
+
+	public static void main(String[] args) throws Exception {
+		String dir = "d:/test/testweb";
+		Server server = new Server(80);
+		// handers
+		ContextHandlerCollection handlers = new ContextHandlerCollection();
+		WebAppContext webapp = new WebAppContext();
+		webapp.setContextPath("/");
+		webapp.setWar(dir);
+		handlers.addHandler(webapp);
+		server.setHandler(handlers);
+
+		// 监听目录
+		DeploymentManager dm = new DeploymentManager();
+		dm.setContexts(handlers);
+		dm.setContextAttribute(
+				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+				"\\*");
+		ContextProvider contextProvider = new ContextProvider();
+		contextProvider.setMonitoredDirName(dir);
+		contextProvider.setScanInterval(2);
+		dm.addAppProvider(contextProvider);
+		// WebAppProvider webAppProvider = new WebAppProvider();
+		// webAppProvider.setMonitoredDirName(dir);
+		// webAppProvider.setDefaultsDescriptor(dir + "/WEB-INF/web.xml");
+		// webAppProvider.setScanInterval(2);
+		// webAppProvider.setContextXmlDir(dir);
+		// webAppProvider.setExtractWars(true);
+		// dm.addAppProvider(webAppProvider);
+		server.addBean(dm);
+		// 启动
+		server.start();
+		server.join();
+	}

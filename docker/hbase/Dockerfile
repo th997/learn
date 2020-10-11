@@ -1,0 +1,25 @@
+FROM th9976/hadoop:1.0
+MAINTAINER th9976 <th9976@gmail.com>
+
+# env
+ENV HBASE_HOME=/usr/local/hbase
+ENV HBASE_CONF_DIR=/usr/local/hbase/conf
+ENV PATH=$PATH:/usr/local/hbase/bin
+
+# add file
+ADD hbase-2.1.2-bin.tar.gz  /usr/local/
+RUN ln -s /usr/local/hbase-2.1.2 $HBASE_HOME && \
+    echo "export JAVA_HOME=$JAVA_HOME" >> $HBASE_HOME/conf/hbase-env.sh && \
+    cp 	$HBASE_HOME/lib/client-facing-thirdparty/htrace* $HBASE_HOME/lib/
+COPY conf/* $HBASE_HOME/conf/
+COPY entrypoint.sh $HBASE_HOME/entrypoint.sh
+RUN chmod a+x $HBASE_HOME/entrypoint.sh
+
+# pre ...
+WORKDIR $HBASE_HOME
+EXPOSE 16010
+
+# start 
+ENTRYPOINT ["/usr/local/hbase/entrypoint.sh"]
+CMD [ "sh", "-c", "bash"]
+

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin-server
+  labels:
+    app: zipkin-server
+spec:
+  replicas: 1 # in product env 3+
+  selector:
+    matchLabels:
+      app: zipkin-server
+  template:
+    metadata:
+      labels:
+        app: zipkin-server
+    spec:
+      containers:
+        - name: zipkin-server
+          image: openzipkin/zipkin
+          imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+               memory: "512Mi"
+               cpu: "1000m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-server
+  labels:
+    app: zipkin-server
+spec:
+  type: NodePort
+  selector:
+    app: zipkin-server
+  ports:
+    - port: 31003
+      targetPort: 9411
+      nodePort: 31003
+

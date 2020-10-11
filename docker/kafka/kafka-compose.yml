@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  kafka1:
+    image: th9976/kafka:1.0
+    container_name: kafka1
+    restart: always
+    volumes:
+      - kafka_data1:/data
+    environment:
+      broker_id: 1
+      host: 172.16.16.31
+      zookeeper_connect: 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181
+      start: bin/kafka-server-start.sh config/server.properties
+    networks:
+      default:
+        ipv4_address: 172.16.16.31
+
+  kafka2:
+    image: th9976/kafka:1.0
+    container_name: kafka2
+    restart: always
+    volumes:
+      - kafka_data2:/data
+    environment:
+      broker_id: 2
+      host: 172.16.16.32
+      zookeeper_connect: 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181
+      start: bin/kafka-server-start.sh config/server.properties
+    networks:
+      default:
+        ipv4_address: 172.16.16.32
+
+  kafka3:
+    image: th9976/kafka:1.0
+    container_name: kafka3
+    restart: always
+    volumes:
+      - kafka_data3:/data
+    environment:
+      broker_id: 3
+      host: 172.16.16.33
+      zookeeper_connect: 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181
+      start: bin/kafka-server-start.sh config/server.properties
+    networks:
+      default:
+        ipv4_address: 172.16.16.33
+
+# 引用已经存在网络
+# docker network create --subnet=172.16.16.0/24 mynetwork
+networks:
+  default:
+    external:
+      name: mynetwork    
+
+volumes:
+  kafka_data1:
+  kafka_data2:
+  kafka_data3:    
+
+# 测试
+# ./kafka-topics.sh --create --topic test --replication-factor 1 --partitions 1 --zookeeper 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181  
+# ./kafka-topics.sh --list -zookeeper 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181  
+# ./kafka-producer-perf-test.sh --topic test --num-records 1000000 --record-size 1024  --throughput 1000000 --producer-props bootstrap.servers=172.16.16.31:9092,172.16.16.32:9092,172.16.16.33:9092
+# ./kafka-consumer-perf-test.sh --bootstrap-server 172.16.16.31:9092,172.16.16.32:9092,172.16.16.33:9092 --topic test --fetch-size 1048576 --messages 1000000 --threads 1

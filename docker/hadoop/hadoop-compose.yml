@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+   hadoop-m1:
+     image: th9976/hadoop:1.0
+     container_name: hadoop-m1
+     volumes:
+       - data_m1:/home/data
+     deploy:
+       mode: global
+     environment:
+       slaves: hadoop-s1,hadoop-s2
+       start: /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh
+     depends_on:
+       - hadoop-s1
+       - hadoop-s2
+     ports:
+       - "50070:50070"
+       - "8088:8088"
+       - "9000:9000"
+     tty: true
+     stdin_open: true
+   
+   hadoop-s1:
+     image: th9976/hadoop:1.0
+     container_name: hadoop-s1
+     volumes:
+       - data_s1:/home/data
+     deploy:
+       mode: global
+     tty: true  
+     stdin_open: true
+
+   hadoop-s2:
+    image: th9976/hadoop:1.0
+    container_name: hadoop-s2
+    volumes:
+      - data_s2:/home/data
+    deploy:
+      mode: global    
+    tty: true
+    stdin_open: true
+
+volumes:
+  data_m1:
+  data_s1:
+  data_s2:

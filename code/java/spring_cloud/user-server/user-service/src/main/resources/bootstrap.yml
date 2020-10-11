@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: user-server
+  cloud:
+    config:
+      uri: http://config-server:31000
+      #profile: prod
+      name: common-config,user-server
+
+app:
+  id: ${spring.application.name}
+apollo:
+  meta: http://apollo-service-pro-apollo-configservice.default:8080

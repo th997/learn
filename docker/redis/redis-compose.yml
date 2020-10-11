@@ -1,0 +1,19 @@
+version: "3"
+services:
+
+   redis:
+     image: redis
+     container_name: redis
+     restart: always
+     deploy:
+       mode: global
+     command: redis-server  /config/redis.conf 
+     ports:
+       - "56379:6379"
+     volumes:
+       - redis_data:/data
+       # chmod 644 ./config/*
+       - ./config/:/config
+
+volumes:
+  redis_data:

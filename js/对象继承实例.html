@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <head>
+  <title> New Document </title>
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+
+<script type="text/javascript">
+
+function Shape(edge)
+{
+	this.edge = edge;
+}
+
+Shape.prototype.getArea = function()
+{
+	return -1;
+}
+
+Shape.prototype.getEdge = function()
+{
+	return this.edge;
+}
+
+
+function Triangle(bottom, height)
+{
+	Shape.call(this, 3);
+
+	this.bottom = bottom;
+	this.height = height;
+}
+
+Triangle.prototype = new Shape();
+
+Triangle.prototype.getArea = function()
+{
+	return 0.5 * this.bottom * this.height;
+}
+
+//Triangle.prototype.getEdge = function()
+//{
+//	return this.edge;
+//}
+
+var triangle = new Triangle(10, 4);
+
+//alert(triangle.getEdge());
+//alert(triangle.getArea());
+
+function Rectangle(bottom, height)
+{
+	Shape.call(this, 4);
+
+	this.bottom = bottom;
+	this.height = height;
+}
+
+Rectangle.prototype = new Shape();
+
+Rectangle.prototype.getArea = function()
+{
+	return this.bottom * this.height;
+}
+
+//Rectangle.prototype.getEdge = function()
+//{
+//	return this.edge;
+//}
+
+var rectangle = new Rectangle(20, 40);
+
+alert(rectangle.getEdge());
+alert(rectangle.getArea());
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+ </head>
+
+ <body>
+  
+ </body>
+</html>

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-server
+  labels:
+    app: user-server
+spec:
+  replicas: 3 # in product env 3+
+  selector:
+    matchLabels:
+      app: user-server
+  template:
+    metadata:
+      labels:
+        app: user-server
+    spec:
+      containers:
+        - name: user-server
+          image: th9976/user-service
+          imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          resources:
+            limits:
+              memory: 512Mi # jvm limit
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-server
+  labels:
+    app: user-server
+spec:
+  type: NodePort
+  selector:
+    app: user-server
+  ports:
+    - port: 32001
+      targetPort: 32001 # node port,in product env  delete
+      nodePort: 32001

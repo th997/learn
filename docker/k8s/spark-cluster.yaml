@@ -1,0 +1,170 @@
+#  k8s spark 部署
+#  参考文档 https://kubernetes.feisky.xyz/practice/introduction/spark
+
+# 创建命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "spark-cluster"
+  labels:
+    name: "spark-cluster"
+
+---
+# 部署 Master 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master-deployment
+  namespace: spark-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: spark-master
+  template:
+    metadata:
+      labels:
+        component: spark-master
+    spec:
+      containers:
+        - name: spark-master
+          image: gcr.io/google_containers/spark:1.5.2_v1
+          command: ["/start-master"]
+          ports:
+            - containerPort: 7077
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-master
+  namespace: spark-cluster
+spec:
+  ports:
+    - port: 7077
+      targetPort: 7077
+      name: spark
+    - port: 8080
+      targetPort: 8080
+      name: http
+  selector:
+    component: spark-master
+
+---
+# 部署UI
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-ui-proxy-deployment
+  namespace: spark-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: spark-ui-proxy
+  template:
+    metadata:
+      labels:
+        component: spark-ui-proxy
+    spec:
+      containers:
+        - name: spark-ui-proxy
+          image: elsonrodriguez/spark-ui-proxy:1.0
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+          args:
+            - spark-master:8080
+          livenessProbe:
+              httpGet:
+                path: /
+                port: 80
+              initialDelaySeconds: 120
+              timeoutSeconds: 5    
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-ui-proxy
+  namespace: spark-cluster
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+  selector:
+    component: spark-ui-proxy
+  type: NodePort
+  
+---
+# 部署work
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-worker-deployment
+  namespace: spark-cluster
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: spark-worker
+  template:
+    metadata:
+      labels:
+        component: spark-worker
+    spec:
+      containers:
+        - name: spark-worker
+          image: gcr.io/google_containers/spark:1.5.2_v1
+          command: ["/start-worker"]
+          ports:
+            - containerPort: 8081
+          resources:
+            requests:
+              cpu: 100m
+
+---
+# 部署 Zeppelin UI
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zeppelin-deployment
+  namespace: spark-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: zeppelin
+  template:
+    metadata:
+      labels:
+        component: zeppelin
+    spec:
+      containers:
+        - name: zeppelin
+          image: gcr.io/google_containers/zeppelin:v0.5.6_v1
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+---
+apiVersion: v1  
+kind: Service
+metadata:
+  name: zeppelin
+  namespace: spark-cluster
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30081
+  selector:
+    component: zeppelin
+  type: NodePort                                

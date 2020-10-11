@@ -1,0 +1,48 @@
+# springboot autoconfigure -> spring.factories -> RedisAutoConfiguration -> RedisProperties
+spring:
+  redis:
+    #host: 127.0.0.1 # Redis服务器地址
+    #database: 0 # Redis数据库索引（默认为0）
+    #port: 56379 # Redis服务器连接端口
+    #password: redis_666888 # Redis服务器连接密码（默认为空）
+    timeout: 5000ms # 连接超时时间
+
+    cluster:
+      max-redirects: 3 # 获取失败 最大重定向次数
+      nodes:
+        - 172.16.16.11:6379
+        - 172.16.16.12:6379
+        - 172.16.16.13:6379
+        - 172.16.16.14:6379
+        - 172.16.16.15:6379
+        - 172.16.16.16:6379
+
+#    jedis:
+#      pool:
+#        max-active: 256
+#        max-idle: 8
+#        max-wait: 5000ms
+#        min-idle: 8
+
+#    pool:
+#      max-active: 128
+#      max-idle: 80
+#      max-wait: 5000ms
+#      min-idle: 80
+    lettuce:
+      cluster:
+        refresh:
+          adaptive: true # 集群master挂,恢复后客户端自动刷新
+          period: 10000ms
+      pool:
+        max-active: 128
+        max-idle: 8
+        max-wait: 5000ms
+        min-idle: 8
+
+
+
+
+
+
+

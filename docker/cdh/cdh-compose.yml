@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+   cdh-m1:
+     image: th9976/cdh:1.0
+     container_name: cdh-m1
+     deploy:
+       mode: global
+     environment:
+       start: /usr/local/cdh/etc/init.d/cloudera-scm-server start && /usr/local/cdh/etc/init.d/cloudera-scm-agent start
+     ports:
+       - "7180:7180"
+     tty: true
+     stdin_open: true
+   
+   cdh-s1:
+     image: th9976/cdh:1.0
+     container_name: cdh-s1
+     depends_on:
+       - cdh-m1
+     deploy:
+       mode: global
+     environment:
+       start: /usr/local/cdh/etc/init.d/cloudera-scm-agent start       
+     tty: true  
+     stdin_open: true
+
+   cdh-s2:
+    image: th9976/cdh:1.0
+    container_name: cdh-s2  
+    depends_on:
+      - cdh-m1  
+    environment:
+      start: /usr/local/cdh/etc/init.d/cloudera-scm-agent start          
+    deploy:
+      mode: global    
+    tty: true
+    stdin_open: true

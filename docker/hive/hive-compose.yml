@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+   hive-m1:
+     image: th9976/hive:1.0
+     container_name: hadoop-m1
+     deploy:
+       mode: global
+     environment:
+       masters: hadoop-m1 
+       slaves: hadoop-m1,hadoop-s1,hadoop-s2
+       start: /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hadoop/sbin/start-yarn.sh && /usr/local/spark/sbin/start-all.sh && /usr/local/hive/start-hive.sh
+     depends_on:
+       - hive-s1
+       - hive-s2
+     ports:
+       - "50070:50070"
+       - "58088:8088"
+       - "59000:9000"
+       - "58080:8080"
+       - "54040:4040"
+       - "57077:7077"
+       - "10000:10000"
+       - "18080:18080"
+     tty: true
+     stdin_open: true
+   
+   hive-s1:
+     image: th9976/hive:1.0
+     container_name: hadoop-s1
+     deploy:
+       mode: global
+     ports:
+       - "58081:8081"
+     environment:
+       masters: hadoop-m1
+     tty: true  
+     stdin_open: true
+
+   hive-s2:
+    image: th9976/hive:1.0
+    container_name: hadoop-s2
+    deploy:
+      mode: global
+    ports:
+      - "58082:8081"      
+    environment:
+       masters: hadoop-m1  
+    tty: true
+    stdin_open: true
+
+

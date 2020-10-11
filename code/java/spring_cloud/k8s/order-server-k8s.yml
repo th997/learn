@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-server
+  labels:
+    app: order-server
+spec:
+  replicas: 1 # in product env 3+
+  selector:
+    matchLabels:
+      app: order-server
+  template:
+    metadata:
+      labels:
+        app: order-server
+    spec:
+      containers:
+        - name: order-server
+          image: th9976/order-service
+          imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          resources:
+            limits:
+              memory: 512Mi # jvm limit
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-server
+  labels:
+    app: order-server
+spec:
+  type: NodePort
+  selector:
+    app: order-server
+  ports:
+    - port: 32002
+      targetPort: 32002 # node port,in product env  delete
+      nodePort: 32002

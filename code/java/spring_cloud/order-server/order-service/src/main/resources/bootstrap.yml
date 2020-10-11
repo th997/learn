@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: order-server
+  cloud:
+    config:
+      uri: http://config-server:31000
+      #profile: prod
+      name: common-config,order-server

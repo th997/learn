@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+   spark-m1:
+     image: th9976/spark:1.0
+     container_name: hadoop-m1
+     deploy:
+       mode: global
+     environment:
+       masters: hadoop-m1 
+       slaves: hadoop-m1,hadoop-s1,hadoop-s2
+       start: /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/spark/sbin/start-all.sh
+     depends_on:
+       - spark-s1
+       - spark-s2
+     ports:
+       - "50070:50070"
+       - "58088:8088"
+       - "59000:9000"
+       - "58080:8080"
+       - "54040:4040"
+       - "57077:7077"
+     tty: true
+     stdin_open: true
+   
+   spark-s1:
+     image: th9976/spark:1.0
+     container_name: hadoop-s1
+     deploy:
+       mode: global
+     ports:
+       - "58081:8081"
+     environment:
+       masters: hadoop-m1
+     tty: true  
+     stdin_open: true
+
+   spark-s2:
+    image: th9976/spark:1.0
+    container_name: hadoop-s2
+    deploy:
+      mode: global
+    ports:
+      - "58082:8081"      
+    environment:
+       masters: hadoop-m1  
+    tty: true
+    stdin_open: true
+
+

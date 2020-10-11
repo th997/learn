@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+   hbase-m1:
+     image: th9976/hbase:1.0
+     container_name: hadoop-m1
+     deploy:
+       mode: global
+     environment:
+       slaves: hadoop-s1,hadoop-s2
+       regionservers: hadoop-m1,hadoop-s1,hadoop-s2
+       start: /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hbase/bin/start-hbase.sh
+     depends_on:
+       - hbase-s1
+       - hbase-s2
+     ports:
+       - "50070:50070"
+       - "58088:8088"
+       - "59000:9000"
+       - "16010:16010"
+     tty: true
+     stdin_open: true
+   
+   hbase-s1:
+     image: th9976/hbase:1.0
+     container_name: hadoop-s1
+     deploy:
+       mode: global
+     ports:
+       - "58081:8081"
+     environment:
+       regionservers: hadoop-m1,hadoop-s1,hadoop-s2
+     tty: true  
+     stdin_open: true
+
+   hbase-s2:
+    image: th9976/hbase:1.0
+    container_name: hadoop-s2
+    deploy:
+      mode: global
+    ports:
+      - "58082:8081"      
+    environment:
+       regionservers: hadoop-m1,hadoop-s1,hadoop-s2
+    tty: true
+    stdin_open: true
