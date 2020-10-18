@@ -54,39 +54,26 @@ adb shell dumpsys dbinfo [package_name]
 
 ```
 
-## 反编译
-https://blog.csdn.net/weixin_41454168/article/details/105406874
+## android 反编译 抓包
+https://github.com/iBotPeaches/Apktool
 
-https://www.jianshu.com/p/79910362a0e0
+https://ibotpeaches.github.io/Apktool/build/
 
-java -jar apktool.jar d link_cn.apk -o link1 --only-main-classes --use-aapt2
+java -jar apktool.jar d base.apk
 
-java -jar apktool.jar b link1 -o xxx_new.apk --only-main-classes --use-aapt2
+https://cloud.tencent.com/developer/article/1700840
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+	<base-config cleartextTrafficPermitted="true" >
+		<trust-anchors>
+            <certificates src="system" overridePins="true" />
+            <certificates src="user" overridePins="true" />
+        </trust-anchors>
+	</base-config>
+</network-security-config>
+```
 
+java -jar apktool.jar b base -o base1.apk
 
-## 模拟器
-https://docs.anbox.io/userguide/install.html
-
-xDroid 
-
-
-## ssl 中间人
-https://www.wangan.com/articles/149
-
-
-## android 修改xml
-unzip -d cn xxx.apk 
-wget https://github.com/hzw1199/xml2axml/releases/download/1.1.0/xml2axml-1.1.0-SNAPSHOT.jar
-mv xml2axml-1.1.0-SNAPSHOT.jar xml2axml.jar
-jar -jar xml2axml.jar d cn/AndroidManifest.xml cn/AndroidManifest_un.xml
-vim cn/AndroidManifest_un.xml
-jar -jar xml2axml.jar e cn/AndroidManifest_un.xml cn/AndroidManifest.xml
-zip -q -r xxx_new.apk ./cn/*
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/project/key/mykey.jks -storepass Z9thththa xxx_new.apk mykey
-
-
-https://juejin.im/post/6844903831579394055
-
-java -jar ./ManifestEditor.jar ./link_cn.apk -o ./new_build.apk -d 1 -s
-
-https://github.com/iamyours/ApkCrack
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/project/key/mykey.jks -storepass 12345678a base1.apk mykey

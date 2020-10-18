@@ -125,3 +125,11 @@ https://kubernetes.feisky.xyz/practice/introduction/spark
 
 ## 50+ 顶级开源 Kubernetes 工具列表
 https://www.infoq.cn/article/RPA-wswoEyjuRZfTMcut
+
+## nginx ingress
+https://kubernetes.github.io/ingress-nginx/deploy/
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.40.2/deploy/static/provider/baremetal/deploy.yaml
+
+https://github.com/kubernetes/ingress-nginx/blob/master/deploy/static/provider/baremetal/deploy.yaml
+

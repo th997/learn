@@ -296,3 +296,5 @@ ssh-keygen
 ssh-copy-id -i .ssh/id_rsa.pub user@xxx
 // sudo chmod 755 /home/xx
 
+## 监听端口
+nc -l 3307 < response.hcy

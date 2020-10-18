@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apollo-ingress
+spec:
+  rules:
+  - host: kub.tdhere.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apollo-portal
+            port:
+              number: 8070

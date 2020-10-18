@@ -140,3 +140,11 @@ db.WebAccessLog.aggregate([{$group: {_id: "$functionCode", accessCount: {$sum: 1
 db.getCollection('WebAccessLog').find({'functionCode':920,'memberId':1086219,'accessTime':{"$gt":'2016-06-25'}})
 
 db.getCollection('WebAccessLog').find({'functionCode':920,'memberId':1086219,'accessTime':{"$gt":'2016-06-25'}})
+
+
+## docker 简易安装
+docker pull mongo:latest
+docker run -itd --name mongo -p 27017:27017 mongo --auth
+docker exec -it mongo mongo admin
+db.createUser({user:"root",pwd:"123456",roles:["root"] })
+db.auth('root', '123456')
