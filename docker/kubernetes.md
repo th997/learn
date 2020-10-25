@@ -50,8 +50,15 @@ kube-proxy,kubelet,docker
 安装文档1 推荐 https://thenewstack.io/how-to-deploy-a-kubernetes-cluster-with-ubuntu-server-18-04/
 
 ```
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+sudo apt-get install kubeadm kubelet kubectl -y
+
 （注意　普通用户　--pod-network-cidr和kube-flannel.yml　中ｉｐ一致
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl apply/delete -f xxx
@@ -88,7 +95,7 @@ kubectl replace --force -f xxx.yml
 # 扩缩容
 kubectl scale deployment --replicas=1  apollo-portal
 # 工具
-kubectl run -it --image=radial/busyboxplus sh
+kubectl run -it --rm --image=radial/busyboxplus sh
 ```
 
 ## master 上可以安装
@@ -132,4 +139,22 @@ https://kubernetes.github.io/ingress-nginx/deploy/
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.40.2/deploy/static/provider/baremetal/deploy.yaml
 
 https://github.com/kubernetes/ingress-nginx/blob/master/deploy/static/provider/baremetal/deploy.yaml
+
+## rancher
+https://github.com/rancher/rancher
+
+https://www.bookstack.cn/read/rancher-2.4.4-zh/%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D.md
+
+sudo docker run -d --restart=unless-stopped -p 53201:80 -p 53200:443 --privileged \
+  -e HTTP_PROXY="http://10.10.10.106:1080" \
+  -e HTTPS_PROXY="http://10.10.10.106:1080" \
+  -e NO_PROXY="localhost,127.0.0.1,0.0.0.0,10.0.0.0/8,192.168.10.0/24" \
+rancher/rancher
+
+
+## mysql
+https://kubernetes.io/zh/docs/tasks/run-application/run-replicated-stateful-application/
+
+## pv pvc
+https://www.qikqiak.com/k8strain/storage/local/
 

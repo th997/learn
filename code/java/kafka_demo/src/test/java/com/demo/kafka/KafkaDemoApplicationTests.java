@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,15 +17,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class KafkaDemoApplicationTests {
 
     @Autowired
-    private KafkaTemplate<Object, Object> template;
+    private KafkaTemplate<String, String> myKafkaTemplate;
 
     private final String topic = "test";
-    private final String group = "testGroup";
-
-    @KafkaListener(id = group, topics = topic)
-    public void listen(String input) {
-        System.out.println("consumer:" + input);
-    }
 
     @Test
     public void test() throws InterruptedException {
@@ -44,7 +37,10 @@ public class KafkaDemoApplicationTests {
                 public void run() {
                     try {
                         for (int j = 0; j < countJ; j++) {// 请求次数
-                            template.send(topic, "test" + j);
+                            // 相同key发送到相同分区
+                            String key = "test" + j;
+                            //myKafkaTemplate.send(topic, key, "test" + cdl.getCount());
+                            myKafkaTemplate.send(topic, "test" + cdl.getCount());
                             // System.out.println(obj);
                             cdl.countDown();
                             int co = total - (int) cdl.getCount();

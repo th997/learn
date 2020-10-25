@@ -57,9 +57,3 @@ volumes:
   kafka_data1:
   kafka_data2:
   kafka_data3:    
-
-# 测试
-# ./kafka-topics.sh --create --topic test --replication-factor 1 --partitions 1 --zookeeper 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181  
-# ./kafka-topics.sh --list -zookeeper 172.16.16.21:2181,172.16.16.22:2182,172.16.16.23:2181  
-# ./kafka-producer-perf-test.sh --topic test --num-records 1000000 --record-size 1024  --throughput 1000000 --producer-props bootstrap.servers=172.16.16.31:9092,172.16.16.32:9092,172.16.16.33:9092
-# ./kafka-consumer-perf-test.sh --bootstrap-server 172.16.16.31:9092,172.16.16.32:9092,172.16.16.33:9092 --topic test --fetch-size 1048576 --messages 1000000 --threads 1
