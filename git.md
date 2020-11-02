@@ -58,4 +58,8 @@ git fetch upstream
 git merge upstream/master
 
 
+## git 提交到上次修改
+git commit -a --amend
+git push -f 
+
 
