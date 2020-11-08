@@ -62,4 +62,9 @@ git merge upstream/master
 git commit -a --amend
 git push -f 
 
+## 放弃本地
+git fetch --all
+git reset --hard origin/master
+git pull
+
 
