@@ -9,9 +9,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableApolloConfig
 public class UserServerApplication {
-
     public static void main(String[] args) {
+        System.setProperty("apollo.configService", "http://apollo-service-pro-apollo-configservice.com");
+        System.setProperty("apollo.cluster", "cn");
         SpringApplication.run(UserServerApplication.class, args);
     }
-
 }

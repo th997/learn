@@ -16,6 +16,9 @@ public class UserServiceImpl implements UserService {
     @Value("${test.name:init}")
     private String name;
 
+    @Value("${test.name1:init}")
+    private String name1;
+
     @Override
     public UserBean getUser(String id) {
         UserBean userBean = new UserBean();

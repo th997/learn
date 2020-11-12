@@ -9,5 +9,3 @@ spring:
 
 app:
   id: ${spring.application.name}
-apollo:
-  meta: http://apollo-service-pro-apollo-configservice.default:8080

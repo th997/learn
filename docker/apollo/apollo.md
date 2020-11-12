@@ -62,6 +62,14 @@ helm install apollo-portal ./apollo-portal -f values-portal.yml
 修改参数可以卸载后重新安装
 helm uninstall apollo-portal    
 
+## 登录
+http://ip:8070
+默认帐号 apollo/admin
+
 ## 使用指南
 https://github.com/ctripcorp/apollo/wiki/Java%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97
+
+## 添加环境
+修改库表  ApolloPortalDB.ServerConfig apollo.portal.envs,apollo.portal.meta.servers
+删除 configMap apollo-portal 中 apollo.portal.envs， apollo-env.properties
 

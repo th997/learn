@@ -91,7 +91,7 @@ stream {
 
 	server {
         listen 8000;
-        proxy_pass test.easyget.com:8000;
+        proxy_pass test.test.com:8000;
     }
 }
 
@@ -162,14 +162,14 @@ server {
     listen       80;
     server_name  vip.esayget.com;
     location / {
-	    if ( $host = "vip.easyget.com" ) {
-          rewrite  (.*) http://vip.easyget.com/ecc_ecmw$1;
+	    if ( $host = "vip.test.com" ) {
+          rewrite  (.*) http://vip.test.com/ecc_ecmw$1;
 	   }
-           if ( $host = "nm.easyget.com" ) {
-          rewrite  (.*) http://nm.easyget.com/netmanager$1;
+           if ( $host = "nm.test.com" ) {
+          rewrite  (.*) http://nm.test.com/netmanager$1;
 	   }
-	  if ( $host = "ecbos.easyget.com" ) {
-          rewrite  (.*) http://ecbos.easyget.com/ecc_ecbos$1;
+	  if ( $host = "ecbos.test.com" ) {
+          rewrite  (.*) http://ecbos.test.com/ecc_ecbos$1;
 	   }
     }
     location /ecc_ecmw {

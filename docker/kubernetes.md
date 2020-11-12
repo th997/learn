@@ -80,6 +80,8 @@ https://kuboard.cn/learning
 
 ## 命令
 ```shell
+# 查看健康状态
+kubectl get cs
 # 获取类型为Pod的信息，　deployment/service/node
 kubectl get pod
 kubectl get pod -o wide
@@ -141,9 +143,14 @@ https://www.infoq.cn/article/RPA-wswoEyjuRZfTMcut
 ## nginx ingress
 https://kubernetes.github.io/ingress-nginx/deploy/
 
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.40.2/deploy/static/provider/baremetal/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
 
 https://github.com/kubernetes/ingress-nginx/blob/master/deploy/static/provider/baremetal/deploy.yaml
+
+本地可修改 service  ingress-ingress nodePort 参数， 本地端口80/443可以访问
+
+查看ingress配置
+kubectl exec -it ingress-nginx-controller-7474996559-gqw9x /bin/bash -n ingress-nginx
 
 ## rancher
 https://github.com/rancher/rancher
@@ -162,4 +169,11 @@ https://kubernetes.io/zh/docs/tasks/run-application/run-replicated-stateful-appl
 
 ## pv pvc
 https://www.qikqiak.com/k8strain/storage/local/
+
+## docker 优化， apiserver cpu占用高
+vim /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+
 

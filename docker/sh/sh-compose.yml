@@ -1,0 +1,11 @@
+version: "3"
+services:
+  startall:
+    image: alpine
+    restart: always
+    container_name: startall
+    command: /root/zla/startall.sh
+    ports:
+    - 10000:10000
+    volumes:
+    - /root/zla:/root/zla
