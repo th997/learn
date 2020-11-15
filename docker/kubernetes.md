@@ -95,6 +95,8 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/a
 kubectl proxy &
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=_all
 https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+查看token kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+
 
 配置优化 nodeport 支持所有端口
 vim /etc/kubernetes/manifests/kube-apiserver.yaml

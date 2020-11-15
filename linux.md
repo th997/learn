@@ -278,13 +278,13 @@ docker run -it --rm --name certbot \
             certbot/certbot certonly \
             --manual --agree-tos --manual-public-ip-logging-ok --preferred-challenges dns-01 \
             --server https://acme-v02.api.letsencrypt.org/directory \
-            -d tdhere.com \
-            -d "*.tdhere.com"
-add dns txt ... apt-get -y install dnsutils ... nslookup -q=txt  _acme-challenge.tdhere.com
+            -d test.com \
+            -d "*.test.com"
+add dns txt ... apt-get -y install dnsutils ... nslookup -q=txt  _acme-challenge.test.com
 ...
 certbot-auto renew
-ls /etc/letsencrypt/live/tdhere.com/fullchain.pem
-ls /etc/letsencrypt/live/tdhere.com/privkey.pem
+ls /etc/letsencrypt/live/test.com/fullchain.pem
+ls /etc/letsencrypt/live/test.com/privkey.pem
 ```
 
 ## 目录授权给th
