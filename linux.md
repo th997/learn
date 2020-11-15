@@ -302,3 +302,8 @@ ssh-copy-id -i .ssh/id_rsa.pub user@xxx
 
 ## 监听端口
 nc -l 3307 < response.hcy
+
+## 分析ｃｐｕ占用
+top
+top -H -p 16759 (进程id)
+strace -cp 16790 (线程id)

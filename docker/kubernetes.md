@@ -44,44 +44,93 @@ kube-proxy,kubelet,docker
 
 提供认证和授权
 
-## k8s 安装
-关闭swap  https://liangxinhui.tech/2020/04/16/ubuntu-swap-config/
-
-安装文档1 推荐 https://thenewstack.io/how-to-deploy-a-kubernetes-cluster-with-ubuntu-server-18-04/
-
-```
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
-sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-sudo apt-get install kubeadm kubelet kubectl -y
-
-（注意　普通用户　--pod-network-cidr和kube-flannel.yml　中ｉｐ一致
-sudo kubeadm reset
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-kubectl taint nodes --all node-role.kubernetes.io/master-
-kubectl apply/delete -f xxx
-https://kuboard.cn/learning/k8s-basics/expose.html#%E5%AE%9E%E6%88%98-%E4%B8%BA%E6%82%A8%E7%9A%84-nginx-deployment-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-service
-）
-```
 
 ## 跨主机通信
 docker 原生的 overlay 和 macvlan
 
 第三方方案：常用的包括 flannel、weave 和 calico
 
-## 书籍
-https://www.funtl.com/zh/service-mesh-kubernetes/
+## k8s 安装
+```
 
-https://kuboard.cn/learning
+关闭swap  https://liangxinhui.tech/2020/04/16/ubuntu-swap-config/
+sudo swapon --show
+sudo swapoff -v /swap.img 
+vim /etc/fstab 
+rm -rf /swap.img
 
+安装  https://thenewstack.io/how-to-deploy-a-kubernetes-cluster-with-ubuntu-server-18-04/
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt install  software-properties-common
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+sudo apt-get install kubeadm kubelet kubectl -y
+
+重置集群
+sudo kubeadm reset
+sudo rm -rf $HOME/.kube/config
+sudo ifconfig cni0 down    
+sudo ip link delete cni0
+
+初始化集群
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+安装网络  (注意--pod-network-cidr和kube-flannel.yml　中ｉｐ一致)
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+（calico　https://docs.projectcalico.org/master/manifests/calico.yaml）
+
+设置主节点可以安装
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+加入集群 （ 忘记token  kubeadm token create --print-join-command ）
+sudo kubeadm join 10.10.10.106:6443 --token lavfj7.4umo22l5vsorv88g \
+    --discovery-token-ca-cert-hash sha256:d7c159d973bcdf45023fdba4e6751cdd6c2a6085ddec89001f847613b15c26
+
+安装面板
+https://github.com/kubernetes/dashboard
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
+kubectl proxy &
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=_all
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
+配置优化 nodeport 支持所有端口
+vim /etc/kubernetes/manifests/kube-apiserver.yaml
+command  下添加
+- --service-node-port-range=1-65535
+
+配置优化 kubectl get cs 状态问题
+vim /etc/kubernetes/manifests/kube-controller-manager.yaml
+注释　- --port=0
+vim /etc/kubernetes/manifests/kube-scheduler.yaml
+注释　- --port=0
+
+kube-apiserver参数优化 (根据集群配置调整)
+- --default-watch-cache-size=32
+- --target-ram-mb=128
+- --etcd-count-metric-poll-period=2m
+- --audit-log-mode=batch
+- --audit-log-batch-max-wait=10s
+- --profiling=false
+pod 资源限制(requests启动所需资源，不能大于limits，cpu 500m 代表 0.5个cpu)
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+启动失败问题排查
+tail -f /var/log/syslog
+
+```
 
 ## 命令
 ```shell
 # 查看健康状态
 kubectl get cs
+# 查看集群信息
+kubectl cluster-info
 # 获取类型为Pod的信息，　deployment/service/node
 kubectl get pod
 kubectl get pod -o wide
@@ -99,46 +148,25 @@ kubectl replace --force -f xxx.yml
 kubectl scale deployment --replicas=1  apollo-portal
 # 工具
 kubectl run -it --rm --image=radial/busyboxplus sh
+# 密钥
+kubectl create secret generic tls-secret --from-file=tls.key=./privkey.pem --from-file=tls.crt=./fullchain.pem -n kubernetes-dashboard
+# 导出配置
+kubectl get service xxx -o yaml > backup.yaml
+# 编辑配置
+kubectl -n kubernetes-dashboard edit service kubernetes-dashboard
+# 查看资源
+kubectl api-resources
+kubectl api-versions
+# 查看资源参数
+kubectl explain ingress --recursive
+kubectl explain ingress --recursive --api-version=networking.k8s.io/v1 
+kubectl explain  --api-version=networking.k8s.io/v1 ingress.spec.rules.http.paths
+kubectl explain  --api-version=v1 Pod.spec.containers.resources
+
 ```
 
-## master 上可以安装
-kubectl taint nodes --all node-role.kubernetes.io/master-
-
-## 忘记token
-kubeadm token create --print-join-command
-
-https://www.cnblogs.com/linyouyi/p/10850904.html
-
-sudo kubeadm join 10.10.10.106:6443 --token lavfj7.4umo22l5vsorv88g \
-    --discovery-token-ca-cert-hash sha256:d7c159d973bcdf45023fdba4e6751cdd6c2a6085ddec89001f847613b15c26b3
-
-## 重置集群
-sudo kubeadm reset
-
-sudo rm -rf $HOME/.kube/config
-
-sudo ifconfig cni0 down    
-
-sudo ip link delete cni0
-
-## 安装面板
-https://github.com/kubernetes/dashboard
-
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml
-
-kubectl proxy &
-
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=_all
-
-https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
-
-eyJhbGciOiJSUzI1NiIsImtpZCI6IlRQbnB5NlFTRDZJbG00dHo3TDdwSm5zLUw2RnkyNDhkUXN3QmlMRE54MHcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTR3Z245Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI3NzIyNjI1ZC0yNzZhLTQ1NTgtOTM5Mi1lNWFjYzdkNzFiMDkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.TsrdQ71jbWgaZfL2Lf-KS70l7QVE3ARl5WhhviDsFu3Bcqf5-4fMHtCShQmH_T37Cd1298sP7XEorf1hN0Znp0lH8l_K2TscpikZUExalyRnGdbLTMJogufjJWPQHbSxEsTNPuQBdcb5pQdlmlk8EAlU08wIMX0FhiI7qZc2lzTiE-Zws1XF1zBPwXFd3BKxfOJCEwY2zM0oKsSlaMymmSTA5e_jW6gITOY1OylltdBIU8Hn9njIMUkqiJRzEjuJehBpb-ho5BAtDqNS6I-xs0KGN0MKXN4HRmCCiwJNk-mETv2M5ZRDfb8Ka8Rt7-dahgq02zPlzy5Q6_PZU8UajQ
-
-## spark 部署
+## spark 
 https://kubernetes.feisky.xyz/practice/introduction/spark
-
-## 50+ 顶级开源 Kubernetes 工具列表
-https://www.infoq.cn/article/RPA-wswoEyjuRZfTMcut
 
 ## nginx ingress
 https://kubernetes.github.io/ingress-nginx/deploy/
@@ -146,11 +174,6 @@ https://kubernetes.github.io/ingress-nginx/deploy/
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
 
 https://github.com/kubernetes/ingress-nginx/blob/master/deploy/static/provider/baremetal/deploy.yaml
-
-本地可修改 service  ingress-ingress nodePort 参数， 本地端口80/443可以访问
-
-查看ingress配置
-kubectl exec -it ingress-nginx-controller-7474996559-gqw9x /bin/bash -n ingress-nginx
 
 ## rancher
 https://github.com/rancher/rancher
@@ -162,7 +185,6 @@ sudo docker run -d --restart=unless-stopped -p 53201:80 -p 53200:443 --privilege
   -e HTTPS_PROXY="http://10.10.10.106:1080" \
   -e NO_PROXY="localhost,127.0.0.1,0.0.0.0,10.0.0.0/8,192.168.10.0/24" \
 rancher/rancher
-
 
 ## mysql
 https://kubernetes.io/zh/docs/tasks/run-application/run-replicated-stateful-application/
@@ -176,4 +198,8 @@ vim /etc/docker/daemon.json
   "exec-opts": ["native.cgroupdriver=systemd"]
 }
 
+## 书籍
+https://www.funtl.com/zh/service-mesh-kubernetes/
+
+https://kuboard.cn/learning
 
