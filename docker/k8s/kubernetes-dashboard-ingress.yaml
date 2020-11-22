@@ -4,17 +4,17 @@ metadata:
   name: kubernetes-dashboard-ingress
   namespace: kubernetes-dashboard
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    #nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   tls:
   - hosts:
-    - "*.test.com"
+    - "*.tdhere.com"
     secretName: tls-secret
     # kubectl create secret generic tls-secret --from-file=tls.key=./privkey.pem --from-file=tls.crt=./fullchain.pem -n kubernetes-dashboard
   rules:
-  - host: kub-dashboard.test.com
+  - host: kub.tdhere.com
     http:
       paths:
       - path: /

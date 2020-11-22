@@ -21,6 +21,7 @@ public class Application {
     public void listen(String input) {
         threads.add(Thread.currentThread().getName());
         System.out.println("consumer:" + input + threads);
+        // test.user -> ['USER:'+data.id]
         //throw new RuntimeException();
     }
 

@@ -18,7 +18,10 @@ spec:
       containers:
         - name: discovery-server
           image: th9976/discovery-server
-          imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          #imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          env:
+            - name: "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"
+              value: "http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/"
           resources:
             limits:
               memory: 512Mi # jvm limit

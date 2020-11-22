@@ -1,5 +1,9 @@
 server:
   port: 32001
 
+logging:
+  level:
+    root: debug
+
 test:
   name: app

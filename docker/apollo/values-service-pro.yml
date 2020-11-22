@@ -1,17 +1,17 @@
 configdb:
   name: apollo-configdb
   # apolloconfigdb host
-  host: "10.10.10.106"
-  port: 53306
+  host: mysql
+  port: 3306
   dbName: ApolloConfigDB
   # apolloconfigdb user name
   userName: "root"
   # apolloconfigdb password
   password: "mysql_666888"
-  connectionStringProperties: characterEncoding=utf8
+  connectionStringProperties: characterEncoding=utf-8
   service:
     # whether to create a Service for this host or not
-    enabled: true
+    enabled: false
     fullNameOverride: ""
     port: 3306
     type: ClusterIP
@@ -19,7 +19,7 @@ configdb:
 configService:
   name: apollo-configservice
   fullNameOverride: ""
-  replicaCount: 2
+  replicaCount: 1
   containerPort: 8080
   image:
     repository: apolloconfig/apollo-configservice
@@ -54,7 +54,7 @@ configService:
 adminService:
   name: apollo-adminservice
   fullNameOverride: ""
-  replicaCount: 2
+  replicaCount: 1
   containerPort: 8090
   image:
     repository: apolloconfig/apollo-adminservice

@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv
+spec:
+  # 设置容量
+  capacity:
+    storage: 20Gi
+  # 访问模式
+  accessModes:
+    # 该卷能够以读写模式被多个节点同时加载
+    - ReadWriteMany
+  # 回收策略，这里是基础擦除 `rm-rf/thevolume/*`
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    # NFS 服务端配置的路径
+    path: "/data/nfs"
+    # NFS 服务端地址
+    server: 10.10.10.106
+    readOnly: false
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  accessModes:
+  # 需要使用和 PV 一致的访问模式
+  - ReadWriteMany
+  # 按需分配资源
+  resources:
+     requests:
+       storage: 20Gi    

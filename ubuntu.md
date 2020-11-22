@@ -72,13 +72,16 @@ apt-get update
 apt-get install nfs-server
 vim /etc/exports
 添加： /mnt/soft *(rw,sync,no_root_squash,no_subtree_check)
-/etc/init.d/rpcbind restart
+#/etc/init.d/rpcbind restart
 /etc/init.d/nfs-kernel-server restart
+systemctl enable nfs-kernel-server.service
 ```
 ## nfs client
 ```
 apt-get update
 apt-get install nfs-common
+vim /etc/fstab
+h1:/root/nfs      /mnt/nfs              nfs                defaults    0    0
 mount -t nfs h1:/mnt/soft /mnt/soft
 ```
 

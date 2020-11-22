@@ -1,6 +1,6 @@
 name: apollo-portal
 fullNameOverride: ""
-replicaCount: 2
+replicaCount: 1
 containerPort: 8070
 image:
   repository: apolloconfig/apollo-portal
@@ -40,8 +40,8 @@ config:
   envs: "pro"
   # specify the meta servers, e.g.
   # dev: http://apollo-configservice-dev:8080
-  pro: http://apollo-service-pro-apollo-configservice.default:8080
-  metaServers: {}
+  metaServers: 
+    pro: http://apollo-service-pro-apollo-configservice.default:8080
   # specify the context path, e.g. /apollo
   contextPath: ""
   # extra config files for apollo-portal, e.g. application-ldap.yml
@@ -50,8 +50,8 @@ config:
 portaldb:
   name: apollo-portaldb
   # apolloportaldb host
-  host: 10.10.10.106
-  port: 53306
+  host: mysql
+  port: 3306
   dbName: ApolloPortalDB
   # apolloportaldb user name
   userName: root
@@ -60,7 +60,7 @@ portaldb:
   connectionStringProperties: characterEncoding=utf8
   service:
     # whether to create a Service for this host or not
-    enabled: true
+    enabled: false
     fullNameOverride: ""
     port: 3306
     type: ClusterIP

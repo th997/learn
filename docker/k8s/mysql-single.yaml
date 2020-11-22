@@ -1,0 +1,148 @@
+---
+# ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql
+data:
+  mysql.cnf: |
+    [mysqld]
+    log-bin=mysql-bin 
+    binlog-format=ROW 
+    server_id=1
+    character-set-server=utf8mb4
+    #skip-host-cache
+    skip-name-resolve
+    log_warnings = 2
+    max_connections=1024
+    innodb_buffer_pool_size = 128M
+    innodb_log_file_size=128M
+    log_output=Table
+    slow_query_log=1
+    #slow_launch_time=2
+    long_query_time=3
+    #default-time_zone = '+8:00'
+
+    [client]
+    default-character-set=utf8mb4
+
+    [mysql]
+    default-character-set=utf8mb4
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:	    
+  selector: 
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306 
+    nodePort: 53306 
+  type: NodePort
+
+---
+# Deployment
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: mysql_666888
+        ports:
+        - containerPort: 3306
+        # 存储挂载  
+        volumeMounts:
+        - name: config
+          mountPath: /etc/mysql/conf.d
+        - name: pvc
+          subPath: mysql # nfs 子目录
+          mountPath: /var/lib/mysql
+      # 存储声明    
+      volumes:
+      - name: config
+        configMap:
+          name: mysql
+      - name: pvc
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+
+# mysql admin 可选          
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-admin
+  template:
+    metadata:
+      labels:
+        app: mysql-admin
+    spec:
+      containers:
+        - name: mysql-admin
+          image: adminer
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-admin
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 53308
+  selector:
+    app: mysql-admin
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mysql-admin-ingress
+spec:
+  tls:
+  - hosts:
+    - "*.tdhere.com"
+    secretName: tls-secret
+    # kubectl create secret generic tls-secret --from-file=tls.key=./privkey.pem --from-file=tls.crt=./fullchain.pem
+  rules:
+  - host: mysql-admin.tdhere.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mysql-admin
+            port:
+              number: 8080

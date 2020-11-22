@@ -5,7 +5,7 @@ services:
      image: mysql:5.7
      container_name: mysql
      ports: 
-       - "53306:3306"
+       - "53307:3306"
      volumes:
        - db_data:/var/lib/mysql
        # chmod 644 ./config/*
@@ -25,6 +25,6 @@ services:
     container_name: mysql_admin
     restart: always
     ports:
-      - 53308:8080    
+      - 53309:8080    
 volumes:
   db_data:
