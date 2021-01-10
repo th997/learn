@@ -57,7 +57,7 @@ public class RedisDemoApplicationTests {
                 }
             });
             // break;
-
+            redisTemplate.keys("a");
         }
 
         cdl.await();

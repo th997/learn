@@ -3,9 +3,9 @@ kind: Ingress
 metadata:
   name: apollo-service-pro-apollo-configservice-ingress
   annotations:
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
-    nginx.ingress.kubernetes.io/proxy_connect_timeout: "1"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy_connect_timeout: "300"
 spec:
   rules:
   - host: apollo-service-pro-apollo-configservice.com

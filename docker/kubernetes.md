@@ -71,6 +71,8 @@ sudo kubeadm reset
 sudo rm -rf $HOME/.kube/config
 sudo ifconfig cni0 down    
 sudo ip link delete cni0
+rm -rf /var/lib/cni/
+rm -rf /etc/cni/
 
 初始化集群
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
@@ -96,7 +98,8 @@ kubectl proxy &
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=_all
 https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 查看token kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
-
+修改回话超时
+kubectl edit deployment kubernetes-dashboard -n kubernetes-dashboard //args 修改新增 - '--token-ttl=43200'
 
 配置优化 nodeport 支持所有端口
 vim /etc/kubernetes/manifests/kube-apiserver.yaml
@@ -110,8 +113,8 @@ vim /etc/kubernetes/manifests/kube-scheduler.yaml
 注释　- --port=0
 
 kube-apiserver参数优化 (根据集群配置调整)
-- --default-watch-cache-size=32
-- --target-ram-mb=128
+- --default-watch-cache-size=16
+- --target-ram-mb=64
 - --etcd-count-metric-poll-period=2m
 - --audit-log-mode=batch
 - --audit-log-batch-max-wait=10s
@@ -121,6 +124,12 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
+
+节点资源配置
+vim /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+--eviction-hard=memory.available<100Mi
+systemctl restart kubelet
+
 
 启动失败问题排查
 tail -f /var/log/syslog
@@ -164,8 +173,15 @@ kubectl explain ingress --recursive
 kubectl explain ingress --recursive --api-version=networking.k8s.io/v1 
 kubectl explain  --api-version=networking.k8s.io/v1 ingress.spec.rules.http.paths
 kubectl explain  --api-version=v1 Pod.spec.containers.resources
+# 文档
+https://kubernetes.io/zh/docs/reference/kubectl/cheatsheet/
 
 ```
+
+## 端口
+10250 kubelet 监听 通信端口
+10248 kubelet 监听 健康检查端口
+6443 api server 监听，通信端口
 
 ## spark 
 https://kubernetes.feisky.xyz/practice/introduction/spark
@@ -200,8 +216,42 @@ vim /etc/docker/daemon.json
   "exec-opts": ["native.cgroupdriver=systemd"]
 }
 
+## kubectl top
+```
+wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml -O metrics-server.yaml
+vim metrics-server.yaml
+command:
+    - /metrics-server
+    - --kubelet-preferred-address-types=InternalIP
+    - --kubelet-insecure-tls
+kubectl apply -f metrics-server.yaml
+
+```
+
+## prometheus
+kubectl apply -f https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml
+
+kubectl delete namespace monitoring
+
+node
+pod
+application
+
+## 查看证书是否过期
+sudo kubeadm alpha certs check-expiration
+
+## 更新证书
+sudo kubeadm alpha certs renew all
+
+## 更新配置
+kubeadm init phase kubeconfig all
+
+## k8s 网络
+https://blog.csdn.net/weixin_29115985/article/details/78963125
+
 ## 书籍
 https://www.funtl.com/zh/service-mesh-kubernetes/
 
 https://kuboard.cn/learning
 
+https://jeremyxu2010.github.io/2019/11/kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/#heading

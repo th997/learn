@@ -319,3 +319,12 @@ select * from sys.`statements_with_full_table_scans`;
 
 ## 日志订阅
 docker run -it --rm zendesk/maxwell bin/maxwell --user='root' --password='xxx' --host='10.10.10.106' --port='53306' --producer=stdout
+
+## 忘记密码
+vim my.cnf 
+[mysqld]
+skip-grant-tables
+restart 
+alter user 'root'@'localhost' identified by '123';
+flush privileges;
+alter user 'root'@'localhost' identified by '123';

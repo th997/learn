@@ -1,0 +1,41 @@
+version: "3.1"
+services:  
+# 后台
+  datax-web:
+    image: happylay/datax-web:v2.1.1-web
+    container_name: datax-web
+    network_mode: "host"
+    restart: always    
+    ports:
+      - "20080:20080"
+      - "20081:20081"    
+      - "28848:28848"        
+    depends_on:
+      - datax-web-mysql
+
+# 执行器
+  datax-exec:
+    image: happylay/datax-web:v2.1.1-exec
+    container_name: datax-exec
+    network_mode: "host"
+    restart: always     
+    ports:
+      - "20080:20080"
+      - "20081:20081"    
+      - "28848:28848"        
+    depends_on:
+      - datax-web-mysql
+
+# 数据库
+  datax-web-mysql:
+    image: happylay/mysql:5.7-v1.0.0
+    container_name: datax-web-mysql
+    network_mode: "host"   
+    restart: always    
+    environment:       
+      MYSQL_ROOT_PASSWORD: 'happylay'
+      MYSQL_DATABASE: 'datax_web'
+      MYSQL_USER: 'happylay'
+      MYSQL_PASSWORD: 'happylay'      
+    ports:
+      - "10086:10086"

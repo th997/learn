@@ -1,0 +1,57 @@
+<yandex>
+   <!-- 集群配置 -->
+    <clickhouse_remote_servers>
+        <!--2 分片１副本-->
+        <ck_cluster1>
+            <shard>
+                <replica>
+                    <host>172.16.16.41</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+            <shard>
+                <replica>
+                    <host>172.16.16.42</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </ck_cluster1>
+        <!-- 1分片2副本 -->
+        <ck_cluster2>
+            <shard>
+                <!-- internal_replication ReplicaMergeTree建议true  https://clickhouse.tech/docs/zh/engines/table-engines/special/distributed/-->
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>172.16.16.41</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>172.16.16.42</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </ck_cluster2>
+    </clickhouse_remote_servers>
+
+    <!--zk-->
+    <zookeeper-servers>
+        <node index="1">
+            <host>172.16.16.21</host>
+            <port>2181</port>
+        </node>
+        <node index="2">
+            <host>172.16.16.22</host>
+            <port>2181</port>
+        </node>
+        <node index="3">
+            <host>172.16.16.23</host>
+            <port>2181</port>
+        </node>
+    </zookeeper-servers> 
+
+    <macros>
+        <shard>01</shard>
+        <replica>172.16.16.41</replica>
+    </macros>  
+
+</yandex>

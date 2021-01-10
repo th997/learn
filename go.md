@@ -81,13 +81,14 @@ Engine implements http.Handler (.ServeHTTP)
 https://zhuanlan.zhihu.com/p/29694027
 
 ## 交叉编译
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" main.go
-
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" main.go
-
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" main.go
-
-CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -ldflags "-s -w" main.go
+```
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" -o bin/mac/npc cmd/npc/*.go
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" -o bin/win/npc.exe cmd/npc/*.go
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o bin/linux/npc cmd/npc/*.go
+CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -ldflags "-s -w" -o bin/arm/npc cmd/npc/*.go
+upx bin/*/*
+cp -rf ./bin/*  ~/soft/mycloud/dl/
+```
 
 ## debug 
 https://www.jianshu.com/p/25a2e6b52457

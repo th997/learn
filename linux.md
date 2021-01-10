@@ -65,6 +65,11 @@ ln -s  a b
 ## 抓包命令
 tcpdump -s 0 -w a.cap udp port 1352
 
+## 抓包打印
+tcpdump -X host 47.244.231.126 and port 22
+
+https://www.jianshu.com/p/a62ed1bb5b20
+
 ## iptables 
 ```
 iptables -L  #查看已有规则
