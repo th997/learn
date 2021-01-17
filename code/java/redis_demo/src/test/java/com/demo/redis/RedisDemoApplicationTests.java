@@ -42,7 +42,7 @@ public class RedisDemoApplicationTests {
                 public void run() {
                     try {
                         for (int j = 0; j < countJ; j++) {// 请求次数
-                            valueOperations.set("test" + loc * j, "test" + loc * j, 1000, TimeUnit.SECONDS);
+                            valueOperations.set("test" + loc * j, "test" + loc * j, 100, TimeUnit.SECONDS);
                             valueOperations.get("test" + loc * j);
                             // System.out.println(obj);
                             cdl.countDown();
@@ -51,13 +51,13 @@ public class RedisDemoApplicationTests {
                                 System.out.println("time:" + (System.currentTimeMillis() - start) + ",num=" + co);
                             }
                         }
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         e.printStackTrace();
                     }
                 }
             });
             // break;
-            redisTemplate.keys("a");
+            //redisTemplate.keys("a");
         }
 
         cdl.await();

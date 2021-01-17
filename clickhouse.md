@@ -86,9 +86,42 @@ select * from system.clusters;
 -- 查看宏
 select * from system.macros;
 -- 查看引擎
-SELECT * FROM table_engines;
+SELECT * FROM system.table_engines;
 -- 查看函数
-SELECT * FROM functions limit 100;
+SELECT * FROM system.functions limit 100;
+
+```
+
+## 同步mysql
+```sql
+-- mysql
+show global variables like '%gtid_%';
+enforce_gtid_consistency  = on
+gtid_mode = on
+restart
+
+no restart:
+ SET GLOBAL ENFORCE_GTID_CONSISTENCY = 'WARN';
+ SET GLOBAL ENFORCE_GTID_CONSISTENCY = 'ON';
+ SET GLOBAL GTID_MODE = 'OFF_PERMISSIVE';
+ SET GLOBAL GTID_MODE = 'ON_PERMISSIVE';
+ SET GLOBAL GTID_MODE = 'ON';
+
+-- 其它配置
+server_id=1
+log-bin = mysql-bin 
+binlog-format = ROW
+
+-- clickhouse 暂不支持表级别的 
+SET allow_experimental_database_materialize_mysql=1;
+CREATE DATABASE datatest ENGINE = MaterializeMySQL('10.10.10.106:53306', 'datatest', 'root', '***');
+
+-- 参考文档
+https://blog.csdn.net/vkingnew/article/details/108829047
+
+https://www.jianshu.com/p/d0d4306411b3
+
+https://cloud.tencent.com/developer/article/1418501
 
 ```
 
