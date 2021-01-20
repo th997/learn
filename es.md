@@ -43,4 +43,5 @@ curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user -d'
 # add data
 curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user/_doc/1 -d '{"name":"mike","age":20,"region":"cn"}'
 
-
+# query data
+http://localhost:9200/user/_search/

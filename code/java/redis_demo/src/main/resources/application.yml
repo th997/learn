@@ -40,6 +40,6 @@ spring:
         max-wait: 5000ms
         min-idle: 8
 
-redis:
-  cluster:
-    enabled: true
+#redis:
+#  cluster:
+#    enabled: true

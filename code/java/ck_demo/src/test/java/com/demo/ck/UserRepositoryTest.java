@@ -14,6 +14,15 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
+    void testGetCount() {
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Integer count = userRepository.countAll();
+        }
+        System.out.println("cost=" + (System.currentTimeMillis() - start));
+    }
+
+    @Test
     void testGet() {
         // mysql
         User user = userRepository.findById(1).orElse(null);
