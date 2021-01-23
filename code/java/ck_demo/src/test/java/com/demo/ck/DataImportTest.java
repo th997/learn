@@ -49,12 +49,11 @@ public class DataImportTest {
                 users.clear();
                 long cost = System.currentTimeMillis() - start;
                 System.out.println("cost count=" + count + ",cost=" + cost);
-                continue;
                 // break;
             }
-            if (users.size() > 0) {
-                //userRepository.saveAll(users);
-            }
+        }
+        if (users.size() > 0) {
+            //userRepository.saveAll(users);
         }
     }
 }

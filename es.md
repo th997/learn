@@ -45,3 +45,19 @@ curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user/_doc/
 
 # query data
 http://localhost:9200/user/_search/
+
+
+# delete index
+curl -X DELETE "http://localhost:9200/user1"
+
+
+# add index filed
+curl -X PUT "localhost:9200/user/_mapping?pretty" -H 'Content-Type: application/json' -d'
+{
+  "properties": {
+    "c7": { 
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}'
