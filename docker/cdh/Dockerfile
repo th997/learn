@@ -1,5 +1,4 @@
-FROM th9976/ubu1604:1.0
-MAINTAINER th9976 <th9976@gmail.com>
+FROM th9976/ubu1804:1.0
 
 # ssh
 RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \

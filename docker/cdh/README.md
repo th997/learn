@@ -1,10 +1,10 @@
 # cdh
 
-https://blog.51cto.com/hsbxxl/2117405
+https://bigdata.bihell.com/hadoop/hadoop-install.html#%E5%AE%89%E8%A3%85ubuntu-18-04-4-lts
 
-http://archive.cloudera.com/cm5/cm/5
+http://archive.cloudera.com/cm6/
 
-http://archive.cloudera.com/cdh5/parcels/latest/
+https://archive.cloudera.com/cdh6/6.3.2/ubuntu1804/apt/
 
 
 tar -zxvf ..tar.gz
@@ -34,3 +34,4 @@ fail!
 # docker images 
 docker run --hostname=quickstart.cloudera --privileged=true -t -i -p 8888:8888 -p 80:80 -p 7180:7180 cloudera/quickstart /usr/bin/docker-quickstart
 http://localhost:8888
+

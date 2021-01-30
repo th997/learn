@@ -55,7 +55,7 @@ curl -X DELETE "http://localhost:9200/user1"
 curl -X PUT "localhost:9200/user/_mapping?pretty" -H 'Content-Type: application/json' -d'
 {
   "properties": {
-    "c7": { 
+    "c6": { 
       "type":     "text",
       "fielddata": true
     }
