@@ -7,6 +7,7 @@ metadata:
 spec:
   serviceName: discovery-server
   replicas: 3 # in product env 3+
+  podManagementPolicy: "Parallel" # 顺序无关
   selector:
     matchLabels:
       app: discovery-server
@@ -18,13 +19,22 @@ spec:
       containers:
         - name: discovery-server
           image: th9976/discovery-server
-          #imagePullPolicy: IfNotPresent # in product env delete -> default pull
+          imagePullPolicy: IfNotPresent # in product env delete -> default pull
           env:
-            - name: "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"
-              value: "http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/"
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
+            - name: JAVA_OPTS_USER
+              value: -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
+                -Deureka.instance.hostname=${MY_POD_NAME}.discovery-server
+                -Deureka.instance.prefer-ip-address=false
+                -Deureka.client.serviceUrl.defaultZone=http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
           resources:
             limits:
-              memory: 256Mi # jvm limit
+              memory: 512Mi # jvm limit
 
 ---
 apiVersion: v1

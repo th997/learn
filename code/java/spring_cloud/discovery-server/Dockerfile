@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM openjdk:8-jdk
 # FROM openjdk:8-jre-alpine  # not firendly while set timezone
 ENV TZ=Asia/Shanghai
 EXPOSE 31001
@@ -7,5 +7,6 @@ ADD target/${JAR_FILE} /app.jar
 ENV JAVA_OPTS="\
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseCGroupMemoryLimitForHeap \
+-Djava.security.egd=file:/dev/./urandom \
 "
-ENTRYPOINT java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+ENTRYPOINT java ${JAVA_OPTS_USER} ${JAVA_OPTS}   -jar /app.jar
