@@ -35,7 +35,7 @@ spec:
           resources:
             limits:
               memory: 512Mi # jvm limit
-
+# https://blog.csdn.net/yucaifu1989/article/details/106871375
 ---
 apiVersion: v1
 kind: Service
