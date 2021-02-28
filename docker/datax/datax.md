@@ -30,3 +30,11 @@ vim datax-executort application.yml
 change db config ...
 
 run DataXExecutorApplication
+
+## datax run
+python2 datax/bin/datax.py  datax/bin/test.json
+
+## datax plugin dev
+https://github.com/WeiYe-Jing/datax-web/blob/master/doc/datax-web/idea-start-datax.md
+
+https://datax.readthedocs.io/zh_CN/latest/dataxPluginDev.html
