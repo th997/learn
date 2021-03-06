@@ -8,9 +8,9 @@ docker build -t='th9976/ubu1804:1.0' -f ubu1804/Dockerfile ./ubu1804
 docker build -t='th9976/ubu1604:1.0' -f ubu1604/Dockerfile ./ubu1604
 docker build -t='th9976/docker:1.0' -f docker/Dockerfile ./docker
 
-docker build -t='th9976/hadoop:1.0' -f hadoop/Dockerfile ./hadoop
+docker build -t='th9976/hadoop' -f hadoop/Dockerfile ./hadoop 
+docker build -t='th9976/hbase' -f hbase/Dockerfile ./hbase
 docker build -t='th9976/spark:1.0' -f spark/Dockerfile ./spark
-docker build -t='th9976/hbase:1.0' -f hbase/Dockerfile ./hbase
 docker build -t='th9976/kafka:1.0' -f kafka/Dockerfile ./kafka
 docker build -t='th9976/hive:1.0' -f hive/Dockerfile ./hive
 docker build -t='th9976/cdh:1.0' -f cdh/Dockerfile ./cdh

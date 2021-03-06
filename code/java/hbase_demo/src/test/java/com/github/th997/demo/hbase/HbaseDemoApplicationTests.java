@@ -71,7 +71,7 @@ public class HbaseDemoApplicationTests {
             es.submit(new Runnable() {
                 @Override
                 public void run() {
-                    String column = "z" + (char) (loc % 'z');
+                    String column = "a" + (char) (loc % 'z');
                     hbaseService.setColumnValue("user", loc + "", "a", column, Math.random() + "");
                     int co = ac.addAndGet(1);
                     if (co % 10000 == 0) {

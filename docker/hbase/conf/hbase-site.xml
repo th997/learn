@@ -24,12 +24,28 @@
 
 <property>
   <name>hbase.rootdir</name>
-  <value>hdfs://hadoop-m1:50070/hbase</value>
+  <value>hdfs://hadoop-m1:8020/hbase</value>
 </property>
 
 <property>
   <name>hbase.cluster.distributed</name>
   <value>true</value>
+</property>
+
+<property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>zk1,zk2,zk3</value>
+</property>
+
+<property>
+    <name>zookeeper.znode.parent</name>
+    <value>/hbase1</value>
+</property>
+
+<!--用本机host代替,不用dns解析地址-->
+<property>
+    <name>hbase.unsafe.regionserver.hostname.disable.master.reversedns</name>
+    <value>true</value>
 </property>
 
 </configuration>

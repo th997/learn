@@ -19,6 +19,6 @@
 <configuration>
 	<property>
 		<name>fs.defaultFS</name>
-		<value>hdfs://hadoop-m1:9000</value>
+		<value>hdfs://hadoop-m1</value>
 	</property>
 </configuration>

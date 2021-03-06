@@ -2,45 +2,66 @@ version: "3"
 
 services:
    hbase-m1:
-     image: th9976/hbase:1.0
+     image: th9976/hbase
      container_name: hadoop-m1
+     hostname: hadoop-m1
      deploy:
        mode: global
      environment:
-       slaves: hadoop-s1,hadoop-s2
+       #slaves: hadoop-s1,hadoop-s2 # hadoop 2
+       workers: hadoop-s1,hadoop-s2 # hadoop 3
        regionservers: hadoop-m1,hadoop-s1,hadoop-s2
        start: /usr/local/hadoop/sbin/start-dfs.sh && /usr/local/hbase/bin/start-hbase.sh
      depends_on:
        - hbase-s1
        - hbase-s2
+      # 端口 https://blog.csdn.net/shuoyu816/article/details/90573676
      ports:
-       - "50070:50070"
-       - "58088:8088"
-       - "59000:9000"
-       - "16010:16010"
+       - "58020:8020" # hdfs rpc
+       - "59870:9870" # nameNode http
+       - "59866:9866" # dataNode http
+       - "59864:9864" # dataNode rpc
+       - "16000:16000" # RegionServer接入
+       - "16010:16010" # 集群监控
+       - "16020:16020" # 客户端接入
+       - "16030:16030" # 节点监控
      tty: true
      stdin_open: true
+     networks:
+       default:
+         ipv4_address: 172.16.16.61
    
    hbase-s1:
-     image: th9976/hbase:1.0
+     image: th9976/hbase
      container_name: hadoop-s1
+     hostname: hadoop-s1
      deploy:
        mode: global
-     ports:
-       - "58081:8081"
      environment:
        regionservers: hadoop-m1,hadoop-s1,hadoop-s2
      tty: true  
      stdin_open: true
-
+     networks:
+       default:
+         ipv4_address: 172.16.16.62
+         
    hbase-s2:
-    image: th9976/hbase:1.0
+    image: th9976/hbase
     container_name: hadoop-s2
+    hostname: hadoop-s2
     deploy:
       mode: global
-    ports:
-      - "58082:8081"      
     environment:
        regionservers: hadoop-m1,hadoop-s1,hadoop-s2
     tty: true
     stdin_open: true
+    networks:
+      default:
+        ipv4_address: 172.16.16.63
+
+# 引用已经存在网络
+# docker network create --subnet=172.16.16.0/24 mynetwork
+networks:
+  default:
+    external:
+      name: mynetwork
