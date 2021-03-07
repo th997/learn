@@ -10,6 +10,7 @@ docker build -t='th9976/docker:1.0' -f docker/Dockerfile ./docker
 
 docker build -t='th9976/hadoop' -f hadoop/Dockerfile ./hadoop 
 docker build -t='th9976/hbase' -f hbase/Dockerfile ./hbase
+docker build -t='th9976/flink' -f flink/Dockerfile ./flink --build-arg http_proxy=http://10.10.10.106:1080 --build-arg https_proxy=http://10.10.10.106:1080
 docker build -t='th9976/spark:1.0' -f spark/Dockerfile ./spark
 docker build -t='th9976/kafka:1.0' -f kafka/Dockerfile ./kafka
 docker build -t='th9976/hive:1.0' -f hive/Dockerfile ./hive
