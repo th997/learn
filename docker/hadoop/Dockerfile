@@ -21,6 +21,8 @@ ENV USER=root
 ENV HDFS_NAMENODE_USER=root
 ENV HDFS_DATANODE_USER=root
 ENV HDFS_SECONDARYNAMENODE_USER=root
+ENV HDFS_JOURNALNODE_USER=root
+ENV HDFS_ZKFC_USER=root
 ENV YARN_NODEMANAGER_USER=root
 ENV YARN_RESOURCEMANAGER_USER=root
 
@@ -41,7 +43,6 @@ RUN chmod 600 ~/.ssh/config
 
 # pre ...
 WORKDIR $HADOOP_HOME
-RUN /usr/local/hadoop/bin/hdfs namenode -format
 
 # start 
 ENTRYPOINT ["/usr/local/hadoop/entrypoint.sh"]
