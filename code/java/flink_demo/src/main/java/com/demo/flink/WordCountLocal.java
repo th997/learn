@@ -6,7 +6,7 @@ import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.util.Collector;
 
-public class WordCount {
+public class WordCountLocal {
     public static void main(String[] args) throws Exception {
         // 创建Flink运行的上下文环境
         final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();

@@ -16,8 +16,8 @@ metadata:
   #namespace: xx
 data:
   maxwell.properties: |
-    user=maxwell
-    password=123456
+    user=root
+    password=mysql_666888.
     host=10.10.10.106
     port=53306
     producer=kafka

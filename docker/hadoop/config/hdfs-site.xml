@@ -18,13 +18,14 @@
     <name>dfs.journalnode.edits.dir</name>
     <value>/home/data/hdfs/journalnode</value>
   </property>
-  <!-- <property>
-		<name>hadoop.tmp.dir</name>
-		<value>/home/data/hdfs/tmp</value>
-	</property> -->
   <property>
       <name>dfs.replication</name>
       <value>2</value>
+  </property>
+  <!--无需权限操作hdfs，开发测试用-->
+  <property>
+    <name>dfs.permissions</name>
+    <value>false</value> 
   </property>
 
 
