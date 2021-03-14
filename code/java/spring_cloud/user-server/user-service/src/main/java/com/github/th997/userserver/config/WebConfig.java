@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class WebConfig {
-    @Bean
-    public UndertowServletWebServerFactory embeddedServletContainerFactory() {
-        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
-        factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
-        return factory;
-    }
+//    @Bean
+//    public UndertowServletWebServerFactory embeddedServletContainerFactory() {
+//        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
+//        factory.addBuilderCustomizers(builder -> builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true));
+//        return factory;
+//    }
 }

@@ -25,5 +25,5 @@
             <appender-ref ref="FILE1"/>
         </root>
     </springProfile>
-    
+
 </configuration>

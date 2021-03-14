@@ -1,5 +1,8 @@
 spring.profiles.active: dev
 server.port: 32001
+server.http2.enabled: true
+server.undertow.worker-threads: 128
+
 
 eureka:
   instance:

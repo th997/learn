@@ -2,4 +2,4 @@ spring.application.name: user-server
 
 apollo.bootstrap.enabled: true
 apollo.bootstrap.eagerLoad.enabled: true
-app.id: user-server
+app.id: ${spring.application.name}
