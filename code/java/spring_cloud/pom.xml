@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.4.RELEASE</version>
+        <version>2.3.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -24,7 +24,7 @@
         <dockerfile.tag.skip>true</dockerfile.tag.skip>
         <dockerfile.push.skip>true</dockerfile.push.skip>
 
-        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -55,8 +55,9 @@
             <dependency>
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
-                <version>1.1.0</version>
+                <version>1.8.0</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>

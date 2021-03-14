@@ -12,8 +12,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class UserServerApplication {
 
     public static void main(String[] args) {
-        System.setProperty("apollo.configService", "http://apollo-service-pro-apollo-configservice.com");
-        System.setProperty("apollo.cluster", "cn");
+        System.setProperty("apollo.configService", "http://apollo-service-pro-apollo-configservice:8080");
+        System.setProperty("env", "pro");
+        //System.setProperty("apollo.cluster", "cn");
         MDC.put("a", "b");
         SpringApplication.run(UserServerApplication.class, args);
     }

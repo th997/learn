@@ -1,11 +1,5 @@
-spring:
-  application:
-    name: user-server
-  cloud:
-    config:
-      uri: http://config-server:31000
-      #profile: prod
-      name: common-config,user-server
+spring.application.name: user-server
 
-app:
-  id: ${spring.application.name}
+apollo.bootstrap.enabled: true
+apollo.bootstrap.eagerLoad.enabled: true
+app.id: user-server

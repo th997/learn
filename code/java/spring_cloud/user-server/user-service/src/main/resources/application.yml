@@ -1,9 +1,33 @@
-server:
-  port: 32001
+spring.profiles.active: dev
+server.port: 32001
 
-logging:
-  level:
-    root: debug
+eureka:
+  instance:
+    prefer-ip-address: true       # 是否使用 ip 地址注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # ip:port
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
 
-test:
-  name: app
+spring:
+  zipkin:
+    base-url: http://zipkin-server:31003
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# log
+logging.level.root: info
+logging.level.com.xxx: debug
+logging.file.name: /tmp/server.log
+logging.register-shutdown-hook: true
+logging.logback.rollingpolicy.total-size-cap: 15MB
+logging.file.total-size-cap: 15MB
+#logging.logback.rollingpolicy.max-file-size: 11MB
+#logging.file.max-size: 11MB
+
+#
+test.name: app
