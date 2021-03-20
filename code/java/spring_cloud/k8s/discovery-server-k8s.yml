@@ -31,6 +31,7 @@ spec:
               value: -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
                 -Deureka.instance.hostname=${MY_POD_NAME}.discovery-server
                 -Deureka.instance.prefer-ip-address=false
+                -Deureka.server.use-read-only-response-cache=false
                 -Deureka.client.serviceUrl.defaultZone=http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
           resources:
             limits:

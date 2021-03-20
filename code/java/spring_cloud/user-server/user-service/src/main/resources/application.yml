@@ -1,26 +1,28 @@
+# server
 spring.profiles.active: dev
 server.port: 32001
 server.http2.enabled: true
 server.undertow.worker-threads: 128
+server.shutdown: graceful
 
+# eureka
+eureka.instance.prefer-ip-address: true
+eureka.instance.instance-id: ${spring.cloud.client.ip-address}:${server.port}
+eureka.client.serviceUrl.defaultZone: http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
+eureka.client.registry-fetch-interval-seconds: 5
+ribbon.ServerListRefreshInterval: 5
 
-eureka:
-  instance:
-    prefer-ip-address: true       # 是否使用 ip 地址注册
-    instance-id: ${spring.cloud.client.ip-address}:${server.port} # ip:port
-  client:
-    serviceUrl:
-      defaultZone: http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
+# timeout
+ribbon.ReadTimeout: 5000
+feign.client.config.default.readTimeout: 5000
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
 
-spring:
-  zipkin:
-    base-url: http://zipkin-server:31003
+# zipkin
+#spring.zipkin.enable: false
+spring.zipkin.base-url: http://zipkin-server:31003
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+# endpoint
+# management.endpoints.web.exposure.include: *
 
 # log
 logging.level.root: info

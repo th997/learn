@@ -1,0 +1,36 @@
+server.port: 31003
+
+# eureka
+eureka.instance.prefer-ip-address: true
+eureka.instance.instance-id: ${spring.cloud.client.ip-address}:${server.port}
+eureka.client.serviceUrl.defaultZone: http://discovery-server-0.discovery-server:31001/eureka/,http://discovery-server-1.discovery-server:31001/eureka/,http://discovery-server-2.discovery-server:31001/eureka/
+eureka.client.registry-fetch-interval-seconds: 5
+
+# gateway
+spring:
+  cloud:
+    gateway:
+      enabled: true
+      discovery:
+        locator: true
+        lower-case-service-id: true
+      routes:
+        - id: user-server
+          order: 999
+          uri: http://localhost:32001
+          predicates:
+            - Path=/user/**
+          filters:
+            - name: Retry
+              args:
+                retries: 1
+
+        - id: order-server
+          order: 999
+          uri: http://localhost:32002
+          predicates:
+            - Path=/order/**
+          filters:
+            - name: Retry
+              args:
+                retries: 1
