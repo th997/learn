@@ -1,0 +1,123 @@
+# spark
+## docker下运行spark
+http://blog.csdn.net/cyh_24/article/details/49683221
+
+#安装
+docker pull sequenceiq/spark:1.5.1
+#运行容器
+docker run -it sequenceiq/spark:1.5.1 bash
+#启动
+./sbin/start-master.sh
+./sbin/start-slave.sh spark:172.17.0.109:7077
+#运行程序
+./bin/spark-submit examples/src/main/python/pi.py
+
+Spark 应用程序由2部分组成：Driver和Executor >>
+Application：基于Spark的用户程序，包含一个Driver program和多个Executor
+Driver Program：运行Application的main()函数并且创建SparkContext，通常用SparkContext代表Driver Program
+Excutor：是为某个Application运行在work node上的一个进程，该进程负责Task，并且负责将数据存在内存或者磁盘上。每个Application都有各自独立的executors
+Cluster Manager：在集群上获取资源的外部服务（例如：Standalone，Mesos，Yarm）
+Worker Node：集群上任何运行Application代码的节点
+Task：被送到某个executor上的工作单元
+Job： 包含多个Task组成的并行计算，往往有Spark action催生，该术语可以经常在日志中看到
+Stage：每个Job会被拆分多组task，每组认为被称为Stage，也可称TaskSet，该术语也可以在日志中看到
+RDD：Spark的基本计算单元，可以通过一系列算子进行操作（主要是Transformation和Action操作）
+关系：
+SparkContext（Driver Program）<—> Cluster Manager <—> Worker Node
+
+
+分布式安装：
+1.
+cp ./conf/spark-env.sh.template ./conf/spark-env.sh
+vi ./conf/spark-env.sh 添加以下内容：
+export SCALA_HOME=/mnt/run/scala-2.11.7
+export JAVA_HOME=/mnt/run/jdk1.8.0_65
+export SPARK_MASTER_IP=h1
+export SPARK_WORKER_INSTANCES=2
+export SPARK_MASTER_PORT=8070
+export SPARK_MASTER_WEBUI_PORT=8090
+export SPARK_WORKER_PORT=8092
+export SPARK_WORKER_MEMORY=2000m
+# SPARK_MASTER_IP这个指的是master的IP地址；SPARK_MASTER_PORT这个是master端口；SPARK_MASTER_WEBUI_PORT这个是查看集群运行情况的WEB UI的端口号；SPARK_WORKER_PORT这是各个worker的端口号；SPARK_WORKER_MEMORY这个配置每个worker的运行内存。
+2
+vi ./conf/slaves
+h1
+h2
+h3
+3
+vi /etc/profile
+export SPARK_HOME=/usr/lib/spark-1.3.0
+export PATH=$SPARK_HOME/bin:$PATH
+4
+./sbin/start-all.sh
+http://h1:8090/
+
+# hello word
+``` shell
+hdfs dfs -mkdir /txt
+hdfs dfs -put /2000w /txt/
+
+spark-submit --executor-memory 2G \
+--name JavaWordCount \
+--deploy-mode cluster \
+--master yarn \
+--class  org.apache.spark.examples.JavaWordCount \
+examples/jars/spark-examples_2.12-2.4.0.jar \
+hdfs://hadoop-m1:9000/txt/2000w
+``` 
+
+first demo
+lines=sc.textFile("hdfs://...") //加载RDD
+errors=lines.filter(_.startsWith("ERROR")) //transformation
+errors.persist() // 缓存RDD
+mysql_errors=errors.filter(_.contains("MySQL")).count // action
+
+transformation: map filter flatMap sample groupByKey reduceByKey union join cogroup crossProduct mapVlaues sort partitionBy
+action: count collect reduce lookup save
+
+./bin/spark-shell \
+--master spark://10.252.112.179:8070 \
+--jars lib/mongo-java-driver-3.0.0.jar,lib/mongo-hadoop-core-1.4.2.jar
+--class com.mongodb.hadoop.demo.Recommender demo-1.0.jar
+
+
+var t=sc.textFile("a.txt")
+var a=t.filter(_.split(',').length=2)
+var b=a.map(_.split(','))
+var c=a.distinct
+
+# 案例1
+val data = sc.textFile("SogouQ.reduced")
+//长度为6,取第3个,转为(key,1)模式,根据key进行统计,value降序
+var d1=data.filter(_.split("\\s+").length == 6).map(_.split("\\s+")(2)).map((_,1)).reduceByKey(_+_).sortBy(c=>c._2,false)
+//data.filter(_.split(' ').length == 3).map(_.split(' ')(1)).map((_,1)).reduceByKey(_+_).map(x => (x._2, x._1)).sortByKey(false).map( x => (x._2, x._1)).saveAsTextFile(args(2))
+# 案例2
+val url="jdbc:mysql://127.0.0.1:3306/sgdata"
+val prop = new java.util.Properties
+prop.setProperty("user","root")
+prop.setProperty("password","lihang")
+val people = sqlContext.read.jdbc(url,"t_csdn_net",prop)
+people.show
+#案例3
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+import sqlContext._
+case class Customer(name: String, gender: String, ctfId: String, birthday: String, address: String)
+val customer = sc.textFile("2000w").map(_.split(",")).filter(line => line.length > 7).map(p => Customer(p(0), p(5), p(4), p(6), p(7))).distinct().toDF()
+customer.registerTempTable("customer")
+var result = sqlContext.sql("SELECT count(*) FROM customer")
+result.collect().foreach(println)
+customer.groupBy("gender").count().show()
+#
+val url="mongodb://10.168.177.75:27017/baohe_community"
+val prop = new java.util.Properties
+prop.setProperty("user","ecc_test")
+prop.setProperty("password","yhg123!test")
+val people = sqlContext.read.jdbc(url,"t_csdn_net",prop)
+
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+val df = sqlContext.read.format("jdbc").options(Map("url" -> "mongodb://10.168.177.75:27017/baohe_community","dbtable" -> "schema.tablename")).load()
+
+
+
+# pi
+./bin/run-example SparkPi 10
