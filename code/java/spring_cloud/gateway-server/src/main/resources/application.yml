@@ -1,4 +1,7 @@
 server.port: 31003
+server.http2.enabled: true
+server.undertow.worker-threads: 128
+server.shutdown: graceful
 
 # eureka
 eureka.instance.prefer-ip-address: true

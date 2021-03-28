@@ -328,3 +328,43 @@ restart
 alter user 'root'@'localhost' identified by '123';
 flush privileges;
 alter user 'root'@'localhost' identified by '123';
+
+## 从库添加
+### 从库配置
+binlog-format=ROW
+enforce_gtid_consistency = on
+gtid_mode = on
+replicate-do-table=datatest
+log-slave-updates = 1
+#innodb_flush_log_at_trx_commit = 0
+
+### 备份原库
+mysqldump --databases datatest \
+  --no-tablespaces \
+  --single-transaction \
+  --compress \
+  --order-by-primary \
+  -e --max_allowed_packet=41943040 --net_buffer_length=163840 \
+  -u root \
+  -h 10.10.10.106 \
+  -P 53306 \
+  -p > test.sql
+
+### 导入从库
+more test.sql 复制该行 SET @@GLOBAL.GTID_PURGED='b9c0b2ab-2bd2-11eb-a9b5-c66e827ab6bd:1-305840';
+mysql -uroot -p
+source < test.sql
+
+### 如果AWS RDS
+RDS: CALL mysql.rds_set_configuration('binlog retention hours', 12);
+// slave: CREATE TABLE mysql.rds_heartbeat2 ( id int(11) NOT NULL, value bigint(20) DEFAULT NULL, PRIMARY KEY (id) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+### 连接主库
+stop slave;
+reset slave all;
+reset master;
+SET @@GLOBAL.GTID_PURGED='b9c0b2ab-2bd2-11eb-a9b5-c66e827ab6bd:1-305840';
+change master to master_host='10.10.10.106' , master_user='root',master_password='mysql_666888.',master_port=53306,master_auto_position=1;
+start slave;
+show slave status \G
+show master status;
