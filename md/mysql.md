@@ -334,7 +334,7 @@ alter user 'root'@'localhost' identified by '123';
 binlog-format=ROW
 enforce_gtid_consistency = on
 gtid_mode = on
-replicate-do-table=datatest
+replicate-do-db = datatest
 log-slave-updates = 1
 #innodb_flush_log_at_trx_commit = 0
 

@@ -129,11 +129,15 @@ https://cloud.tencent.com/developer/article/1418501
 https://segmentfault.com/a/1190000038318776
 https://zhuanlan.zhihu.com/p/161242274
 
+
 # superset
-https://github.com/amancevice/docker-superset
+https://github.com/amancevice/docker-superset or https://github.com/amancevice/docker-superset/blob/main/examples/mysql/docker-compose.yml
 
 docker run -itd --name superset -p8088:8088 amancevice/superset
 
 docker exec -it superset superset-init
 
-add databases ->  add datasets -> add charts -> add databoards
+add databases ->  add datasets -> add charts -> add databoards ->　published
+
+grant : https://blog.csdn.net/u014589856/article/details/103736987
+
