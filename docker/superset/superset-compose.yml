@@ -1,0 +1,20 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - redis:/data
+  superset:
+    image: amancevice/superset
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      MAPBOX_API_KEY: ${MAPBOX_API_KEY}
+    ports:
+      - "53182:8088"
+    volumes:
+      - ./superset_config.py:/etc/superset/superset_config.py
+volumes:
+  redis:

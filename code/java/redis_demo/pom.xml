@@ -23,6 +23,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.15.3</version>
+        </dependency>
+
         <!--lettuce 不太稳定, 集群恢复后无法同步重连-->
         <!-- redis lettuce linux epoll -->
         <dependency>

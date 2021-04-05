@@ -135,9 +135,13 @@ https://github.com/amancevice/docker-superset or https://github.com/amancevice/d
 
 docker run -itd --name superset -p8088:8088 amancevice/superset
 
-docker exec -it superset superset-init
+docker exec -it -u root superset superset-init
 
 add databases ->  add datasets -> add charts -> add databoards ->　published
 
 grant : https://blog.csdn.net/u014589856/article/details/103736987
+
+ladp: https://learn-bigdata.incubator.edurt.io/docs/Superset/Action/configuration-ldap/
+
+more config : https://github.com/apache/superset/blob/master/superset/config.py
 
