@@ -5,6 +5,12 @@ server.http2.enabled: true
 server.undertow.worker-threads: 128
 server.shutdown: graceful
 
+# json
+spring.jackson.default-property-inclusion: non_null
+spring.jackson.date-format: yyyy-MM-dd HH:mm:ss
+#spring.gson.serialize-nulls: false
+#spring.http.converters.preferred-json-mapper=gson
+
 # eureka
 eureka.instance.prefer-ip-address: true
 eureka.instance.instance-id: ${spring.cloud.client.ip-address}:${server.port}
