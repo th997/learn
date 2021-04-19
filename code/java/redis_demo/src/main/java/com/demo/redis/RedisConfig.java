@@ -66,8 +66,8 @@ public class RedisConfig {
         om.configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false);
         //使用JSR310提供的序列化类,里面包含了大量的JDK8时间序列化类
         om.registerModule(new JavaTimeModule());
-        //启用反序列化所需的类型信息,在属性中添加@class
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        //启用反序列化所需的类型信息,在属性中添加@class/JsonTypeInfo.As.PROPERTY || class/JsonTypeInfo.As.WRAPPER_OBJECT
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_OBJECT);
         //所有字段
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         //不存储空值

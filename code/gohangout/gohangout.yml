@@ -1,0 +1,20 @@
+inputs:
+  - Stdin:
+      codec: plain
+
+filters:
+  - Grok:
+      src: message
+      pattern_paths:
+        - './grok-patterns'
+      match:
+        - '^%{TIMESTAMP_ISO8601:logtime}\s+%{LOGLEVEL:loglevel} \[%{GREEDYDATA:app},%{DATA:app1},%{DATA:app2},%{DATA:app3}\]'
+  - Date:
+      location: 'UTC'
+      src: logtime
+      target: logtime
+      formats:
+        - '2006-01-02 15:04:05.000'
+
+outputs:
+  - Stdout: {}

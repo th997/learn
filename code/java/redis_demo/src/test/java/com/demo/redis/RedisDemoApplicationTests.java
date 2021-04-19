@@ -53,6 +53,7 @@ public class RedisDemoApplicationTests {
     @Test
     public void test3() {
         UserBean userBean = new UserBean("a", 1, new Date(), true, null);
+        //Object  userBean = 12345123L;
         Object user = valueOperations.get("user");
         System.out.println(user);
         valueOperations.set("user", userBean);
@@ -98,7 +99,7 @@ public class RedisDemoApplicationTests {
 
     @Test
     public void test() throws InterruptedException {
-        ExecutorService es = Executors.newFixedThreadPool(100);
+        ExecutorService es = Executors.newFixedThreadPool(10);
         valueOperations.get("test0");
         long start = System.currentTimeMillis();
         AtomicInteger ac = new AtomicInteger();
@@ -113,10 +114,14 @@ public class RedisDemoApplicationTests {
                 public void run() {
                     try {
                         for (int j = 0; j < countJ; j++) {// 请求次数
+                            String key ="test" + loc * j;
                             Object value = "test" + loc * j;
+                            value = (long)j;
                             //value = new UserBean("a", j, new Date(), true, null);
-                            valueOperations.set("test" + loc * j, value, 100, TimeUnit.SECONDS);
-                            valueOperations.get("test" + loc * j);
+                            valueOperations.set(key, value, 100, TimeUnit.SECONDS);
+                            valueOperations.get(key);
+                            valueOperations.increment(key);
+                            //Thread.sleep(1000);
                             // System.out.println(obj);
                             cdl.countDown();
                             int co = total - (int) cdl.getCount();

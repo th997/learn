@@ -462,3 +462,22 @@ sudo vim /etc/fstab
 
 重启后 删除 /swap.img
 
+
+# 防止暴力破解
+sudo apt install fail2ban
+vim /etc/fail2ban/jail.local
+```
+[DEFAULT]
+#ignoreip = 192.168.1.2
+bantime = 1800
+maxretry = 5
+findtime = 600
+backend = polling
+[ssh-iptables]
+enabled = true
+filter = sshd
+action = iptables[name=SSH, port=ssh, protocol=tcp]
+sendmail-whois[name=SSH, dest=th9976@gmail.com, sender=fail2ban@email.com]
+```
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
