@@ -481,3 +481,8 @@ sendmail-whois[name=SSH, dest=th9976@gmail.com, sender=fail2ban@email.com]
 ```
 sudo systemctl enable fail2ban
 sudo systemctl restart fail2ban
+
+# 包卸载
+apt list | grep installed | grep -v "python\|node\|lib\|ubuntu\|gnome\|fonts\|linux-headers\|cuda"
+apt remove  xxx
+apt autoremove

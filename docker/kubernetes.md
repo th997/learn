@@ -238,10 +238,10 @@ pod
 application
 
 ## 查看证书是否过期
-sudo kubeadm alpha certs check-expiration
+sudo kubeadm certs check-expiration
 
 ## 更新证书
-sudo kubeadm alpha certs renew all
+sudo kubeadm certs renew all
 
 ## 更新配置
 kubeadm init phase kubeconfig all

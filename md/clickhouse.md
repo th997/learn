@@ -145,3 +145,4 @@ ladp: https://learn-bigdata.incubator.edurt.io/docs/Superset/Action/configuratio
 
 more config : https://github.com/apache/superset/blob/master/superset/config.py
 
+tutorial: https://juejin.cn/post/6867371789735952397

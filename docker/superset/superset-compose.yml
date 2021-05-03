@@ -1,17 +1,17 @@
 version: '3'
 services:
   redis:
+    container_name: superset_redis
     image: redis
     restart: always
     volumes:
       - redis:/data
   superset:
+    container_name: superset
     image: amancevice/superset
     restart: always
     depends_on:
       - redis
-    environment:
-      MAPBOX_API_KEY: ${MAPBOX_API_KEY}
     ports:
       - "53182:8088"
     volumes:

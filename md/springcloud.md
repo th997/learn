@@ -21,10 +21,10 @@ http://localhost:31000/common.yml
 http://localhost:31001
 30s一次心跳，90s后断开
 
-
-## todo
-spring cloud k8s 一键部署
-spring cloud config/consul 动态刷新，高可用
-spring cloud eureka/consul 高可用，服务与依赖查看
-spring cloud gateway 动态配置，路由持久化，分布式
-spring cloud feign 无隙客户端
+## source 
+请求入口: DispatcherServlet.doService -> RequestMappingHandlerAdapter.handleInternal -> invokeHandlerMethod
+url查找对应方法: AbstractHandlerMethodMapping.lookupHandlerMethod
+初始化各种处理器: DispatcherServlet.initStrategies
+http解码器: WebMvcConfigurationSupport.addDefaultHttpMessageConverters
+参数解析器: RequestMappingHandlerAdapter.afterPropertiesSet()
+请求客户端: RestTemplate.RestTemplate()

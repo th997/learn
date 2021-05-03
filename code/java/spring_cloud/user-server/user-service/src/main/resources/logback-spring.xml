@@ -20,7 +20,7 @@
         </root>
     </springProfile>
     <springProfile name="dev">
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE1"/>
         </root>

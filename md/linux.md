@@ -278,14 +278,14 @@ crontab  -e
 
 ## 域名ssl
 ```
-docker run -it --rm --name certbot \
+docker run -it --rm  --name certbot \
             -v "/etc/letsencrypt:/etc/letsencrypt" \
             certbot/certbot certonly \
             --manual --agree-tos --manual-public-ip-logging-ok --preferred-challenges dns-01 \
             --server https://acme-v02.api.letsencrypt.org/directory \
             -d tdhere.com \
             -d "*.tdhere.com"
-add dns txt ... apt-get -y install dnsutils ... nslookup -q=txt  _acme-challenge.test.com
+add dns txt ... apt-get -y install dnsutils ... nslookup -q=txt  _acme-challenge.tdhere.com
 ...
 certbot-auto renew
 ls /etc/letsencrypt/live/test.com/fullchain.pem
