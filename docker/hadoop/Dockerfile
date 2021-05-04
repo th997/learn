@@ -7,6 +7,7 @@ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 # env
 ENV JAVA_HOME=/usr/local/openjdk-8/
+ENV JRE_HOME=/usr/local/openjdk-8/
 ENV CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 ENV HADOOP_HOME=/usr/local/hadoop 
 ENV HADOOP_COMMON_HOME=$HADOOP_HOME
@@ -15,7 +16,7 @@ ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
 ENV HADOOP_YARN_HOME=$HADOOP_HOME
 ENV HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
 ENV HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
-ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin 
+ENV PATH=$PATH:$JAVA_HOME/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
 ENV HADOOP_LOG_DIR=/home/data/logs/hadoop
 ENV USER=root
 ENV HDFS_NAMENODE_USER=root
@@ -34,7 +35,8 @@ RUN mkdir -p /home/data/hdfs/namenode && \
 # add file
 ADD hadoop-3.2.2.tar.gz /usr/local/
 RUN ln -s /usr/local/hadoop-3.2.2 $HADOOP_HOME && \
-echo "JAVA_HOME=$JAVA_HOME" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
+echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_HOME/etc/hadoop/yarn-env.sh
 COPY /config/*.xml $HADOOP_HOME/etc/hadoop/
 COPY ssh_config  /root/.ssh/config
 COPY entrypoint.sh $HADOOP_HOME/entrypoint.sh

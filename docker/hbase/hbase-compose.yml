@@ -13,7 +13,7 @@ services:
        #slaves: hadoop2,hadoop3 # hadoop 2
        workers: hadoop1,hadoop2,hadoop3 # hadoop 3
        regionservers: hadoop1,hadoop2,hadoop3
-       start: start-dfs.sh && start-hbase.sh
+       start: start-dfs.sh && start-yarn.sh && start-hbase.sh
      depends_on:
        - hadoop2
        - hadoop3
