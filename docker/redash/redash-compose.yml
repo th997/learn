@@ -1,0 +1,62 @@
+# docker-compose -f redash-compose.yml run --rm server create_db
+version: '2'
+services:
+  server:
+    image: redash/redash
+    command: server
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "5000:5000"
+    environment:
+      PYTHONUNBUFFERED: 0
+      REDASH_LOG_LEVEL: "INFO"
+      REDASH_REDIS_URL: "redis://redis:6379/0"
+      REDASH_DATABASE_URL: "postgresql://ps:JGae3goosfdJ9@postgres/postgres"
+      REDASH_COOKIE_SECRET: "ahdh13134asdrt"
+      REDASH_WEB_WORKERS: 4  
+      #邮箱 
+      REDASH_MAIL_SERVER: "smtp.exmail.qq.com"
+      REDASH_MAIL_PORT: 465
+      REDASH_MAIL_USE_TLS: "true"
+      REDASH_MAIL_USE_SSL: "true"
+      REDASH_MAIL_USERNAME: "xxx@xx.com"
+      REDASH_MAIL_PASSWORD: "xxx"
+      REDASH_MAIL_DEFAULT_SENDER: "xxx@xx.com"
+      REDASH_HOST: "https://xxx.xxx.com"
+      REDASH_ADDITIONAL_QUERY_RUNNERS: "redash.query_runner.python"
+    restart: always
+  
+  worker:
+    image: redash/redash
+    command: scheduler
+    environment:
+      PYTHONUNBUFFERED: 0
+      REDASH_LOG_LEVEL: "INFO"
+      REDASH_REDIS_URL: "redis://redis:6379/0"
+      REDASH_DATABASE_URL: "postgresql://ps:JGae3goosfdJ9@postgres/postgres"
+      REDASH_COOKIE_SECRET: "ahdh13134asdrt"
+      REDASH_ADDITIONAL_QUERY_RUNNERS: "redash.query_runner.python"
+      QUEUES: "queries,scheduled_queries,celery"
+      WORKERS_COUNT: 2
+    restart: always
+  
+  redis:
+    image: redis
+    # ports:
+    #  - "6379:6379"
+    volumes: 
+      - ./data/redis_data:/data
+    restart: always
+
+  postgres:
+    image: postgres
+    ports:
+     - "5432:5432"
+    environment:
+      POSTGRES_USER: ps
+      POSTGRES_PASSWORD: JGae3goosfdJ9
+    volumes:
+      - ./data/postgresql_data:/var/lib/postgresql/data
+    restart: always

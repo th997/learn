@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/code/java/ck_demo/ck_demo.iml" filepath="$PROJECT_DIR$/code/java/ck_demo/ck_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/flink_demo/flink_demo.iml" filepath="$PROJECT_DIR$/code/java/flink_demo/flink_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/gateway-server/gateway-server.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/gateway-server/gateway-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/java_demo/java_demo.iml" filepath="$PROJECT_DIR$/code/java/java_demo/java_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/kafka_demo/kafka_demo.iml" filepath="$PROJECT_DIR$/code/java/kafka_demo/kafka_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/learn.iml" filepath="$PROJECT_DIR$/.idea/learn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/mqtt_demo/mqtt_demo.iml" filepath="$PROJECT_DIR$/code/java/mqtt_demo/mqtt_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/order-server/order-server.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/order-server/order-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/order-server/order-service/order-service.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/order-server/order-service/order-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/order-server/order-service-api/order-service-api.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/order-server/order-service-api/order-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/redis_demo/redis_demo.iml" filepath="$PROJECT_DIR$/code/java/redis_demo/redis_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/spring-cloud-parent.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/spring-cloud-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/user-server/user-server.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/user-service.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service-api/user-service-api.iml" filepath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service-api/user-service-api.iml" />
+    </modules>
+  </component>
+</project>

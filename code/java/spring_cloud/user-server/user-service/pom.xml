@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mqtt</artifactId>
+            <version>5.4.6</version>
+        </dependency>
         <!--        <dependency>-->
         <!--            <groupId>com.google.code.gson</groupId>-->
         <!--            <artifactId>gson</artifactId>-->

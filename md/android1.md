@@ -19,6 +19,7 @@ ip a
 # 登录
 ssh -p8022 xxx@xxx
 ```
+https://www.sqlsec.com/2018/05/termux.html#toc-heading-148
 
 
 ## adb

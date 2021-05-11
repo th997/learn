@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="337b59a4-6e4a-40ad-b883-976495db08ea" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/java/com/demo/spring_boot/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/java/com/demo/spring_boot/common/WebConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/java/com/demo/spring_boot/entity/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/java/com/demo/spring_boot/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/java/com/demo/spring_boot/web/TestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/md/android1.md" beforeDir="false" afterPath="$PROJECT_DIR$/md/android1.md" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go Application" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" path="$PROJECT_DIR$/../go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Z7vo0CWNDx9nETnLfaafnlZcSP" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/code/java/spring_boot_demo/src/main/java/com/demo/spring_boot" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/code/java" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.5897059" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.demo.spring_boot" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/code/java" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/src/main/resources" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/gateway-server/src/main/resources" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/k8s" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.github.th997.userserver.config" />
+      <recent name="com.demo.ck" />
+      <recent name="com.demo.flink" />
+      <recent name="com.github.th997.demo.hbase" />
+      <recent name="com.demo.spring_boot.entity" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/code/gohangout" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/config-server/src/main/assembly" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/user-server" />
+      <recent name="$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service-impl" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Demo (1)">
+    <configuration name="Demo (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.demo.java.mqtt.Demo" />
+      <module name="mqtt_demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.demo.java.mqtt.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Demo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Demo" />
+      <module name="mqtt_demo" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.github.th997.userserver.UserServerApplication" />
+      <module name="user-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.github.th997.userserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RedisDemoApplicationTests.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="redis_demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.demo.redis.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.demo.redis" />
+      <option name="MAIN_CLASS_NAME" value="com.demo.redis.RedisDemoApplicationTests" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RedisDemoApplicationTests.test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="redis_demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.demo.redis.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.demo.redis" />
+      <option name="MAIN_CLASS_NAME" value="com.demo.redis.RedisDemoApplicationTests" />
+      <option name="METHOD_NAME" value="test3" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Demo (1)" />
+        <item itemvalue="Application.Demo" />
+        <item itemvalue="Application.UserServerApplication" />
+        <item itemvalue="JUnit.RedisDemoApplicationTests.test3" />
+        <item itemvalue="JUnit.RedisDemoApplicationTests.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="StructureViewFactory">
+    <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
+    <option name="ACTIVE_ACTIONS" value=",SHOW_PROPERTIES,SHOW_INTERFACES,SHOW_ANONYMOUS,SHOW_LAMBDA" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="337b59a4-6e4a-40ad-b883-976495db08ea" name="Default Changelist" comment="" />
+      <created>1584203117224</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584203117224</updated>
+    </task>
+    <task id="LOCAL-00001" summary="add">
+      <created>1620142555342</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1620142555342</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add">
+      <created>1620142573485</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1620142573485</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add" />
+    <option name="LAST_COMMIT_MESSAGE" value="add" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="418" y="182" key="#com.intellij.execution.impl.EditConfigurationsDialog" />
+    <state x="418" y="182" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1051@0.0.1920.1051" />
+    <state width="641" height="224" key="Git.Branch.Popup" />
+    <state width="641" height="224" key="Git.Branch.Popup/1920.1080" />
+    <state width="641" height="224" key="Git.Branch.Popup@1920.1080" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/code/java/spring_cloud/user-server/user-service/src/main/java/com/github/th997/userserver/config/MQTTConfig.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/learn$UserRepositoryTest_testAvg.ic" NAME="UserRepositoryTest.testAvg Coverage Results" MODIFIED="1611241179966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.demo.es.*</FILTER>
+    </SUITE>
+  </component>
+</project>

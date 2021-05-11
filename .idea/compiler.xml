@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mqtt_demo" />
+        <module name="order-service-api" />
+        <module name="order-service" />
+        <module name="kafka_demo" />
+        <module name="java_demo" />
+        <module name="user-service" />
+        <module name="ck_demo" />
+        <module name="flink_demo" />
+        <module name="user-service-api" />
+        <module name="gateway-server" />
+        <module name="redis_demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ck_demo" target="1.8" />
+      <module name="flink_demo" target="1.8" />
+      <module name="gateway-server" target="1.8" />
+      <module name="java_demo" target="1.5" />
+      <module name="kafka_demo" target="1.8" />
+      <module name="mqtt_demo" target="1.5" />
+      <module name="order-server" target="1.8" />
+      <module name="order-service" target="1.8" />
+      <module name="order-service-api" target="1.8" />
+      <module name="redis_demo" target="1.8" />
+      <module name="spring-cloud-parent" target="1.8" />
+      <module name="spring_boot_demo" target="1.8" />
+      <module name="user-server" target="1.8" />
+      <module name="user-service" target="1.8" />
+      <module name="user-service-api" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ck_demo" options="-parameters" />
+      <module name="gateway-server" options="-parameters" />
+      <module name="kafka_demo" options="-parameters" />
+      <module name="order-service" options="-parameters" />
+      <module name="order-service-api" options="-parameters" />
+      <module name="redis_demo" options="-parameters" />
+      <module name="spring_boot_demo" options="-parameters" />
+      <module name="user-service" options="-parameters" />
+      <module name="user-service-api" options="-parameters" />
+    </option>
+  </component>
+</project>

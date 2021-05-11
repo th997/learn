@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/code/java/flink_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/spring_cloud/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/spring_cloud/user-server/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/spring_cloud/order-server/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/spring_cloud/gateway-server/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/ck_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/redis_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/java_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/kafka_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/code/java/mqtt_demo/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>
