@@ -1,2 +1,1 @@
 # mqtt
-docker run -it --rm  --name emitter -p 8080:8080 -e EMITTER_LICENSE=PfA8IHBl8G9tot-Aq0Ed8lmIFAKsNx7hf3JRl3h2fhwzhu8lEPSlbkMEJYB3NcSY-9_cAD2C27bwB7-7sNUIAQ:3 -e EMITTER_CLUSTER_SEED=C2KtIYoYwZoLOfZH90pa9gnXQ2LPkMon -e EMITTER_CLUSTER_PASSPHRASE=test emitter/server
