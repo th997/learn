@@ -1,0 +1,16 @@
+version: '2'
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    user: root
+    command: server
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_INSTALL_PLUGINS=vertamedia-clickhouse-datasource  
+    volumes:
+      #- ./config:/etc/grafana
+      - ./data:/var/lib/grafana
+      - ./log:/var/log/grafana      
+    restart: always
