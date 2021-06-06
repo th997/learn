@@ -239,8 +239,8 @@ fio -direct=1  -iodepth=64  -rw=randwrite  -ioengine=libaio  -bs=16k  -size=1G  
 
 ## time 磁盘测试
 ```
-time dd if=/dev/zero bs=1024 count=1000000 of=1Gb.file
-time dd of=1Gb.file if=/dev/zero bs=1024 count=1000000
+time dd if=/dev/zero bs=1M count=1000 of=1Gb.file
+time dd if=1Gb.file bs=1M count=1000 of=/dev/zero
 ```
 
 ## 文件监控

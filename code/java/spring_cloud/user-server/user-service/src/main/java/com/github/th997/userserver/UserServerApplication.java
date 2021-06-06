@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-@EnableApolloConfig
+//@EnableDiscoveryClient
+//@EnableApolloConfig
 public class UserServerApplication {
 
     @PostConstruct

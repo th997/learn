@@ -22,7 +22,10 @@ public class Application {
         threads.add(Thread.currentThread().getName());
         System.out.println("consumer:" + input + threads);
         // test.user -> ['USER:'+data.id]
-        //throw new RuntimeException();
+        if (input.equals("test1")) {
+            System.out.println("error:" + System.currentTimeMillis());
+            throw new RuntimeException();
+        }
     }
 
     public static void main(String[] args) {

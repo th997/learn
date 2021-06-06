@@ -12,9 +12,9 @@ sudo su -
 ## apt proxy
 sudo vim /etc/apt/apt.conf
 
-Acquire::https::proxy "http://127.0.0.1:1080/";
+Acquire::https::proxy "http://10.10.10.106:1080/";
 
-Acquire::http::proxy "http://127.0.0.1:1080/";
+Acquire::http::proxy "http://10.10.10.106:1080/";
 
 ## 更新源
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
@@ -486,3 +486,11 @@ sudo systemctl restart fail2ban
 apt list | grep installed | grep -v "python\|node\|lib\|ubuntu\|gnome\|fonts\|linux-headers\|cuda"
 apt remove  xxx
 apt autoremove
+
+# 查看启动时间
+systemd-analyze blame
+sudo systemd-analyze plot > boot.svg
+
+# 网络查询
+networkctl list
+brctl show

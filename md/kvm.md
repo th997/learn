@@ -2,7 +2,7 @@
 
 ## 安装
 ```
-sudo apt install qemu qemu-kvm libvirt-bin bridge-utils virt-manager
+sudo apt install qemu qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager virtinst
 sudo service libvirtd start
 sudo virt-manager
 ```
@@ -25,14 +25,19 @@ sudo vim /etc/network/interfaces
 auto kvm_br
 iface kvm_br inet dhcp
 bridge_ports enp0s31f6
-bridge_stp on
-bridge_fd 0
+bridge_stp on # 避免数据链路死循环
+bridge_fd 0 # 将转发延迟设置0
 
 sudo vim /etc/NetworkManager/NetworkManager.conf
 
 managed=true
 
-sudo /etc/init.d/networking restart
+sudo systemctl restart network-manager
+sudo systemctl restart networking
+
+sudo vim /etc/default/ufw
+DEFAULT_FORWARD_POLICY="ACCEPT"
+systemctl restart ufw.service
 
 ```
 

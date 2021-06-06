@@ -26,8 +26,8 @@ public class KafkaDemoApplicationTests {
         ExecutorService es = Executors.newFixedThreadPool(100);
         long start = System.currentTimeMillis();
         AtomicInteger ac = new AtomicInteger();
-        int countI = 100;
-        int countJ = 10000;
+        int countI = 1;
+        int countJ = 10;
         int total = countI * countJ;
         CountDownLatch cdl = new CountDownLatch(total);
         for (int i = 0; i < countI; i++) {// 并发

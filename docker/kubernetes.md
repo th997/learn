@@ -71,8 +71,8 @@ sudo kubeadm reset
 sudo rm -rf $HOME/.kube/config
 sudo ifconfig cni0 down    
 sudo ip link delete cni0
-rm -rf /var/lib/cni/
-rm -rf /etc/cni/
+sudo rm -rf /var/lib/cni/
+sudo rm -rf /etc/cni/
 
 初始化集群
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
@@ -255,3 +255,6 @@ https://www.funtl.com/zh/service-mesh-kubernetes/
 https://kuboard.cn/learning
 
 https://jeremyxu2010.github.io/2019/11/kubernetes%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/#heading
+
+## 清除无效pod
+kubectl  get pods | grep Evicted | awk '{print$1}'| xargs kubectl delete pods

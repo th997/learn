@@ -88,7 +88,7 @@ alias d='aria2c -x 8'
 1 dmg转img
 dmg2img xxx.dmg
 2 U盘制作
-dd if=/xxx.dmg of=/dev/sdx
+dd bs=4M if=/xxx.dmg of=/dev/sdx
 3 U盘启动,磁盘管理格式化,安装,重启几次..
 4 复制U盘ClOVER文件夹到 EFI目录下 
 5 用easyefi工具,添加efi启动文件ClOVER/ClOVER64.efi
