@@ -163,3 +163,11 @@ in client:
 
 export DOCKER_HOST=tcp://10.10.10.106:2375
 
+## networking not work ...
+ifconfig docker0 down
+
+brctl delbr docker0
+
+reboot now 
+
+

@@ -14,7 +14,7 @@ import java.util.Random;
 @Component
 public class DynamicCronHandler implements SchedulingConfigurer {
 
-    @Value("${taskCron:0/5 * * * * ?}")
+    @Value("${taskCron:0 0/1 * * * ?}")
     private String taskCron;
 
     private String getTaskCron() {

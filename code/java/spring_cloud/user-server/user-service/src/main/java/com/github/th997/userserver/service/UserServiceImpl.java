@@ -26,6 +26,12 @@ public class UserServiceImpl implements UserService {
     private String name1;
 
     @Autowired
+    private UserBean user1;
+
+    @Autowired
+    private UserBean user2;
+
+    @Autowired
     private Environment env;
 
     Logger log = LoggerFactory.getLogger(getClass());
@@ -36,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBean getUser(String id) {
+        System.out.println(env.getProperty("test.name"));
 //        if (env instanceof StandardServletEnvironment) {
 //            StandardServletEnvironment envs = (StandardServletEnvironment) env;
 //            for (Map.Entry<String, Object> e : envs.getSystemEnvironment().entrySet()) {

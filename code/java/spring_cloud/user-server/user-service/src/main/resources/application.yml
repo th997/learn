@@ -44,6 +44,7 @@ logging.file.total-size-cap: 16MB
 
 #
 test.name: app
+test.name1: name1
 
 # mqtt
 mqtt.userName: admin
