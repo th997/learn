@@ -2,12 +2,9 @@ package com.demo.ck;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.annotation.KafkaListener;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @SpringBootApplication
+@tk.mybatis.spring.annotation.MapperScan(basePackages = "com.demo.ck.repository")
 public class Application {
 
     public static void main(String[] args) {

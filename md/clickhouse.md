@@ -89,6 +89,8 @@ select * from system.macros;
 SELECT * FROM system.table_engines;
 -- 查看函数
 SELECT * FROM system.functions limit 100;
+-- 添加稀疏索引 (minmax,set,ngrambf_v1,tokenbf_v1)  https://www.colben.cn/post/ch-mergetree-theory/
+alter table default.test2_local add INDEX idx_website(website) TYPE minmax GRANULARITY 3;
 
 ```
 
@@ -124,6 +126,7 @@ https://www.jianshu.com/p/d0d4306411b3
 https://cloud.tencent.com/developer/article/1418501
 
 ```
+
 
 ## doc
 https://segmentfault.com/a/1190000038318776

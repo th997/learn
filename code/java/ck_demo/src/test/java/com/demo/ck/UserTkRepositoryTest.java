@@ -2,18 +2,16 @@ package com.demo.ck;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.demo.ck.entity.User;
-import com.demo.ck.repository.UserRepository;
+import com.demo.ck.repository.UserTkRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Random;
-
 @SpringBootTest
-public class UserRepositoryTest {
+public class UserTkRepositoryTest {
 
     @Autowired
-    UserRepository userRepository;
+    UserTkRepository userRepository;
 
     @Test
     void testGetCount() {
@@ -27,13 +25,16 @@ public class UserRepositoryTest {
     @Test
     void testGet() {
         // mysql
-        User user = userRepository.findById(1).orElse(null);
+        User user = userRepository.getOne();
         System.out.println(user);
-        user = userRepository.findById(2000000000).orElse(null);
+        user = userRepository.getOne();
+        System.out.println(user);
+        user = userRepository.selectByPrimaryKey(2000000000);
         System.out.println(user);
         // ck
         Integer count = userRepository.countAll();
         System.out.println(count);
+        testSwitchDs();
     }
 
     @Test
@@ -44,16 +45,6 @@ public class UserRepositoryTest {
             System.out.println(user);
         } finally {
             DynamicDataSourceContextHolder.clear();
-        }
-    }
-
-    @Test
-    void testDelete() throws Exception {
-        for (int i = 0; i < 1000000; i++) {
-            User user = new User();
-            user.setId(new Random().nextInt(2000 * 10000));
-            userRepository.delete(user);
-            Thread.sleep(2);
         }
     }
 }

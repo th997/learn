@@ -6,8 +6,7 @@ services:
      restart: always
      ports: 
        - "28123:8123"
-       - "29000:9000"
-       - "29009:9009"
+       - "29004:9004"
      volumes:
        - /data/ck/ck_data1:/var/lib/clickhouse
        - ./config/:/etc/clickhouse-server/
@@ -21,8 +20,7 @@ services:
      restart: always
      ports: 
        - "38123:8123"
-       - "39000:9000"
-       - "39009:9009"
+       - "39004:9004"
      volumes:
        - /data/ck/ck_data2:/var/lib/clickhouse
        - ./config/:/etc/clickhouse-server/
