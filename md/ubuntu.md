@@ -398,3 +398,26 @@ sudo systemd-analyze plot > boot.svg
 # 网络查询
 networkctl list
 brctl show
+
+# samba
+chmod -R o+r+w /data/samba
+chmod o+x+w /data/samba
+docker run -itd --name samba --restart always -p 139:139 -p 445:445 -p 137-138:137-138/udp -v /data/samba:/mount dperson/samba -w "WORKGROUP" -s "share;/mount/;yes;no;no;all;none" -u "test;123456" -S
+
+# samba
+apt install samba
+vim /etc/samba/smb.conf
+``` conf
+[share]
+    path = /data/samba/
+    public = yes
+    browseable = yes
+    public = yes
+    read only = no
+    valid users = test
+    force user = nobody
+    force group = nogroup
+    available = yes
+```
+smbpasswd -a test
+systemctl restart nmbd

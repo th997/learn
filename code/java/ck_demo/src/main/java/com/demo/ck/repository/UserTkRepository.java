@@ -7,7 +7,7 @@ import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
 
-// tk.mybatis
+// tk.mybatis mysql
 public interface UserTkRepository extends Mapper<User>, IdsMapper<User>, MySqlMapper<User> {
 
     @DS("ck")

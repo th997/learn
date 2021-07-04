@@ -148,3 +148,6 @@ docker run -itd --name mongo -p 27017:27017 mongo --auth
 docker exec -it mongo mongo admin
 db.createUser({user:"root",pwd:"123456",roles:["root"] })
 db.auth('root', '123456')
+
+## client 
+https://nosqlbooster.com/downloads
