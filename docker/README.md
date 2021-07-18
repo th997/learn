@@ -5,7 +5,7 @@ some exercises
 ```
 // --no-cache  --build-arg http_proxy=http://10.10.10.106:1080 --build-arg https_proxy=http://10.10.10.106:1080
 docker build -t='th9976/ubu1804:1.0' -f ubu1804/Dockerfile ./ubu1804 
-docker build -t='th9976/ubu1604:1.0' -f ubu1604/Dockerfile ./ubu1604
+docker build -t='th9976/ubu2004' -f ubu2004/Dockerfile ./ubu2004
 docker build -t='th9976/docker:1.0' -f docker/Dockerfile ./docker
 
 docker build -t='th9976/hadoop' -f hadoop/Dockerfile ./hadoop 

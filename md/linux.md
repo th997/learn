@@ -23,7 +23,7 @@ sync
 ## 备份
 rsync -a bin /usr/local/mongodb	 
 
-rsync --progress -ar ~/Downloads /Volumes/f/download
+rsync -aP ~/Downloads /Volumes/f/download
 
 ## 查看当前文件夹下个文件大小等信息
 ls -hl
@@ -209,8 +209,8 @@ lsof -n | grep 27650 | wc -l
 vi /etc/security/limits.conf
 
 # End of file
-* soft nofile 365535
-* hard nofile 365535
+* soft nofile 1000000
+* hard nofile 1000000
 ```
 
 ## ping 127.0.0.1 不通

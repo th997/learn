@@ -17,6 +17,17 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.3</version>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>com.google.code.gson</groupId>-->
         <!--            <artifactId>gson</artifactId>-->

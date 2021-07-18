@@ -4,13 +4,36 @@ services:
     image: grafana/grafana
     container_name: grafana
     user: root
-    command: server
     ports:
-      - "3000:3000"
+      - "53000:3000"
     environment:
-      - GF_INSTALL_PLUGINS=vertamedia-clickhouse-datasource  
+      - https_proxy=10.10.10.106:1080
+      - GF_INSTALL_PLUGINS=vertamedia-clickhouse-datasource,grafana-piechart-panel 
     volumes:
-      #- ./config:/etc/grafana
-      - ./data:/var/lib/grafana
-      - ./log:/var/log/grafana      
+      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - /data/grafana/data:/var/lib/grafana
+      - /data/grafana/log:/var/log/grafana
     restart: always
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "59090:9090"
+    restart: always   
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter
+    container_name: blackbox-exporter
+    ports:
+      - "59115:9115"
+    restart: always   
+
+  # node-exporter:
+  #   image: prom/node-exporter
+  #   container_name: node-exporter
+  #   ports:
+  #     - "59100:9100"
+  #   restart: always    
