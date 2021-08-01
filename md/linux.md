@@ -313,3 +313,7 @@ nc -l 3307 < response.hcy
 top
 top -H -p 16759 (进程id)
 strace -cp 16790 (线程id)
+
+## 磁盘io分析
+watch -n 1 -d "iostat -dkx | sort -r -k 14"
+pidstat -d 1

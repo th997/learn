@@ -40,6 +40,31 @@ DEFAULT_FORWARD_POLICY="ACCEPT"
 systemctl restart ufw.service
 
 ```
+## kvm 桥接网络1
+```
+cd /etc/netplan/
+cp 01-network-manager-all.yaml 01-network-manager-all.yaml.bak
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s31f6:
+      dhcp4: false
+      dhcp6: false
+  bridges:
+    kvm_br:
+      interfaces: [enp0s31f6]
+      parameters:
+        stp: false
+        forward-delay: 0
+      dhcp4: true
+      dhcp6: true
+
+sudo netplan apply      
+
+https://devtutorial.io/how-to-setup-bridged-networking-for-kvm-in-ubuntu-20-04.html
+```
 
 ## 安装系统
 ```

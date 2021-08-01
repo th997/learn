@@ -8,7 +8,7 @@ services:
        - "28123:8123"
        - "29004:9004"
      volumes:
-       - /data/ck/ck_data1:/var/lib/clickhouse
+       - /d/docker/ck/ck_data1:/var/lib/clickhouse
        - ./config/:/etc/clickhouse-server/
        - ./node01/:/clickhouse-server/metrika/
      networks:
@@ -22,7 +22,7 @@ services:
        - "38123:8123"
        - "39004:9004"
      volumes:
-       - /data/ck/ck_data2:/var/lib/clickhouse
+       - /d/docker/ck/ck_data2:/var/lib/clickhouse
        - ./config/:/etc/clickhouse-server/
        - ./node02/:/clickhouse-server/metrika/
      networks:

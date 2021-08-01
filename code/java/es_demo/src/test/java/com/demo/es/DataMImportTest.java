@@ -2,11 +2,15 @@ package com.demo.es;
 
 import com.demo.es.entity.User;
 import com.demo.es.repository.UserMRepository;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoIterable;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -18,12 +22,17 @@ import java.util.List;
 public class DataMImportTest {
     @Autowired
     UserMRepository userMRepository;
+    @Autowired
+    MongoClient mongoClient;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Test
     void testInsert() throws Exception {
+        System.out.println(mongoClient.listDatabaseNames().first());
+        MongoCollection userTable = mongoClient.getDatabase("test").getCollection("user");
         // 导入2000w数据
-        String sql = "INSERT INTO w2000 (c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,c32,c33 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )";
-        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/home/th/Downloads/data/2000w"), "gbk"));
+        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/mnt/l/data/2000w"), "gbk"));
         List<User> users = new ArrayList<>();
         int count = 0;
         String line;
@@ -42,9 +51,10 @@ public class DataMImportTest {
             users.add(user);
             if (users.size() >= 10000) {
                 userMRepository.saveAll(users);
+                //mongoTemplate.insert(users,User.class);
                 users.clear();
                 long cost = System.currentTimeMillis() - start;
-                System.out.println("cost count=" + count + ",cost=" + cost);
+                System.out.println("count=" + count + ",cost=" + cost);
                 // break;
             }
         }

@@ -1,0 +1,88 @@
+version: "3"
+services:
+# 配置中心（mongodb3.4之后的版本需要两个config_server）
+  config01:
+    image: mongo
+    volumes:
+      - /d/docker/mongo/config01:/data/configdb
+      #- ./config/config01.conf:/etc/mongod.conf
+      - /d/docker/key/key.file:/etc/key.file
+    command: mongod --configsvr --replSet "rs_config_server" --bind_ip_all --keyFile "/etc/key.file" --auth 
+    restart: always
+
+  config02:
+    image: mongo
+    volumes:
+      - /d/docker/mongo/config02:/data/configdb
+      #- ./config/config02.conf:/etc/mongod.conf
+      - /d/docker/key/key.file:/etc/key.file
+    command: mongod --configsvr --replSet "rs_config_server"  --bind_ip_all --keyFile "/etc/key.file" --auth 
+    restart: always
+
+# 分片
+  shard01:
+    image: mongo
+    volumes:
+      - /d/docker/mongo/shard01:/data/db
+      #- ./config/shard01.conf:/etc/mongod.conf
+      - /d/docker/key/key.file:/etc/key.file
+    command: mongod --shardsvr --bind_ip_all --replSet "shard01"  --keyFile "/etc/key.file" --auth 
+    restart: always
+    depends_on:
+      - config01
+      - config02
+    ulimits:
+      nofile:
+        soft: 1000000
+        hard: 1000000
+
+  shard02:
+    image: mongo
+    volumes:
+      - /d/docker/mongo/shard02:/data/db
+      #- ./config/shard02.conf:/etc/mongod.conf
+      - /d/docker/key/key.file:/etc/key.file
+    command: mongod --shardsvr --bind_ip_all --replSet "shard01" --keyFile "/etc/key.file" --auth 
+    restart: always
+    depends_on:
+      - config01
+      - config02
+    ulimits:
+      nofile:
+        soft: 1000000
+        hard: 1000000
+
+  shard03:
+    image: mongo
+    volumes:
+      - /d/docker/mongo/shard03:/data/db
+      #- ./config/shard02.conf:/etc/mongod.conf
+      - /d/docker/key/key.file:/etc/key.file
+    command: mongod --shardsvr --bind_ip_all --replSet "shard01" --keyFile "/etc/key.file" --auth 
+    restart: always
+    depends_on:
+      - config01
+      - config02
+    ulimits:
+      nofile:
+        soft: 1000000
+        hard: 1000000        
+    
+# 路由节点mongos
+  mongos01:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      #- ./config/mongos01.conf:/etc/mongod.conf
+      - /d/docker/key/key.file:/etc/key.file
+    command: mongos --configdb rs_config_server/config01:27019,config02:27019 --bind_ip_all --keyFile "/etc/key.file" 
+    depends_on:
+      - shard01
+      - shard02
+      - shard03
+    restart: always
+    ulimits:
+      nofile:
+        soft: 1000000
+        hard: 1000000    
