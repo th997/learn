@@ -5,6 +5,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 @Document(indexName = "user")
 @Data
@@ -12,6 +13,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 public class User {
     @Id
     private String id;
+    @Indexed
     private String c1;
     private String c2;
     private String c3;

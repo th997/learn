@@ -1,6 +1,6 @@
 # server
 spring.profiles.active: dev
-server.port: 32001
+server.port: 32011
 server.http2.enabled: true
 server.undertow.worker-threads: 128
 server.shutdown: graceful

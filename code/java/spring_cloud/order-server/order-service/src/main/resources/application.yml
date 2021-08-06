@@ -1,11 +1,15 @@
 server.port: 32002
 spring.profiles.active: dev
 server.http2.enabled: true
-server.undertow.worker-threads: 128
+server.undertow.worker-threads: 200
 server.shutdown: graceful
 
 # endpoints
 # management.endpoints.web.exposure.include: *
+
+# json
+spring.jackson.default-property-inclusion: non_null
+spring.jackson.date-format: yyyy-MM-dd HH:mm:ss
 
 # eureka
 eureka.instance.prefer-ip-address: true
@@ -22,14 +26,23 @@ ribbon.MaxAutoRetries: 0     # 对当前实例的最大重试次数(请求服务
 ribbon.MaxAutoRetriesNextServer: 0     # 切换实例的最大重试次数(如果还失败就切换下
 
 # feign
+feign.httpclient.max-connections: 201
+feign.httpclient.max-connections-per-route: 51
+feign.client.config.default.connectTimeout: 1001
+feign.client.config.default.readTimeout: 5001
 feign.compression.request.enabled: true
 feign.compression.response.enabled: true
-feign.client.config.default.maxConnections: 200
-feign.client.config.default.loggerLevel: full
-feign.client.config.default.connectTimeout: 1000
-feign.client.config.default.readTimeout: 5000
-feign.okhttp.enabled: true
-feign.hystrix.enabled: false
+feign.compression.response.useGzipDecoder: true
+feign.compression.request.min-request-size: 1024
+feign.hystrix.enabled: true
+feign.circuitbreaker.enabled: true
 
-# hystrix
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
+# hystrix HystrixThreadPoolProperties.java https://zhuanlan.zhihu.com/p/161522189
+hystrix.command.default.execution.timeout.enabled: false
+hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests: 150
+#hystrix.command.default.execution.isolation.strategy: THREAD
+#hystrix.threadpool.default.allowMaximumSizeToDivergeFromCoreSize: true
+#hystrix.threadpool.default.coreSize: 50
+#hystrix.threadpool.default.maximumSize: 150
+

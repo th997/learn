@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService {
         userBean.setId(id);
         userBean.setName(name);
         log.info(userBean.toString());
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return userBean;
     }
 }
