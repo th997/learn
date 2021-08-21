@@ -421,3 +421,17 @@ vim /etc/samba/smb.conf
 ```
 smbpasswd -a test
 systemctl restart nmbd
+
+## ulimit 
+``` conf
+sudo vim /etc/systemd/user.conf
+sudo vim /etc/systemd/system.conf
+DefaultLimitNOFILE=1000000
+DefaultLimitNPROC=1000000
+
+sudo vim /etc/security/limits.conf
+* soft nofile 1000000
+* hard nofile 1000000
+* soft nproc 1000000
+* hard nproc 1000000
+```

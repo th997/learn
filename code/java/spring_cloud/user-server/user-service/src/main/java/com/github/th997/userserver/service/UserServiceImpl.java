@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBean getUser(String id) {
-        System.out.println(env.getProperty("test.name"));
+       // System.out.println(env.getProperty("test.name"));
 //        if (env instanceof StandardServletEnvironment) {
 //            StandardServletEnvironment envs = (StandardServletEnvironment) env;
 //            for (Map.Entry<String, Object> e : envs.getSystemEnvironment().entrySet()) {
@@ -56,12 +56,12 @@ public class UserServiceImpl implements UserService {
         UserBean userBean = new UserBean();
         userBean.setId(id);
         userBean.setName(name);
-        log.info(userBean.toString());
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+       // log.info(userBean.toString());
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return userBean;
     }
 }

@@ -7,13 +7,17 @@ net.ipv4.ip_forward = 1
 net.ipv6.conf.all.forwarding = 1
 # 表示进程（例如一个worker进程）可能同时打开的最大句柄数，直接限制最大并发连接数
 fs.file-max = 10240000
+fs.nr_open =  10240000
 # 三次握手建立阶段SYN请求队列的最大长度，默认是1024。设置大一些可以在繁忙时将来不及处理的请求放入队列，而不至于丢失客户端的请求 
-net.ipv4.tcp_max_syn_backlog = 10240
-
-```
+net.ipv4.tcp_max_syn_backlog = 102400
+# 避免大量TIME_WAIT
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_fin_timeout = 30
+# mtu探测
+net.ipv4.tcp_mtu_probing = 1
 
 # https://juejin.cn/post/6861560765200105486
-```conf
 net.ipv4.ip_local_port_range = 1024 65535
 net.ipv4.tcp_mem = 786432 2097152 3145728
 net.ipv4.tcp_wmem = 4096 4096 16777216
@@ -21,8 +25,6 @@ net.ipv4.tcp_rmem = 4096 4096 16777216
 net.ipv4.tcp_keepalive_time = 1800
 net.ipv4.tcp_keepalive_intvl = 20
 net.ipv4.tcp_keepalive_probes = 5
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_fin_timeout = 30
 ```
 
 ## 常用参数 需验证后使用

@@ -11,6 +11,6 @@ import javax.ws.rs.POST;
 @RequestMapping("/order/")
 public interface OrderService {
 
-    @PostMapping("getUser/{id}")
+    @GetMapping("getUser/{id}")
     UserBean getUser(@PathVariable("id") String id);
 }
