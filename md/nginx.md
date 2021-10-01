@@ -41,8 +41,7 @@ openssl req -new -x509 -key server.key -out server.pem -days 3650
 openssl x509 -in server.pem -inform pem -outform der -out server.crt
 
 server {
-    listen 443;
-    ssl on;
+    listen 443 ssl;
     ssl_certificate  /usr/local/nginx/conf/server.crt;
     ssl_certificate_key  /usr/local/nginx/conf/server_nopwd.key;
 }
