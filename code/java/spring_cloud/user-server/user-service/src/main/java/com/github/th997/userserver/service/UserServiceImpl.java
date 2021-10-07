@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.support.StandardServletEnvironment;
 
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 @RestController
 public class UserServiceImpl implements UserService {
+
 
 //    @ApolloConfig
 //    private Config config;
@@ -31,6 +31,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserBean user2;
+    @Autowired
+    private UserBean userx1;
+
+    @Autowired
+    private List<UserBean> userList;
+
+    @Autowired
+    private List<UserBean> userBeanList;
 
     @Autowired
     private Environment env;
