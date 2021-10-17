@@ -1,0 +1,34 @@
+schemaName: datatest
+
+dataSources:
+  ds_0:
+    url: jdbc:mysql://localhost:29004/datatest?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: test
+    password: 967f3bf3
+    connectionTimeoutMilliseconds: 30000
+    idleTimeoutMilliseconds: 60000
+    maxLifetimeMilliseconds: 1800000
+    maxPoolSize: 50
+  ds_1:
+    url: jdbc:mysql://localhost:39004/datatest?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: test
+    password: 967f3bf3
+    connectionTimeoutMilliseconds: 30000
+    idleTimeoutMilliseconds: 60000
+    maxLifetimeMilliseconds: 1800000
+    maxPoolSize: 50
+
+shardingRule:  
+  tables:
+    w2000: 
+      actualDataNodes: ds_${0..1}.w2000
+      databaseStrategy:
+        inline:
+          shardingColumn: id
+          algorithmExpression: ds_${id % 2}
+      keyGeneratorColumnName: id
+  bindingTables:
+    - w2000
+  defaultTableStrategy:
+    none:
+  defaultKeyGeneratorClassName: io.shardingsphere.core.keygen.DefaultKeyGenerator

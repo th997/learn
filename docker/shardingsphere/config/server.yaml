@@ -1,0 +1,4 @@
+rules:
+ - !AUTHORITY
+   users:
+     - root@%:root

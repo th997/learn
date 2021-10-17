@@ -1,12 +1,12 @@
 package com.demo.zk;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ZkTest1 {
@@ -24,11 +24,12 @@ public class ZkTest1 {
             synchronized (this) {
                 if (zk == null) {
                     try {
-                        zk = new ZooKeeper(connectString, sessionTimeout, new Watcher() {
+                        Watcher watcher = new Watcher() {
                             public void process(WatchedEvent event) {
                                 System.out.println(event.toString());
                             }
-                        });
+                        };
+                        zk = new ZooKeeper(connectString, sessionTimeout, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -39,7 +40,7 @@ public class ZkTest1 {
         return zk;
     }
 
-    private void printAll(String path) throws KeeperException, InterruptedException {
+    public void printAll(String path) throws KeeperException, InterruptedException {
         byte[] data = this.getZk().getData(path, false, new Stat());
         System.out.println(path + "\t=\t" + new String(data));
         List<String> list = this.getZk().getChildren(path, false);
@@ -49,10 +50,60 @@ public class ZkTest1 {
         }
     }
 
+    public boolean lock(String lockPath) {
+        try {
+            getZk().create(lockPath, "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+            return true;
+        } catch (KeeperException e) {
+            // locked
+            e.printStackTrace();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean unlock(String lockPath) {
+        try {
+            getZk().delete(lockPath, -1);
+            return true;
+        } catch (KeeperException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean lock1(String lockPath) {
+        try {
+            String lock = getZk().create(lockPath, "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            List<String> locks = getZk().getChildren(lockPath, false);
+            Collections.sort(locks);
+            return lock.equals(locks.get(0));
+        } catch (KeeperException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        return false;
+    }
+
 
     public static void main(String[] args) throws Exception {
         ZkTest1 test = new ZkTest1();
+        // 打印所有节点
         test.printAll("/");
+        // 分布式锁
+        String lockPath = "/lock";
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 1000; i++) {
+            //System.out.println(test.unlock(lockPath));
+            System.out.println(test.lock1(lockPath));
+        }
+        System.out.println("lock time=" + (System.currentTimeMillis() - start));
+        test.printAll(lockPath);
+        //System.out.println(test.getZk().getChildren("/lock", false));
 
     }
 
