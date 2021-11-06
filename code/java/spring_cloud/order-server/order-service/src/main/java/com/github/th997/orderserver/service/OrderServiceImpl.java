@@ -17,4 +17,18 @@ public class OrderServiceImpl implements OrderService {
         UserBean userBean = userService.getUser(id);
         return userBean;
     }
+
+    @Override
+    public UserBean getUserTimeout(String id) {
+        long start = System.currentTimeMillis();
+        try {
+            UserBean userBean = userService.getUserTimeout(id);
+            return userBean;
+        } catch (Exception e) {
+            e.printStackTrace();
+            UserBean userBean = new UserBean();
+            userBean.setName("timeout=" + (System.currentTimeMillis() - start));
+            return userBean;
+        }
+    }
 }

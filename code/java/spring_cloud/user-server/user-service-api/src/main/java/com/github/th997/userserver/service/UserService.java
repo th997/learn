@@ -10,6 +10,9 @@ import java.util.concurrent.Callable;
 @RequestMapping("/user")
 public interface UserService {
 
+    @GetMapping("getUserTimeout/{id}")
+    UserBean getUserTimeout(@PathVariable("id") String id);
+
     @GetMapping("getUser/{id}")
     UserBean getUser(@PathVariable("id") String id);
 

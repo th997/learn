@@ -26,7 +26,7 @@ jupyter notebook password
 docker restart tensorflow
 
 ## install on conda
-https://www.anaconda.com/distribution/#download-section
+https://www.anaconda.com/distrsibution/#download-section
 
 download https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
 ```

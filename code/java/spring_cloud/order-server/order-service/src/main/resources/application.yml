@@ -19,9 +19,9 @@ eureka.client.serviceUrl.defaultZone: http://discovery-server-0.discovery-server
 eureka.client.registry-fetch-interval-seconds: 5
 
 # ribbon
-ribbon.ReadTimeout: 5002
+#ribbon.ReadTimeout: 3000 # 无效
+#ribbon.ConnectTimeout: 3000
 ribbon.ServerListRefreshInterval: 5
-ribbon.ConnectTimeout: 1002  #毫秒    连接超时时间
 ribbon.OkToRetryOnAllOperations: false    # 是否对所有操作都进行重试
 ribbon.MaxAutoRetries: 0     # 对当前实例的最大重试次数(请求服务超时6s则会再请求一次)
 ribbon.MaxAutoRetriesNextServer: 0     # 切换实例的最大重试次数(如果还失败就切换下
@@ -29,8 +29,9 @@ ribbon.MaxAutoRetriesNextServer: 0     # 切换实例的最大重试次数(如�
 # feign
 feign.httpclient.max-connections: 201
 feign.httpclient.max-connections-per-route: 101
-feign.client.config.default.connectTimeout: 1001
-feign.client.config.default.readTimeout: 5001
+feign.client.config.default.connectTimeout: 2000
+feign.client.config.default.readTimeout: 17000
+feign.client.config.time-test.readTimeout: 4000
 feign.compression.request.enabled: true
 feign.compression.response.enabled: true
 feign.compression.response.useGzipDecoder: true

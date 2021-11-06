@@ -111,7 +111,7 @@ def train():
     
     pool = ThreadPoolExecutor(20)
     q = queue.Queue(100)
-    train_num = 0
+    train_num = 101
 
     for i in range(train_num):
         pool.submit(lambda:q.put(get_next_batch()))

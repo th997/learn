@@ -13,19 +13,19 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestTemplateConfig {
 
-    @Value("${restTemplate.client.connectionRequestTimeout:3000}")
+    @Value("${restTemplate.client.connectionRequestTimeout:9000}")
     private int connectionRequestTimeout;
 
-    @Value("${restTemplate.client.connectTimeout:1000}")
+    @Value("${restTemplate.client.connectTimeout:3000}")
     private int connectTimeout;
 
-    @Value("${restTemplate.client.readTimeout:3000}")
+    @Value("${restTemplate.client.readTimeout:9000}")
     private int readTimeout;
 
-    @Value("${restTemplate.client.maxConnPerRoute:50}")
+    @Value("${restTemplate.client.maxConnPerRoute:150}")
     private int maxConnPerRoute;
 
-    @Value("${restTemplate.client.maxConnTotal:200}")
+    @Value("${restTemplate.client.maxConnTotal:500}")
     private int maxConnTotal;
 
     @Bean

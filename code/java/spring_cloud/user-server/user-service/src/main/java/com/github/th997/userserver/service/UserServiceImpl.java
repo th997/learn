@@ -50,6 +50,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserBean getUserTimeout(String id) {
+        UserBean userBean = new UserBean();
+        userBean.setId(id);
+        userBean.setName(name);
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return userBean;
+    }
+    @Override
     public UserBean getUser(String id) {
         // System.out.println(env.getProperty("test.name"));
 //        if (env instanceof StandardServletEnvironment) {

@@ -13,4 +13,7 @@ public interface OrderService {
 
     @GetMapping("getUser/{id}")
     UserBean getUser(@PathVariable("id") String id);
+
+    @GetMapping("getUserTimeout/{id}")
+    UserBean getUserTimeout(@PathVariable("id") String id);
 }
