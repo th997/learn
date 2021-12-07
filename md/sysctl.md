@@ -2,29 +2,41 @@
 ``` conf
 # 最大限度使用物理内存
 vm.swappiness = 0
-# 允许包转发
-net.ipv4.ip_forward = 1
-net.ipv6.conf.all.forwarding = 1
 # 表示进程（例如一个worker进程）可能同时打开的最大句柄数，直接限制最大并发连接数
 fs.file-max = 10240000
 fs.nr_open =  10240000
+# 允许包转发
+net.ipv4.ip_forward = 1
+net.ipv6.conf.all.forwarding = 1
 # 三次握手建立阶段SYN请求队列的最大长度，默认是1024。设置大一些可以在繁忙时将来不及处理的请求放入队列，而不至于丢失客户端的请求 
 net.ipv4.tcp_max_syn_backlog = 102400
-# 避免大量TIME_WAIT
+#系统所能处理不属于任何进程的TCP sockets最大数量
+net.ipv4.tcp_max_orphans = 131072
+#系统最大保持TIME_WAIT状态的连接数量
+net.ipv4.tcp_max_tw_buckets = 5000
+# 避免大量TIME_WAIT,防范少量SYN攻击
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_fin_timeout = 30
 # mtu探测
 net.ipv4.tcp_mtu_probing = 1
-
-# https://juejin.cn/post/6861560765200105486
+# 端口分配范围
 net.ipv4.ip_local_port_range = 1024 65535
-net.ipv4.tcp_mem = 786432 2097152 3145728
-net.ipv4.tcp_wmem = 4096 4096 16777216
+# https://juejin.cn/post/6861560765200105486
+net.ipv4.tcp_keepalive_time = 1800 # 最近一次数据包发送与第一次keep alive探测消息发送的事件间隔，用于确认TCP连接是否有效。
+net.ipv4.tcp_keepalive_intvl = 20 # 在未获得探测消息响应时，发送探测消息的时间间隔。
+net.ipv4.tcp_keepalive_probes = 5 # 判断TCP连接失效连续发送的探测消息个数，达到之后判定连接失效。
+# tcp缓存,支持百万连接 (1G 4G 16G:1page=4k),(4k,4k,16M)..  https://www.cnblogs.com/51core/articles/13683820.html
+net.ipv4.tcp_mem = 262144 2097152 4194304
 net.ipv4.tcp_rmem = 4096 4096 16777216
-net.ipv4.tcp_keepalive_time = 1800
-net.ipv4.tcp_keepalive_intvl = 20
-net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_wmem = 4096 4096 16777216
+# #内核级别参数 https://www.zybuluo.com/hadix/note/98389
+net.core.somaxconn = 2048 #系统中每个端口监听队列的最大长度
+net.core.rmem_default = 262144 
+net.core.wmem_default = 262144 #内核默认读写缓存字节数
+net.core.rmem_max = 16777216 #内核最大读写缓存字节数
+net.core.wmem_max = 16777216 
+net.core.netdev_max_backlog = 20000 # 在每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。
 ```
 
 ## 常用参数 需验证后使用

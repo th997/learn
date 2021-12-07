@@ -3,11 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.0</version>
+    </parent>
+
     <groupId>com.github.th997</groupId>
     <artifactId>mqtt_demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mqtt_demo</name>
-    <description>mqtt_demo</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -16,15 +21,50 @@
     </properties>
 
     <dependencies>
+        <!--smqtt依赖 -->
+        <dependency>
+            <groupId>io.github.quickmsg</groupId>
+            <artifactId>smqtt-core</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <!--集群依赖 -->
+        <dependency>
+            <artifactId>smqtt-registry-scube</artifactId>
+            <groupId>io.github.quickmsg</groupId>
+            <version>1.0.9</version>
+        </dependency>
+        <!--管理ui依赖 -->
+        <dependency>
+            <artifactId>smqtt-ui</artifactId>
+            <groupId>io.github.quickmsg</groupId>
+            <version>1.0.9</version>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.paho</groupId>
             <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
             <version>1.2.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
