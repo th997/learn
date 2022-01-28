@@ -47,6 +47,7 @@ cp 01-network-manager-all.yaml 01-network-manager-all.yaml.bak
 
 network:
   version: 2
+    #renderer: NetworkManager
   renderer: networkd
   ethernets:
     enp0s31f6:
@@ -58,7 +59,11 @@ network:
       parameters:
         stp: false
         forward-delay: 0
-      dhcp4: true
+      dhcp4: false
+      addresses: [10.10.10.106/24]
+      gateway4: 10.10.10.1
+      nameservers:
+        addresses: [10.10.10.1]
       dhcp6: true
 
 sudo netplan apply      

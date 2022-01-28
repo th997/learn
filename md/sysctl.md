@@ -37,6 +37,8 @@ net.core.wmem_default = 262144 #内核默认读写缓存字节数
 net.core.rmem_max = 16777216 #内核最大读写缓存字节数
 net.core.wmem_max = 16777216 
 net.core.netdev_max_backlog = 20000 # 在每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。
+# 链接数限制
+net.netfilter.nf_conntrack_max=10000000
 ```
 
 ## 常用参数 需验证后使用

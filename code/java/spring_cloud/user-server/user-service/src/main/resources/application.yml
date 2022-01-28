@@ -54,3 +54,11 @@ mqtt.producer.clientId: mqttProducer
 mqtt.producer.defaultTopic: topic1
 mqtt.consumer.clientId: mqttConsumer
 mqtt.consumer.defaultTopic: topic1
+
+hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests: 2
+hystrix.command.default.circuitBreaker.requestVolumeThreshold: 2
+hystrix.command.default.circuitBreaker.enabled: true
+hystrix.command.default.circuitBreaker.forceOpen: true
+
+#spring.main.allow-bean-definition-overriding: true

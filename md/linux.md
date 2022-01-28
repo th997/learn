@@ -317,3 +317,7 @@ strace -cp 16790 (线程id)
 ## 磁盘io分析
 watch -n 1 -d "iostat -dkx | sort -r -k 14"
 pidstat -d 1
+
+## 查看进程上下文切换次数
+vmstat 2 5
+pidstat -wt -p 1222839 2 2

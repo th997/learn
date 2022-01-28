@@ -91,8 +91,12 @@ SELECT * FROM system.table_engines;
 SELECT * FROM system.functions limit 100;
 -- 添加稀疏索引 (minmax,set,ngrambf_v1,tokenbf_v1)  https://www.colben.cn/post/ch-mergetree-theory/
 alter table default.test2_local add INDEX idx_website(website) TYPE minmax GRANULARITY 3;
-
+alter table default.test2_local add INDEX idx_website(website) TYPE ngrambf_v1(5,128,2,0) GRANULARITY 3;
+alter table default.test2_local add INDEX idx_website(website) TYPE tokenbf_v1(128,2,0) GRANULARITY 4;
 ```
+
+## 优化建议
+
 
 ## 同步mysql
 ```sql

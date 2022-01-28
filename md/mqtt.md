@@ -23,3 +23,13 @@
 ### 长度
 最多4字节,每字节的最高位表示是否继续,所有报文最大长度为 2^(32-4)-1=268435455=256M
 ### 报文主体
+
+## topic 
+"+" 单层匹配 , aaa/+  -> aaa/bbb , aaa/cccc
+"#" 多层匹配 , aaa/#  -> aaa/bbb , aaa/bbb/ccc
+"$" 此开头一般为服务端定制主题, 客户端不可创建, 可以订阅
+
+## role
+client: subscribe topic, publish message to server
+broker: exec send message 
+server: subscribe topic, publish message to client

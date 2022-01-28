@@ -156,9 +156,9 @@ sudo systemctl daemon-reload
 sudo systemctl restart snapd.service
 ```
 
-#＃ tweak配置
+#＃ dash-to-panel
 ```
-sudo apt install gnome-tweak-tool 
+https://extensions.gnome.org/ or
 sudo apt install gnome-shell-extension-dash-to-panel
 logout 
 ```
@@ -435,3 +435,7 @@ sudo vim /etc/security/limits.conf
 * soft nproc 1000000
 * hard nproc 1000000
 ```
+
+## 忽略某个更新
+apt-mark hold xxx
+apt-mark unhold xxx

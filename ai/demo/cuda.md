@@ -29,5 +29,3 @@ nvcc -V
 
 ## cudnn
 conda install cudnn cudatoolkit numba
-
-
