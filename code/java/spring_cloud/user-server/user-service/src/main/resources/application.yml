@@ -2,7 +2,7 @@
 spring.profiles.active: dev
 server.port: 32001
 server.http2.enabled: true
-server.undertow.worker-threads: 128
+server.undertow.threads.worker: 128
 server.shutdown: graceful
 
 # json
@@ -55,10 +55,22 @@ mqtt.producer.defaultTopic: topic1
 mqtt.consumer.clientId: mqttConsumer
 mqtt.consumer.defaultTopic: topic1
 
-hystrix.command.default.execution.isolation.strategy: SEMAPHORE
-hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests: 2
-hystrix.command.default.circuitBreaker.requestVolumeThreshold: 2
-hystrix.command.default.circuitBreaker.enabled: true
-hystrix.command.default.circuitBreaker.forceOpen: true
+# sentinel
+#spring.cloud.sentinel.transport.dashboard: localhost:8719
+#spring.cloud.sentinel.datasource.ds1.apollo.namespace-name: application
+#spring.cloud.sentinel.datasource.ds1.apollo.flow-rules-key: sentinel.flowRules
+#spring.cloud.sentinel.datasource.ds1.apollo.rule-type: flow
+#spring.cloud.sentinel.datasource.ds2.apollo.namespace-name: application
+#spring.cloud.sentinel.datasource.ds2.apollo.flow-rules-key: sentinel.systemRules
+#spring.cloud.sentinel.datasource.ds2.apollo.rule-type: system
+#spring.cloud.sentinel.log.dir: logs
+#sentinel.systemRules: [ { "qps": 10000 } ]
+#sentinel.flowRules: [ { "resource": "/xxx/xxx","count": 1000 } ]
+
+#hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+#hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests: 2
+#hystrix.command.default.circuitBreaker.requestVolumeThreshold: 2
+#hystrix.command.default.circuitBreaker.enabled: true
+#hystrix.command.default.circuitBreaker.forceOpen: true
 
 #spring.main.allow-bean-definition-overriding: true

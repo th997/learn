@@ -1,14 +1,11 @@
 package com.github.th997.userserver.service;
 
-import com.ctrip.framework.apollo.model.ConfigChangeEvent;
-import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
 import com.github.th997.userserver.service.bean.UserBean;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,9 +44,9 @@ public class UserServiceImpl implements UserService {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
-    @ApolloConfigChangeListener
-    private void onChangetest(ConfigChangeEvent changeEvent) {
-    }
+//    @ApolloConfigChangeListener
+//    private void onChangetest(ConfigChangeEvent changeEvent) {
+//    }
 
     @Override
     public UserBean getUserTimeout(String id) {

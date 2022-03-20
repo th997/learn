@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  smqtt1:
+    image: 1ssqq1lxr/smqtt
+    volumes:
+      - ./smqtt/config1:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.55
+        aliases:
+          - node1.emqx
+  smqtt2:
+    image: 1ssqq1lxr/smqtt
+    volumes:
+      - ./smqtt/config2:/config
+    networks:
+      default:
+        ipv4_address: 172.16.16.56
+        aliases:
+          - node2.emqx
+networks:
+  default:
+    external:
+      name: mynetwork

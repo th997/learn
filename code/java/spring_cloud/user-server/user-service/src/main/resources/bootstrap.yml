@@ -1,5 +1,17 @@
 spring.application.name: user-server
 
-apollo.bootstrap.enabled: true
-apollo.bootstrap.eagerLoad.enabled: true
-app.id: ${spring.application.name}
+spring.cloud.nacos.config.server-addr: 172.16.16.60:8848,172.16.16.61:8848,172.16.16.62:8848
+spring.cloud.nacos.discovery.server-addr: 172.16.16.60:8848,172.16.16.61:8848,172.16.16.62:8848
+
+# spring.cloud.nacos.config.namespace: 53e45d71-62ea-479d-b54f-96bf25d544bd
+
+spring.cloud.nacos.config.extension-configs[0].data-id: common.properties
+spring.cloud.nacos.config.extension-configs[0].refresh: true
+
+spring.cloud.nacos.config.extension-configs[1].data-id: ${spring.application.name}.properties
+spring.cloud.nacos.config.extension-configs[1].refresh: true
+
+#apollo.bootstrap.enabled: true
+#apollo.bootstrap.eagerLoad.enabled: true
+#app.id: ${spring.application.name}
+

@@ -321,3 +321,6 @@ pidstat -d 1
 ## 查看进程上下文切换次数
 vmstat 2 5
 pidstat -wt -p 1222839 2 2
+
+## 删除重复文件
+rdfind -deleteduplicates true -ignoreempty false ~/Downloads

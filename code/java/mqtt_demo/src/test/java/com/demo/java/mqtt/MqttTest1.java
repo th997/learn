@@ -8,8 +8,9 @@ public class MqttTest1 {
 
     public static void main(String[] args) throws MqttException {
         //String broker = "tcp://xxxx.mqtt.aliyuncs.com:1883";
-        String broker = "tcp://localhost:1883";
-        for (int i = 0; i < 1; i++) {
+        // String broker = "tcp://172.16.16.50:1883";
+        String broker = "ssl://th.tdhere.com:8883";
+        for (int i = 0; i < 10; i++) {
             String topic = "tip/topic" + i;
             String clientId = "GID_tip1" + i;
             // 阿里云例子 https://code.aliyun.com/aliware_mqtt/mqtt-demo/blob/master/lmq-java-demo/src/main/java/com/aliyun/openservices/lmq/example/demo/MQ4IoTSendMessageToMQ4IoTUseSignatureMode.java
@@ -31,10 +32,10 @@ public class MqttTest1 {
             // mqttClient.setManualAcks(false);
             mqttClient.connect(mqttConnectOptions);
             //　订阅消息　
-            mqttClient.subscribe(topic);
+            mqttClient.subscribe("$queue/tip/+");
             mqttClient.setCallback(new MqttCallback() {
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    String msg = String.format("messageArrived topic=%s,msgId=%s,qos=%s,content=%s", topic, message.getId(), message.getQos(), new String(message.getPayload()));
+                    String msg = String.format("messageArrived client=%s, topic=%s,msgId=%s,qos=%s,content=%s", mqttClient.getClientId(), topic, message.getId(), message.getQos(), new String(message.getPayload()));
                     System.out.println(msg);
                 }
 
@@ -48,7 +49,7 @@ public class MqttTest1 {
             });
 
             // 发送消息
-            for (int j = 0; j < 2; j++) {
+            for (int j = 0; j < 1; j++) {
                 String msg = "message-" + j;
                 MqttMessage message = new MqttMessage(msg.getBytes());
                 System.out.println("publish message " + msg);

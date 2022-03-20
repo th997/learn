@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  emqx1:
+    image: emqx/emqx
+    environment:
+      - "EMQX_NAME=emqx"
+      - "EMQX_HOST=node1.emqx"
+      - "EMQX_CLUSTER__DISCOVERY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=emqx@node1.emqx, emqx@node2.emqx"
+      #- "EMQX_LOG__TO=file"
+    #volumes:
+    #  - /d/docker/emqx/data1:/opt/emqx/data
+    healthcheck:
+      test: [ "CMD", "/opt/emqx/bin/emqx_ctl", "status" ]
+      interval: 5s
+      timeout: 25s
+      retries: 5
+    networks:
+      default:
+        ipv4_address: 172.16.16.50
+        aliases:
+          - node1.emqx
+  emqx2:
+    image: emqx/emqx
+    environment:
+      - "EMQX_NAME=emqx"
+      - "EMQX_HOST=node2.emqx"
+      - "EMQX_CLUSTER__DISCOVERY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=emqx@node1.emqx, emqx@node2.emqx"
+      #- "EMQX_LOG__TO=file"
+    #volumes:
+    #  - /d/docker/emqx/data2:/opt/emqx/data
+    healthcheck:
+      test: [ "CMD", "/opt/emqx/bin/emqx_ctl", "status" ]
+      interval: 5s
+      timeout: 25s
+      retries: 5
+    networks:
+      default:
+        ipv4_address: 172.16.16.51
+        aliases:
+          - node2.emqx
+networks:
+  default:
+    external:
+      name: mynetwork
+
