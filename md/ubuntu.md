@@ -439,3 +439,8 @@ sudo vim /etc/security/limits.conf
 ## 忽略某个更新
 apt-mark hold xxx
 apt-mark unhold xxx
+
+## pinyin输入法
+setting -> region & language -> manage installed languages # add chinese
+setting -> keyboard -> add chinese intelligent pinyin
+im-config # ibus

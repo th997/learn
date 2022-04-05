@@ -324,3 +324,8 @@ pidstat -wt -p 1222839 2 2
 
 ## 删除重复文件
 rdfind -deleteduplicates true -ignoreempty false ~/Downloads
+
+## 分区扩展
+fdisk /dev/xxx # 调整分区参数 
+e2fsck -f /dev/xxxn #检查分区信息
+resize2fs /dev/xxxn #调整分区大小
