@@ -30,6 +30,10 @@ public class StringTest {
 //        str[j] = str[i];
 //        str[i] = temp;
 //    }
+
+    public static void main(String[] args) {
+        System.out.println("a a3 b".matches("[a-zA-Z\\s]{1,64}"));
+    }
 }
 
 

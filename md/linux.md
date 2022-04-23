@@ -329,3 +329,6 @@ rdfind -deleteduplicates true -ignoreempty false ~/Downloads
 fdisk /dev/xxx # 调整分区参数 
 e2fsck -f /dev/xxxn #检查分区信息
 resize2fs /dev/xxxn #调整分区大小
+
+## 模拟tcp监听
+while true; do nc -l -p 8100 -q 1 < test.http; done

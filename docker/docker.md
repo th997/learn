@@ -170,4 +170,15 @@ brctl delbr docker0
 
 reboot now 
 
+## docker 启动hung问题处理
+https://blog.51cto.com/u_15162069/2873732
+```
+vim /etc/sysctl.conf
+fs.pipe-user-pages-soft=65536
+sysctl -p
 
+ps aux|grep "runc \in"
+cat /proc/进程id/fd/tab获取最大一个值
+如：
+cat /proc/420886/fd/8
+```

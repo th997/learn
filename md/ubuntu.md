@@ -114,16 +114,11 @@ gsettings set org.gnome.settings-daemon.peripherals.keyboard numlock-state 'on'
 ## 1804 点击最小化
 gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
 
-## dock
-```
-gsettings  range  org.gnome.shell.extensions.dash-to-dock transparency-mode
+## dash-to-panel
+https://extensions.gnome.org/extension/1160/dash-to-panel/
 
-gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
-gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode FIXED
-gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 28
-gsettings set org.gnome.shell.extensions.dash-to-dock unity-backlit-items true
-```
+## dconf-editor
+apt install dconf-editor
 
 ## 输入法
 https://blog.csdn.net/lupengCSDN/article/details/80279177
@@ -444,3 +439,8 @@ apt-mark unhold xxx
 setting -> region & language -> manage installed languages # add chinese
 setting -> keyboard -> add chinese intelligent pinyin
 im-config # ibus
+
+## idea 中文输入法
+-Drecreate.x11.input.method=true
+
+https://cloud.tencent.com/developer/article/1929886

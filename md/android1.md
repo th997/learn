@@ -43,15 +43,23 @@ adb -s  913151231ex shell
 # 显示所有应用信息
 adb shell pm list packages 
 # 显示系统应用信息
-adb shell pm list packages -s    
+adb shell pm list packages -s  
+# 显示已经禁用的 
+adb shell pm list packages -d  
+# 显示启用的系统包
+adb shell pm list packages -e -s
 # 显示第三方应用信息
 adb shell pm list packages -3   
 # 查看应用信息
 adb shell dumpsys package [package_name] 
+# 输出包和包相关联的文件(安装路径)
+adb shell pm list packages -f
 # 查看指定进程名或者是进程 id 的内存信息
 adb shell dumpsys meminfo [package_name/pid] 
 查看指定包名应用的数据库存储信息(包括存储的sql语句)
 adb shell dumpsys dbinfo [package_name] 
+# 卸载应用
+pm uninstall --user 0  com.sohu.sohuvideo.emplayer
 
 ```
 

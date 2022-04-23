@@ -93,6 +93,8 @@ SELECT * FROM system.functions limit 100;
 alter table default.test2_local add INDEX idx_website(website) TYPE minmax GRANULARITY 3;
 alter table default.test2_local add INDEX idx_website(website) TYPE ngrambf_v1(5,128,2,0) GRANULARITY 3;
 alter table default.test2_local add INDEX idx_website(website) TYPE tokenbf_v1(128,2,0) GRANULARITY 4;
+-- 高阶函数格式化版本号
+arrayMap(x->toInt16OrZero(x),splitByChar('.',version))
 ```
 
 ## 优化建议
