@@ -332,3 +332,9 @@ resize2fs /dev/xxxn #调整分区大小
 
 ## 模拟tcp监听
 while true; do nc -l -p 8100 -q 1 < test.http; done
+
+## 磁盘分区备份
+partclone.ntfs -c -z 1024000000 -s /dev/xxx1 -x lz4 -o diskxxx.img.lz4 
+
+## 磁盘分区还原
+lz4 diskxxx.img.lz4 | partclone.ntfs -r -z 1024000000 -o /dev/xxx1

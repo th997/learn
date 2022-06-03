@@ -63,6 +63,22 @@ virt-install --virt-type=kvm --name ubu2004 --ram 2048 --vcpus=2 --os-variant=ub
 
 ```
 
+## windows共享剪贴板 
+https://dausruddin.com/how-to-enable-clipboard-and-folder-sharing-in-qemu-kvm-on-windows-guest/
+
+https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe 
+
+Or easier, shortened URL: https://cutt.ly/SROqBqZ
+
+## windows降低cpu使用
+virsh edit vm-name
+```xml
+  <clock offset="utc">
+    <timer name="hpet" present="yes"/>
+    <timer name="hypervclock" present="yes"/>
+  </clock>
+```
+
 ## cloud image
 
 vim init.yml

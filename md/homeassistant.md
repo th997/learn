@@ -2,7 +2,6 @@
 
 ## install
 ```sh
-docker pull ghcr.io/home-assistant/home-assistant
 docker pull linuxserver/homeassistant:version-2021.5.4
 docker pull homeassistant/home-assistant
 2021.2.3
