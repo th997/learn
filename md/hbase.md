@@ -2,6 +2,8 @@
 http://mirrors.hust.edu.cn/apache/hbase/stable/
 
 ## 配置
+https://hbase.apache.org/book.html#config.files
+
 vi conf/hbase-site.xml
 ```
 <configuration>

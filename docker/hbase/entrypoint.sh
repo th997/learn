@@ -27,6 +27,15 @@ if [ -n "$regionservers" ];then
     done
 fi
 
+if [ -n "$masters" ];then
+    IFS=,
+    ary=($masters)
+    echo "" > $HBASE_HOME/conf/backup-masters
+    for key in "${!ary[@]}"; 
+        do echo "${ary[$key]}" >> $HBASE_HOME/conf/backup-masters; 
+    done
+fi
+
 service ssh start
 
 if [ -n "$start" ];then

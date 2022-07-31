@@ -78,6 +78,16 @@ virsh edit vm-name
     <timer name="hypervclock" present="yes"/>
   </clock>
 ```
+## windows 激活
+```
+卸载密钥
+slmgr /upk
+安装密钥
+slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
+kms激活,kms服务器(openwrt支持)
+slmgr /skms 10.10.10.235
+slmgr /ato
+```
 
 ## cloud image
 

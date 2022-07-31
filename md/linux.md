@@ -25,6 +25,8 @@ rsync -a bin /usr/local/mongodb
 
 rsync -aP ~/Downloads /Volumes/f/download
 
+rsync -avzuP 增量同步 合并目录
+
 ## 查看当前文件夹下个文件大小等信息
 ls -hl
 
@@ -338,3 +340,9 @@ partclone.ntfs -c -z 1024000000 -s /dev/xxx1 -x lz4 -o diskxxx.img.lz4
 
 ## 磁盘分区还原
 lz4 diskxxx.img.lz4 | partclone.ntfs -r -z 1024000000 -o /dev/xxx1
+
+## 压缩加密 
+7z a  -p -mhe=on xxx.7z xxx
+
+## tar lz4
+tar -I lz4 -cvf xxx.tar.lz4 xxx

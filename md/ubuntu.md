@@ -12,9 +12,9 @@ sudo su -
 ## apt proxy
 sudo vim /etc/apt/apt.conf
 
-Acquire::https::proxy "http://10.10.10.106:1080/";
+Acquire::https::proxy "http://localhost:1080/";
 
-Acquire::http::proxy "http://10.10.10.106:1080/";
+Acquire::http::proxy "http://localhost:1080/";
 
 ## 更新源
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup

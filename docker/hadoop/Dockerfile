@@ -1,7 +1,7 @@
 FROM openjdk:8
 
 # ssh
-RUN apt-get update && apt-get install -y openssh-server net-tools vim && \
+RUN apt-get update && apt-get install -y openssh-server net-tools iputils-ping vim && \
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
@@ -17,7 +17,7 @@ ENV HADOOP_YARN_HOME=$HADOOP_HOME
 ENV HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
 ENV HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
 ENV PATH=$PATH:$JAVA_HOME/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
-ENV HADOOP_LOG_DIR=/home/data/logs/hadoop
+#ENV HADOOP_LOG_DIR=/home/data/logs/hadoop
 ENV USER=root
 ENV HDFS_NAMENODE_USER=root
 ENV HDFS_DATANODE_USER=root
@@ -29,12 +29,12 @@ ENV YARN_RESOURCEMANAGER_USER=root
 
 # data dir
 RUN mkdir -p /home/data/hdfs/namenode && \ 
-    mkdir -p /home/data/hdfs/datanode && \
-    mkdir -p $HADOOP_LOG_DIR 
+    mkdir -p /home/data/hdfs/datanode
+    #mkdir -p $HADOOP_LOG_DIR 
 
 # add file
-ADD hadoop-3.2.2.tar.gz /usr/local/
-RUN ln -s /usr/local/hadoop-3.2.2 $HADOOP_HOME && \
+ADD hadoop-3.2.4.tar.gz /usr/local/
+RUN ln -s /usr/local/hadoop-3.2.4 $HADOOP_HOME && \
 echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
 echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_HOME/etc/hadoop/yarn-env.sh
 COPY /config/*.xml $HADOOP_HOME/etc/hadoop/

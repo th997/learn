@@ -43,8 +43,8 @@ public class HbaseDemoApplicationTests {
     org.apache.hadoop.conf.Configuration configuration;
     @Autowired
     HbaseService hbaseService;
-    @Autowired
-    HbaseThriftService hbaseThriftService;
+//    @Autowired
+//    HbaseThriftService hbaseThriftService;
 
     @Test
     public void testConfig() {

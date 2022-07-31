@@ -25,6 +25,27 @@ public class HbaseService {
     @Autowired
     private Connection connection;
 
+    public boolean createTable(String tableName, List<String> columnFamily, byte[] startKey, byte[] endKey, int numRegions) {
+        try (Admin admin = connection.getAdmin()) {
+            List<ColumnFamilyDescriptor> familyDescriptors = new ArrayList<>(columnFamily.size());
+            columnFamily.forEach(
+                    cf -> familyDescriptors.add(ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes(cf)).build()));
+            TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(TableName.valueOf(tableName))
+                    .setColumnFamilies(familyDescriptors).build();
+
+            if (admin.tableExists(TableName.valueOf(tableName))) {
+                LOG.info("table Exists!");
+            } else {
+                admin.createTable(tableDescriptor, startKey, endKey, numRegions);
+                LOG.info("create table Success !");
+            }
+        } catch (IOException e) {
+            LOG.error("create table error,tableName={}", tableName, e);
+            return false;
+        }
+        return true;
+    }
+
     public boolean createTable(String tableName, List<String> columnFamily, byte[][] splitKeys) {
         try (Admin admin = connection.getAdmin()) {
             List<ColumnFamilyDescriptor> familyDescriptors = new ArrayList<>(columnFamily.size());
@@ -70,6 +91,10 @@ public class HbaseService {
         return splitKeys;
     }
 
+    public Admin getAdmin() throws IOException {
+        return connection.getAdmin();
+    }
+
     public List<String> getAllTableNames() {
         List<String> result = new ArrayList<>();
         try (Admin admin = connection.getAdmin()) {
@@ -108,7 +133,7 @@ public class HbaseService {
      * @return Table
      * @throws IOException IOException
      */
-    private Table getTable(String tableName) throws IOException {
+    public Table getTable(String tableName) throws IOException {
         return connection.getTable(TableName.valueOf(tableName));
     }
 

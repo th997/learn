@@ -3,11 +3,12 @@ FROM th9976/hadoop
 # env
 ENV HBASE_HOME=/usr/local/hbase
 ENV HBASE_CONF_DIR=/usr/local/hbase/conf
+#ENV HBASE_LOG_DIR=/home/data/logs/hbase
 ENV PATH=$PATH:/usr/local/hbase/bin
 
 # add file
-ADD hbase-2.4.2-bin.tar.gz  /usr/local/
-RUN ln -s /usr/local/hbase-2.4.2 $HBASE_HOME && \
+ADD hbase-2.3.7-bin.tar.gz  /usr/local/
+RUN ln -s /usr/local/hbase-2.3.7 $HBASE_HOME && \
     echo "export JAVA_HOME=$JAVA_HOME" >> $HBASE_HOME/conf/hbase-env.sh && \
     echo "export HADOOP_HOME=$HADOOP_HOME" >> $HBASE_HOME/conf/hbase-env.sh && \
     echo "export HBASE_MANAGES_ZK=false" >> $HBASE_HOME/conf/hbase-env.sh && \

@@ -1,11 +1,11 @@
 hbase:
 # hbase java client config
   prop:
-    hbase.zookeeper.quorum: 172.16.16.21
-    hbase.zookeeper.property.clientPort: 2181
+    hbase.zookeeper.quorum: 172.16.16.21,172.16.16.22,172.16.16.23
+    #hbase.zookeeper.property.clientPort: 2181
     zookeeper.znode.parent: /hbase1
     hbase.hconnection.threads.max: 10
-# hbase thrift client config   
+# hbase thrift client config
   thriftHost: 127.0.0.1
   thriftPort: 9090
   thriftSocketTimeout: 3000

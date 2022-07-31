@@ -13,6 +13,7 @@ services:
        #slaves: hadoop2,hadoop3 # hadoop 2
        workers: hadoop1,hadoop2,hadoop3 # hadoop 3
        regionservers: hadoop1,hadoop2,hadoop3
+       masters: hadoop1,hadoop2,hadoop3
        start: start-dfs.sh && start-yarn.sh && start-hbase.sh
      depends_on:
        - hadoop2
@@ -28,12 +29,13 @@ services:
        - "16020:16020" # 客户端接入
        - "16030:16030" # 节点监控
      tty: true
-     stdin_open: true
      volumes:
-       - data1:/home/data
+       - /d/docker/hadoop/data1:/home/data
+       - /d/docker/hadoop/data1/logs/hbase:/usr/local/hbase/logs
+       - /d/docker/hadoop/data1/logs/hadoop:/usr/local/hadoop/logs
      networks:
        default:
-         ipv4_address: 172.16.16.61
+         ipv4_address: 172.16.16.70
    
    hadoop2:
      image: th9976/hbase
@@ -42,14 +44,18 @@ services:
      deploy:
        mode: global
      environment:
+       workers: hadoop1,hadoop2,hadoop3
        regionservers: hadoop1,hadoop2,hadoop3
+       masters: hadoop1,hadoop2,hadoop3
      tty: true  
      stdin_open: true
      volumes:
-       - data2:/home/data
+       - /d/docker/hadoop/data2:/home/data
+       - /d/docker/hadoop/data2/logs/hbase:/usr/local/hbase/logs
+       - /d/docker/hadoop/data2/logs/hadoop:/usr/local/hadoop/logs
      networks:
        default:
-         ipv4_address: 172.16.16.62
+         ipv4_address: 172.16.16.71
          
    hadoop3:
     image: th9976/hbase
@@ -58,19 +64,18 @@ services:
     deploy:
       mode: global
     environment:
+      workers: hadoop1,hadoop2,hadoop3
       regionservers: hadoop1,hadoop2,hadoop3
+      masters: hadoop1,hadoop2,hadoop3
     tty: true
     stdin_open: true
     volumes:
-      - data3:/home/data
+      - /d/docker/hadoop/data3:/home/data
+      - /d/docker/hadoop/data3/logs/hbase:/usr/local/hbase/logs
+      - /d/docker/hadoop/data3/logs/hadoop:/usr/local/hadoop/logs
     networks:
       default:
-        ipv4_address: 172.16.16.63
-
-volumes:
-  data1:
-  data2:
-  data3:
+        ipv4_address: 172.16.16.72
 
 # 引用已经存在网络
 # docker network create --subnet=172.16.16.0/24 mynetwork

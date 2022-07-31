@@ -23,9 +23,9 @@
 </property>
 
 <!--用本机host代替,不用dns解析地址-->
-<property>
+<!-- <property>
     <name>hbase.unsafe.regionserver.hostname.disable.master.reversedns</name>
     <value>true</value>
-</property>
+</property> -->
 
 </configuration>
