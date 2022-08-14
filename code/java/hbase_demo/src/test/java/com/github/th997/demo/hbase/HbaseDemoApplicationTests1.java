@@ -28,6 +28,13 @@ public class HbaseDemoApplicationTests1 {
     String family = "cf";
 
     @Test
+    public void testFlush() throws Exception {
+        try (Admin admin = hbaseService.getAdmin()) {
+            admin.flush(TableName.valueOf("user1"));
+        }
+    }
+
+    @Test
     public void testCreateTable() throws Exception {
         try (Admin admin = hbaseService.getAdmin()) {
             TableName table = TableName.valueOf(tableName);

@@ -7,7 +7,8 @@
             <!-- Use cache of uncompressed blocks of data. Meaningful only for processing many of very short queries. -->
             <use_uncompressed_cache>0</use_uncompressed_cache>
 	    <load_balancing>random</load_balancing>
-	    <allow_experimental_database_materialize_mysql>1</allow_experimental_database_materialize_mysql>
+	    <allow_experimental_database_materialized_mysql>1</allow_experimental_database_materialized_mysql>
+        <allow_experimental_database_materialized_postgresql>1</allow_experimental_database_materialized_postgresql>
         </default>
         <readonly>
             <readonly>1</readonly>

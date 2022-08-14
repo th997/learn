@@ -9,7 +9,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.io.compress.Compression;
+import org.apache.hadoop.hbase.regionserver.BloomType;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +62,37 @@ public class HbaseDemoApplicationTests {
         hbaseService.createTable("user1", Arrays.asList("a"), hbaseService.getSplitKeys(null));
         List<String> tables = hbaseService.getAllTableNames();
         System.out.println(tables);
+    }
+
+    @Test
+    public void testWrite1() throws Exception {
+        try (Admin admin = hbaseService.getAdmin()) {
+            String tableName = "user2";
+            TableName table = TableName.valueOf(tableName);
+            if (admin.tableExists(table)) {
+                admin.disableTable(table);
+                admin.deleteTable(table);
+            }
+            ColumnFamilyDescriptor columnFamilyDescriptor = ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes("cf"))
+                    .setCompressionType(Compression.Algorithm.LZ4)
+                    .build();
+            TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(TableName.valueOf(tableName))
+                    .setColumnFamilies(Arrays.asList(columnFamilyDescriptor))
+                    .build();
+            admin.createTable(tableDescriptor);
+            int len = 100;
+            for (int i = 0; i < 10000; i++) {
+                String[] columns = new String[len];
+                String[] values = new String[len];
+                for (int j = 0; j < len; j++) {
+                    columns[j] = "columnName" + j;
+                    values[j] = "v" + j;
+                }
+                hbaseService.putData(tableName, "rowKeyValue" + i, "cf", columns, values);
+            }
+            admin.flush(table);
+            System.out.println(hbaseService.getResultScanner(tableName));
+        }
     }
 
     @Test

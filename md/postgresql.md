@@ -1,18 +1,18 @@
-#postgresql
+# postgresql
 
-### quick start http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html
+## quick start http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html
 
-### 安装
+## 安装
 sudo apt-get install postgresql
 
-### 登录, postgres 为默认用户
+## 登录, postgres 为默认用户
 sudo su - postgres
 psql
 
-### 创建密码
+## 创建密码
 \password postgres
 
-### 远程访问
+## 远程访问
 ```
 vi pg_hba.conf
 host  all    all     0.0.0.0/0     md5
@@ -21,7 +21,7 @@ listen_addresses='*'
 /etc/init.d/postgresql restart
 ```
 
-### 创建用户,授权,登录
+## 创建用户,授权,登录
 ```
 sudo adduser dbuser
 CREATE USER dbuser WITH PASSWORD '123456';
@@ -30,7 +30,7 @@ GRANT ALL PRIVILEGES ON DATABASE mydb to dbuser;
 psql -U dbuser -d  mydb -h 127.0.0.1 -p 5432
 ```
 
-### 控制台命令
+## 控制台命令
 ```
 \h：查看SQL命令的解释，比如\h select。
 \?：查看psql命令列表。
@@ -42,4 +42,21 @@ psql -U dbuser -d  mydb -h 127.0.0.1 -p 5432
 \e：打开文本编辑器。
 \conninfo：列出当前数据库和连接的信息。
 ```
+
+## 建表
+```
+CREATE TABLE test (
+  id serial NOT NULL,
+  c1 varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id) 
+)
+``` 
+
+## 查看/修改设置
+select * from pg_settings
+
+update pg_settings set setting ='xx' where name='xx'
+
+## 查看连接
+select * from pg_stat_activity
 

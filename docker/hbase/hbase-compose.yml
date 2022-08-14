@@ -7,6 +7,7 @@ services:
      image: th9976/hbase
      container_name: hadoop1
      hostname: hadoop1
+     restart: always
      deploy:
        mode: global
      environment:
@@ -14,7 +15,7 @@ services:
        workers: hadoop1,hadoop2,hadoop3 # hadoop 3
        regionservers: hadoop1,hadoop2,hadoop3
        masters: hadoop1,hadoop2,hadoop3
-       start: start-dfs.sh && start-yarn.sh && start-hbase.sh
+       start: wait-for-it.sh hadoop2/hadoop3 & start-dfs.sh && start-yarn.sh && start-hbase.sh
      depends_on:
        - hadoop2
        - hadoop3
@@ -33,6 +34,7 @@ services:
        - /d/docker/hadoop/data1:/home/data
        - /d/docker/hadoop/data1/logs/hbase:/usr/local/hbase/logs
        - /d/docker/hadoop/data1/logs/hadoop:/usr/local/hadoop/logs
+       - ./wait-for-it.sh:/bin/wait-for-it.sh
      networks:
        default:
          ipv4_address: 172.16.16.70
@@ -41,6 +43,7 @@ services:
      image: th9976/hbase
      container_name: hadoop2
      hostname: hadoop2
+     restart: always
      deploy:
        mode: global
      environment:
@@ -61,6 +64,7 @@ services:
     image: th9976/hbase
     container_name: hadoop3
     hostname: hadoop3
+    restart: always
     deploy:
       mode: global
     environment:

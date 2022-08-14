@@ -1,0 +1,16 @@
+version: "3"
+services:
+   postgres:
+     image: postgres
+     container_name: postgres
+     ports: 
+       - "55432:5432"
+     volumes:
+       - /d/docker/nfs/postgres:/var/lib/postgresql/data
+       - ./config:/etc/postgresql
+     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+     restart: always
+     deploy:
+       mode: global
+     environment:
+       POSTGRES_PASSWORD: 123456

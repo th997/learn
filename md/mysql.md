@@ -368,3 +368,11 @@ change master to master_host='10.10.10.106' , master_user='root',master_password
 start slave;
 show slave status \G
 show master status;
+
+### 表压缩
+ALTER TABLE w2000 row_format = compressed  KEY_BLOCK_SIZE = 8
+optimize TABLE w2000;
+
+ALTER TABLE w2000 KEY_BLOCK_SIZE = 0
+ALTER TABLE w2000 row_format = dynamic ;
+

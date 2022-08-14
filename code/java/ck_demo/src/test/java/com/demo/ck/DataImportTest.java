@@ -2,6 +2,7 @@ package com.demo.ck;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.demo.ck.entity.User;
+import com.demo.ck.repository.UserRepository;
 import com.demo.ck.repository.UserTkRepository;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -19,15 +20,16 @@ import java.util.List;
 @SpringBootTest
 public class DataImportTest {
     @Autowired
-    UserTkRepository userRepository;
+    UserRepository userRepository;
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Test
     void testInsert() throws Exception {
         // 导入2000w数据
+        DynamicDataSourceContextHolder.push("mysql");
         String sql = "INSERT INTO w2000 (c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,c32,c33 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )";
-        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/home/th/Downloads/data/2000w"), "gbk"));
+        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/mnt/f/data/2000w"), "gbk"));
         List<User> users = new ArrayList<>();
         List<Object[]> argList = new ArrayList<>();
         int count = 0;
@@ -57,7 +59,7 @@ public class DataImportTest {
             }
         }
         if (users.size() > 0) {
-            userRepository.insertList(users);
+            //userRepository.insertList(users);
         }
     }
 }
