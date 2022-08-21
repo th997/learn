@@ -121,3 +121,5 @@ enable 'user'
 https://cloud.tencent.com/developer/article/1539797
 
 
+## HBase Filter
+http://openinx.github.io/2019/07/02/blog-for-filter-list/

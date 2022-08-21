@@ -60,3 +60,15 @@ update pg_settings set setting ='xx' where name='xx'
 ## 查看连接
 select * from pg_stat_activity
 
+## 索引
+https://zhuanlan.zhihu.com/p/457860359
+
+https://developer.aliyun.com/article/111793#slide-11
+
+```sql
+drop INDEX w2000_c5_idx
+CREATE INDEX w2000_c5_idx ON public.w2000 (c5); // 支持 = > <
+CREATE INDEX w2000_c5_idx ON public.w2000 (c5 collate "C"); -- 支持 like 'xxx%'
+CREATE EXTENSION pg_trgm;
+CREATE INDEX w2000_c5_idx ON public.w2000 USING gin (c5 gin_trgm_ops); -- 支持全文搜索
+```

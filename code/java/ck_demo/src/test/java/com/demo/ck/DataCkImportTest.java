@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,13 +20,22 @@ import java.util.List;
 public class DataCkImportTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
+//    @Autowired
+//    DataSourceTransactionManager dataSourceTransactionManager;
+//    @Autowired
+//    TransactionDefinition transactionDefinition;
+
+    @Test
+    void testInsert1() throws Exception {
+        System.out.println(System.getProperty("file.encoding"));
+    }
 
     @Test
     void testInsert() throws Exception {
         // 导入2000w数据
-        DynamicDataSourceContextHolder.push("ck");
+        DynamicDataSourceContextHolder.push("postgres");
         String sql = "INSERT INTO w2000 (c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,c32,c33 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )";
-        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/home/th/Downloads/data/2000w"), "gbk"));
+        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/mnt/f/data/2000w"), "gbk"));
         List<Object[]> argList = new ArrayList<>();
         int count = 0;
         String line;
@@ -35,8 +47,10 @@ public class DataCkImportTest {
             }
             count++;
             argList.add(ss);
-            if (argList.size() >= 100000) {
+            if (argList.size() >= 50000) {
+               // TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
                 jdbcTemplate.batchUpdate(sql, argList);
+              //  dataSourceTransactionManager.commit(transactionStatus);
                 argList.clear();
                 long cost = System.currentTimeMillis() - start;
                 System.out.println("cost count=" + count + ",cost=" + cost);
