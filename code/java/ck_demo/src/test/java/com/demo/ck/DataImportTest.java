@@ -2,14 +2,12 @@ package com.demo.ck;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.demo.ck.entity.User;
-import com.demo.ck.repository.UserRepository;
 import com.demo.ck.repository.UserTkRepository;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -19,10 +17,9 @@ import java.util.List;
 
 @SpringBootTest
 public class DataImportTest {
+
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    private UserTkRepository userRepository;
 
     @Test
     void testInsert() throws Exception {
@@ -49,8 +46,8 @@ public class DataImportTest {
             users.add(user);
             argList.add(ss);
             if (users.size() >= 10000) {
-                jdbcTemplate.batchUpdate(sql, argList); // 比insertList快了3倍,需要參數: rewriteBatchedStatements=true
-                //userRepository.insertList(users);
+                //jdbcTemplate.batchUpdate(sql, argList); // 比insertList快了3倍,需要參數: rewriteBatchedStatements=true
+                userRepository.insertList(users);
                 users.clear();
                 argList.clear();
                 long cost = System.currentTimeMillis() - start;
@@ -59,7 +56,7 @@ public class DataImportTest {
             }
         }
         if (users.size() > 0) {
-            //userRepository.insertList(users);
+            userRepository.insertList(users);
         }
     }
 }

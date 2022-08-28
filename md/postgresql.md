@@ -57,6 +57,9 @@ select * from pg_settings
 
 update pg_settings set setting ='xx' where name='xx'
 
+## 查看扩展
+select * from pg_catalog.pg_available_extensions
+
 ## 查看连接
 select * from pg_stat_activity
 
@@ -65,10 +68,12 @@ https://zhuanlan.zhihu.com/p/457860359
 
 https://developer.aliyun.com/article/111793#slide-11
 
+https://www.postgresql.org/docs/current/indexes-types.html
+
 ```sql
 drop INDEX w2000_c5_idx
-CREATE INDEX w2000_c5_idx ON public.w2000 (c5); // 支持 = > <
+CREATE INDEX concurrently w2000_c5_idx ON public.w2000 (c5);-- concurrently避免锁表 支持 <   <=   =   >=   >
 CREATE INDEX w2000_c5_idx ON public.w2000 (c5 collate "C"); -- 支持 like 'xxx%'
 CREATE EXTENSION pg_trgm;
-CREATE INDEX w2000_c5_idx ON public.w2000 USING gin (c5 gin_trgm_ops); -- 支持全文搜索
+CREATE INDEX w2000_c8_idx ON public.w2000 USING gin (c1,c8 gin_trgm_ops); -- 支持全文搜索?
 ```
