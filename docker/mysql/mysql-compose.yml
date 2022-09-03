@@ -20,11 +20,11 @@ services:
        MYSQL_USER: test
        MYSQL_PASSWORD: mysql_666888
 
-   adminer:
-    image: adminer
-    container_name: mysql_admin
-    restart: always
-    ports:
-      - 53308:8080    
+  #  adminer:
+  #   image: adminer
+  #   container_name: mysql_admin
+  #   restart: always
+  #   ports:
+  #     - 53308:8080    
 # volumes:
 #   db_data:

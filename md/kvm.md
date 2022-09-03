@@ -24,6 +24,7 @@ qemu-img convert -c -O qcow2 test1.qcow2 test2.qcow2
 qemu-img resize t.qcow2 +1G
 
 ## kvm 桥接网络
+netplan (sudo apt install netplan.io)
 
 ```
 cd /etc/netplan/
@@ -46,10 +47,13 @@ network:
         - to: 0.0.0.0/0
           via: 10.10.10.1
       nameservers:
-        addresses: [10.10.10.1]
+        addresses: [127.0.0.1]
       dhcp6: true
 
-sudo netplan apply      
+sudo netplan apply   
+
+systemctl disable NetworkManager
+systemctl restart systemd-networkd
 
 https://devtutorial.io/how-to-setup-bridged-networking-for-kvm-in-ubuntu-20-04.html
 ```

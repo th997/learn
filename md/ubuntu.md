@@ -133,10 +133,11 @@ remmina
 
 ## vncserver
 ```
-https://www.realvnc.com/download/file/vnc.files/VNC-Server-6.4.1-Linux-x64.deb
+https://downloads.realvnc.com/download/file/vnc.files/VNC-Server-6.10.1-Linux-x64.deb
 https://blog.51cto.com/dgd2010/711213
 sudo vnclicense -add ANN2U-FM59S-DAGV4-4TK96-BDTKA
-vncserver
+systemctl enable vncserver-x11-serviced.service
+systemctl restart vncserver-x11-serviced.service
 ```
 
 ## snap
@@ -444,3 +445,29 @@ im-config # ibus
 -Drecreate.x11.input.method=true
 
 https://cloud.tencent.com/developer/article/1929886
+
+
+## boot tool
+```
+# 查看分区
+bootctl
+efibootmgr
+
+# 删除启动项
+efibootmgr -b 0013 -B
+
+# 增加启动项
+efibootmgr -c -w -L "ubu2204" -d /dev/nvme0n1  -p 1 -l \\EFI\\UBUNTU\\SHIMX64.EFI
+efibootmgr -c -w -L "win10" -d /dev/sdb  -p 1 -l \\EFI\\Microsoft\\Boot\\bootmgfw.efi
+
+# 修复分区
+ll /dev/disk/by-uuid/
+vim boot/efi/EFI/ubuntu/grub.cfg # uuid设置系统所在分区
+
+# ubuntu 分区一键修复
+add-apt-repository ppa:yannubuntu/boot-repair
+apt update
+apt install boot-repair boot-sav
+boot-repair 
+```
+
