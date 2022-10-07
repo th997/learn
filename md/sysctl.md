@@ -39,6 +39,30 @@ net.core.wmem_max = 16777216
 net.core.netdev_max_backlog = 20000 # 在每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目。
 # 链接数限制
 net.netfilter.nf_conntrack_max=10000000
+# bbr 5.4内核+ (lsmod | grep bbr)
+net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+```
+
+## server
+``` conf
+vm.swappiness = 0
+net.ipv4.ip_forward = 1
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_mem = 262144 2097152 4194304
+net.ipv4.tcp_rmem = 4096 4096 16777216
+net.ipv4.tcp_wmem = 4096 4096 16777216
+
+net.core.somaxconn = 2048 
+net.core.rmem_default = 262144
+net.core.wmem_default = 262144 
+net.core.rmem_max = 16777216 
+net.core.wmem_max = 16777216
+net.core.netdev_max_backlog = 20000
+
+# bbr 5.4内核+
+net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
 ```
 
 ## 常用参数 需验证后使用

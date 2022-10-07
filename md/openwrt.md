@@ -42,5 +42,8 @@ opkg update
 opkg install luci-app-passwall	--force-depends
 (opkg remove dnsmasq)
 ```
+## change mac 
+vim /etc/config/network
+
 
 

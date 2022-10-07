@@ -293,7 +293,6 @@ certbot-auto renew
 ls /etc/letsencrypt/live/test.com/fullchain.pem
 ls /etc/letsencrypt/live/test.com/privkey.pem
 ```
-```
 
 ## 目录授权给th
 sudo chown th /tmp
@@ -346,3 +345,19 @@ lz4 diskxxx.img.lz4 | partclone.ntfs -r -z 1024000000 -o /dev/xxx1
 
 ## tar lz4
 tar -I lz4 -cvf xxx.tar.lz4 xxx
+
+## 查看磁盘信息
+```
+smartctl -a /dev/sda
+hdparm -i /dev/sda
+# 查看健康状态
+smartctl -H /dev/sda
+# 快速检测
+smartctl -l selftest /dev/sda
+# 查看错误信息
+smartctl -l error /dev/sda
+```
+
+## cpu test
+sysbench cpu run
+
