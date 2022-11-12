@@ -10,5 +10,5 @@ services:
        WORDPRESS_DB_HOST: "10.10.10.106"
        WORDPRESS_DB_PORT: "53306"
        WORDPRESS_DB_USER: "root"
-       WORDPRESS_DB_PASSWORD: "mysql_666888."
+       WORDPRESS_DB_PASSWORD: "mysql_666888"
      

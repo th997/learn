@@ -364,12 +364,12 @@ sudo vim /etc/fstab
 
 
 # 防止暴力破解
-sudo apt install fail2ban
+sudo apt install fail2ban iptables
 vim /etc/fail2ban/jail.local
 ```
 [DEFAULT]
 #ignoreip = 192.168.1.2
-bantime = 1800
+bantime = 3600
 maxretry = 5
 findtime = 600
 backend = polling
@@ -377,7 +377,6 @@ backend = polling
 enabled = true
 filter = sshd
 action = iptables[name=SSH, port=ssh, protocol=tcp]
-sendmail-whois[name=SSH, dest=th9976@gmail.com, sender=fail2ban@email.com]
 ```
 sudo systemctl enable fail2ban
 sudo systemctl restart fail2ban

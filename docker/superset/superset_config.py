@@ -14,7 +14,7 @@ CACHE_CONFIG = {
 DATA_CACHE_CONFIG = CACHE_CONFIG
 
 # mysql
-SQLALCHEMY_DATABASE_URI = 'mysql://root:mysql_666888.@10.10.10.106:53306/superset?charset=utf8mb4'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:mysql_666888@10.10.10.106:53306/superset?charset=utf8mb4'
 
 # encrypt
 SECRET_KEY = 'awm;o4;865yqhalk.4257'

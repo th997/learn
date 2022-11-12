@@ -245,6 +245,9 @@ time dd if=/dev/zero bs=1M count=1000 of=1Gb.file
 time dd if=1Gb.file bs=1M count=1000 of=/dev/zero
 ```
 
+## 磁盘io测试
+docker run -it --rm -v $PWD:/data infrabuilder/fio
+
 ## 文件监控
 ```
 yum install inotify-tools

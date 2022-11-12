@@ -60,7 +60,7 @@ net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216
 net.core.netdev_max_backlog = 20000
 
-# bbr 5.4内核+
+# bbr 5.4+
 net.core.default_qdisc=fq
 net.ipv4.tcp_congestion_control=bbr
 ```

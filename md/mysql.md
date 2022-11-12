@@ -55,7 +55,7 @@ mysqld --skip-grant-tables &
 3. 然后用空密码方式使用root用户登录 MySQL；
 mysql -u root
 4. 修改root用户的密码；
-mysql> update mysql.user set password=PASSWORD('newpassword') where User='root';
+mysql> update mysql.user set authentication_string=PASSWORD('newpassword') where User='root';
 mysql> flush privileges;
 mysql> quit
 重新启动MySQL
@@ -339,12 +339,15 @@ log-slave-updates = 1
 #innodb_flush_log_at_trx_commit = 0
 
 ### 备份原库
+docker run -it --rm  --name tmp_mysql -v /home/service/data:/data mysql:5.7.33 bash
+
 mysqldump --databases datatest \
   --no-tablespaces \
-  --single-transaction \
+  --single-transaction --master-data=2 \
   --compress \
+  --compatible=postgresql
   --order-by-primary \
-  -e --max_allowed_packet=41943040 --net_buffer_length=163840 \
+  -e --max_allowed_packet=102400000 --net_buffer_length=1024000 \
   -u root \
   -h 10.10.10.106 \
   -P 53306 \
@@ -364,7 +367,7 @@ stop slave;
 reset slave all;
 reset master;
 SET @@GLOBAL.GTID_PURGED='b9c0b2ab-2bd2-11eb-a9b5-c66e827ab6bd:1-305840';
-change master to master_host='10.10.10.106' , master_user='root',master_password='mysql_666888.',master_port=53306,master_auto_position=1;
+change master to master_host='10.10.10.106' , master_user='root',master_password='mysql_666888',master_port=53306,master_auto_position=1;
 start slave;
 show slave status \G
 show master status;
