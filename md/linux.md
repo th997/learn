@@ -248,6 +248,8 @@ time dd if=1Gb.file bs=1M count=1000 of=/dev/zero
 ## 磁盘io测试
 docker run -it --rm -v $PWD:/data infrabuilder/fio
 
+or wget https://raw.githubusercontent.com/InfraBuilder/docker-fio/main/benchmark.sh
+
 ## 文件监控
 ```
 yum install inotify-tools

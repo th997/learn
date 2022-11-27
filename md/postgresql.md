@@ -81,6 +81,12 @@ CREATE EXTENSION pg_trgm;
 CREATE INDEX w2000_c8_idx ON public.w2000 USING gin (c1,c8 gin_trgm_ops); -- 支持全文搜索?
 ```
 
+## 清除delete数据占用的空间
+vacuum verbose analyze [full] [verbose] [table] [column]
+
+http://www.postgres.cn/docs/9.4/sql-vacuum.html
+
+
 ## 常用参数配置
 ```conf
 # https://github.com/digoal/blog/blob/master/201812/20181203_01.md
@@ -112,9 +118,9 @@ export PGDATABASE=postgres
 export PGUSER=postgres
 export PGPASSWORD=postgres_666888
 # 初始化 没有日志的表，100×10w数据
-pgbench -i --unlogged-tables -s 100 -U postgres -p 55432 -d postgres -h 10.10.10.106 
+pgbench -i --unlogged-tables -s 100 -U postgres -p 55432 -d postgres -h 10.0.8.2 
 # 一个client，一个job，10秒压测
-pgbench -M prepared -r -c 1 -j 1 -T 10 -U postgres -p 55432 -d postgres -h 10.10.10.106
+pgbench -M prepared -r -c 1 -j 1 -T 10 -U postgres -p 55432 -d postgres -h 10.0.8.2 
 ```
 
 
