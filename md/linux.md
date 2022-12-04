@@ -366,3 +366,9 @@ smartctl -l error /dev/sda
 ## cpu test
 sysbench cpu run
 
+## ssh proxy
+vim ~/.ssh/config
+```
+Host *
+    ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
+```

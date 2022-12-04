@@ -381,6 +381,8 @@ action = iptables[name=SSH, port=ssh, protocol=tcp]
 sudo systemctl enable fail2ban
 sudo systemctl restart fail2ban
 
+fail2ban-client status sshd
+
 # 包卸载
 apt list | grep installed | grep -v "python\|node\|lib\|ubuntu\|gnome\|fonts\|linux-headers\|cuda"
 apt remove  xxx
