@@ -1,0 +1,27 @@
+version: "3"
+services:
+   mysql8:
+     image: percona:8
+     container_name: mysql8
+     ports:
+       - "53307:3306"
+     volumes:
+       # chmod 644 ./config/*
+       # chmod -R 777 data
+       - /d/docker/nfs/mysql8:/var/lib/mysql
+       - ./config8/:/etc/my.cnf.d
+     command: --authentication_policy=mysql_native_password
+     restart: always
+     deploy:
+       mode: global
+     security_opt:
+       - seccomp:unconfined
+     environment:
+       MYSQL_ROOT_PASSWORD: mysql_666888
+       MYSQL_DATABASE: test
+       MYSQL_USER: test
+       MYSQL_PASSWORD: mysql_666888
+       #INIT_TOKUDB: 1
+       INIT_ROCKSDB: 1
+#echo never > /sys/kernel/mm/transparent_hugepage/defrag
+#echo never > /sys/kernel/mm/transparent_hugepage/enabled

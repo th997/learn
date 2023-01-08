@@ -182,3 +182,10 @@ cat /proc/进程id/fd/tab获取最大一个值
 如：
 cat /proc/420886/fd/8
 ```
+
+## docker tools 
+docker run -it --rm -v $PWD:/data infrabuilder/fio
+
+docker run -it --rm -v $PWD:/data mysql:5.7.33 bash
+
+docker run -it --rm -v $PWD:/data busybox

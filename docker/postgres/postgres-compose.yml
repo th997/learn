@@ -1,12 +1,12 @@
 version: "3"
 services:
    postgres:
-     image: postgres:13
+     image: postgres:15
      container_name: postgres
      ports: 
        - "55432:5432"
      volumes:
-       - /d/docker/nfs/postgres13:/var/lib/postgresql/data
+       - /d/docker/nfs/postgres15:/var/lib/postgresql/data
        - ./config:/etc/postgresql
      command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
      restart: always
@@ -14,3 +14,5 @@ services:
        mode: global
      environment:
        POSTGRES_PASSWORD: postgres_666888
+       POSTGRES_HOST_AUTH_METHOD: md5
+       # ALTER USER postgres WITH PASSWORD 'postgres_666888'

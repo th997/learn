@@ -61,7 +61,7 @@ public class DataJdbcImportTest {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                DynamicDataSourceContextHolder.push("mysql");
+                DynamicDataSourceContextHolder.push("postgres");
                 TransactionContext.bind(UUID.randomUUID().toString());
                 jdbcTemplate.batchUpdate(sql, argList);
                 ConnectionFactory.notify(true);

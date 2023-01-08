@@ -56,7 +56,7 @@ CREATE TABLE test (
 ``` 
 
 ## 查看/修改设置
-select * from pg_settings
+select * from pg_catalog.pg_settings ps where "source" !='default'
 
 update pg_settings set setting ='xx' where name='xx'
 
@@ -122,6 +122,64 @@ pgbench -i --unlogged-tables -s 100 -U postgres -p 55432 -d postgres -h 10.0.8.2
 # 一个client，一个job，10秒压测
 pgbench -M prepared -r -c 1 -j 1 -T 10 -U postgres -p 55432 -d postgres -h 10.0.8.2 
 ```
+
+## 从库搭建
+```sql
+-- 主库上添加复制帐号
+alter user postgres with replication;
+or
+create user replicator replication login encrypted password 'password';
+
+-- 主库上修改配置文件 pg_hba.conf
+host    replication     postgres        10.1.1.1/8          md5
+
+-- 重启主库
+
+-- 登陆备库机器，停止pg进程，清空原data目录，从主库备份数据
+-- -Fp表示以plain格式数据，-Xs表示以stream方式包含所需的WAL文件，-v日志，-P表示显示进度，-R表示为replication写配置信息。
+docker run -it --rm -v $PWD/data:/var/lib/postgresql/data postgres:13 \
+pg_basebackup -F p  -X s -v -R -P -h 10.10.10.106 -p 55432 -D /var/lib/postgresql/data -U postgres 
+
+-- 启动从库
+
+-- 查看从库状态
+select * from pg_stat_replication;
+
+-- 验证数据
+
+-- 从库切换为主库
+pg_ctl promote
+
+```
+
+## 编译安装
+https://www.postgresql.org/docs/current/install-procedure.html
+
+https://www.postgresql.org/docs/current/server-start.html
+
+
+```sh
+git clone --depth=1 -b REL_13_9 https://github.com/postgres/postgres
+
+apt install libreadline-dev build-essential zlib1g-dev libsystemd-dev -y
+
+cd postgres
+./configure --prefix=/d/pgsql --with-systemd
+
+make && make install
+export PATH=$PATH:/d/pgsql/bin
+
+/d/pgsql/bin/initdb -D /d/pgsql/data
+
+/d/pgsql/bin/pg_ctl -D /d/pgsql/data -l /d/pgsql/logfile start
+/d/pgsql/bin/pg_ctl -D /d/pgsql/data stop
+
+```
+
+## 
+
+
+
 
 
 

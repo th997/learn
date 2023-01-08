@@ -339,7 +339,7 @@ log-slave-updates = 1
 #innodb_flush_log_at_trx_commit = 0
 
 ### 备份原库
-docker run -it --rm  --name tmp_mysql -v /home/service/data:/data mysql:5.7.33 bash
+docker run -it --rm  -v $PWD:/data mysql:5.7.33 bash
 
 mysqldump --databases datatest \
   --no-tablespaces \
