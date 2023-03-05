@@ -369,9 +369,9 @@ vim /etc/fail2ban/jail.local
 ```
 [DEFAULT]
 #ignoreip = 192.168.1.2
-bantime = 3600
-maxretry = 5
-findtime = 600
+bantime = 360000
+maxretry = 6
+findtime = 900
 backend = polling
 [ssh-iptables]
 enabled = true
@@ -397,8 +397,8 @@ networkctl list
 brctl show
 
 # samba
-chmod -R o+r+w /data/samba
-chmod o+x+w /data/samba
+chmod -R o+r+w /d/share
+chmod o+x+w /d/share
 docker run -itd --name samba --restart always -p 139:139 -p 445:445 -p 137-138:137-138/udp -v /data/samba:/mount dperson/samba -w "WORKGROUP" -s "share;/mount/;yes;no;no;all;none" -u "test;123456" -S
 
 # samba
@@ -406,6 +406,7 @@ apt install samba
 vim /etc/samba/smb.conf
 ``` conf
 [share]
+    min protocol = NT1 # smaba v1 support
     path = /data/samba/
     public = yes
     browseable = yes
@@ -418,6 +419,10 @@ vim /etc/samba/smb.conf
 ```
 smbpasswd -a test
 systemctl restart nmbd
+
+# ftp
+apt install vsftpd
+systemctl enable vsftpd
 
 ## ulimit 
 ``` conf
@@ -472,3 +477,9 @@ apt install boot-repair boot-sav
 boot-repair 
 ```
 
+## weixin
+https://blog.csdn.net/weixin_38493195/article/details/124870781
+apt update  
+wget -O- https://deepin-wine.i-m.dev/setup.sh | sh
+apt install com.qq.weixin.deepin
+cp /opt/apps/com.qq.weixin.deepin/entries/applications/* /usr/share/applications/

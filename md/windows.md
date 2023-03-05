@@ -115,5 +115,7 @@ start %java% -Dfile.encoding=UTF-8 -server -Xmx1024m -Xms1024m -jar test.jar
 ) 
 exit
 ```
+## widows store 代理
+netsh winhttp import proxy source=ie
 
 

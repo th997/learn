@@ -50,6 +50,8 @@ adb shell pm list packages -d
 adb shell pm list packages -e -s
 # 显示第三方应用信息
 adb shell pm list packages -3   
+# 显示安装来源
+adb shell pm list packages -i | grep com.huawei.appmarket
 # 查看应用信息
 adb shell dumpsys package [package_name] 
 # 输出包和包相关联的文件(安装路径)
@@ -59,7 +61,18 @@ adb shell dumpsys meminfo [package_name/pid]
 查看指定包名应用的数据库存储信息(包括存储的sql语句)
 adb shell dumpsys dbinfo [package_name] 
 # 卸载应用
-pm uninstall --user 0  com.sohu.sohuvideo.emplayer
+adb shell pm uninstall --user 0  com.sohu.sohuvideo.emplayer
+# 查询权限
+adb shell pm  list permissions -g
+# 禁用某个包某项权限
+adb shell pm revoke --user 0 com.alphainventor.filemanager android.permission.xx
+# 查看包拥有的权限
+adb shell pm dumpsys package com.alphainventor.filemanager  
+# 查看拥有权限的包
+adb shell dumpsys package | grep -E "(QUERY_ALL_PACKAGES)|(Package \[)" 
+# 禁用activty，去广告。。
+adb shell pm revoke --user 1 com.unionpay com.unionpay.activity.UPActivityStartTransition
+adb shell pm grant --user 1 com.unionpay com.unionpay.activity.UPActivityStartTransition
 
 ```
 

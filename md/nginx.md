@@ -102,12 +102,13 @@ listen mysql
     server  s1 10.162.55.49:3308
 
 tar 安装
-apt-get install libpcre3 libpcre3-dev
-apt-get install zlib1g-dev
 yum -y install pcre-devel openssl openssl-devel
-./configure --with-stream --with-http_stub_status_module --with-http_ssl_module
+apt-get install build-essential zlib1g-dev libpcre3-dev libssl-dev
+./auto/configure --prefix=/usr/local/nginx \
+--with-stream --with-http_stub_status_module --with-http_ssl_module --with-pcre --with-threads --with-file-aio --with-http_realip_module --with-http_v2_module \
+--with-cc-opt="-static" --with-cc-opt="-flto -fuse-linker-plugin -O2"
 make
-make install
+sudo make install
 
 # 创建软链接
 ln -s /usr/local/nginx/sbin/nginx /usr/sbin/nginx

@@ -24,7 +24,7 @@ public class DataImportTest {
     @Test
     void testInsert() throws Exception {
         // 导入2000w数据
-        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/home/th/Downloads/data/2000w"), "gbk"));
+        BufferedReader br = IOUtils.toBufferedReader(new InputStreamReader(new FileInputStream("/f/data/2000w"), "gbk"));
         List<User> users = new ArrayList<>();
         int count = 0;
         String line;
@@ -44,17 +44,16 @@ public class DataImportTest {
             if (count < 0) {
                 continue;
             }
-            if (count % 1000 == 0) {
+            if (count % 10000 == 0) {
                 //System.out.println(user);
-                //userRepository.saveAll(users);
+                userRepository.saveAll(users);
                 users.clear();
                 long cost = System.currentTimeMillis() - start;
                 System.out.println("cost count=" + count + ",cost=" + cost);
-                break;
             }
         }
         if (users.size() > 0) {
-            //userRepository.saveAll(users);
+            userRepository.saveAll(users);
         }
     }
 }
