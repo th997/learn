@@ -176,8 +176,31 @@ export PATH=$PATH:/d/pgsql/bin
 
 ```
 
-## 
+## 分区表
+``` sql
+CREATE TABLE my_hash_partitioned_table ( 
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(50), 
+    created_at TIMESTAMP 
+) 
+PARTITION BY HASH (id); 
+ 
+DO $$ 
+DECLARE 
+    i INTEGER; 
+    partition_table_name TEXT; 
+BEGIN 
+    FOR i IN 0..99 LOOP 
+        partition_table_name := 'my_hash_partitioned_table_partition_' || i; 
+        EXECUTE format('CREATE TABLE %I PARTITION OF my_hash_partitioned_table FOR VALUES WITH (MODULUS 100, REMAINDER %s)', partition_table_name, i); 
+    END LOOP; 
+END $$; 
+ 
+INSERT INTO my_hash_partitioned_table (name, created_at) VALUES ('John', now()); 
+INSERT INTO my_hash_partitioned_table (name, created_at) VALUES ('Jane', now()); 
+SELECT * FROM my_hash_partitioned_table;
 
+```
 
 
 

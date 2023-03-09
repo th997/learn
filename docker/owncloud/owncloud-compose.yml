@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  owncloud:
+    image: owncloud
+    restart: always
+    volumes:
+       - /d/docker/owncloud:/var/www/html
+    ports:
+      - 50032:80

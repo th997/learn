@@ -1,0 +1,19 @@
+version: "3" 
+services: 
+   oceanbase: 
+     image: oceanbase/oceanbase-ce 
+     container_name: oceanbase 
+     volumes:
+       - /e/docker/oceanbase/ob:/root/ob
+       - /e/docker/oceanbase/obagent:/root/obagent
+       - /e/docker/oceanbase/obd:/root/.obd
+     ports:  
+       - "52881:2881" 
+       - "58088:2881" 
+     restart: always 
+     deploy: 
+       mode: global
+
+# vim ./obd/cluster/obcluster/config.yaml
+# obd cluster display obcluster
+# https://www.modb.pro/db/576631
