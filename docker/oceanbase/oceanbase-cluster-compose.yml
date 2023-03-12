@@ -1,0 +1,14 @@
+version: "3" 
+services: 
+   ob1: 
+     image: centos:7
+     container_name: ob1 
+     volumes:
+       - /e/docker/oceanbase/oceanbase-all-in-one:/root/oceanbase-all-in-one
+       - ./config:/root/config
+     command: sh -c "while true; do sleep 1; done"  
+     ports:  
+       - "28811:2881" 
+     restart: always 
+     deploy: 
+       mode: global

@@ -12,15 +12,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.SearchScrollHits;
+import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
@@ -31,6 +36,23 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    @Autowired
+    private ElasticsearchOperations elasticsearchOperations;
+
+    @Test
+    public void test0() {
+        IndexCoordinates index = IndexCoordinates.of("test");
+        //elasticsearchOperations.indexOps(index).create();
+        for (int i = 1; i < 3; i++) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("c1", String.valueOf(i));
+            data.put("c2", "a" + i);
+            data.put("c3", "b" + i);
+            data.put("c3D4", "b" + i);
+            UpdateQuery update = UpdateQuery.builder(String.valueOf(i)).withDocument(Document.from(data)).withDocAsUpsert(true).build();
+            elasticsearchRestTemplate.update(update, index);
+        }
+    }
 
     @Test
     public void test1() {

@@ -202,6 +202,12 @@ SELECT * FROM my_hash_partitioned_table;
 
 ```
 
+## 优化技巧
+-- 并行查询 https://zhuanlan.zhihu.com/p/398247376
+-- 设置表的并发 https://developer.aliyun.com/article/746075
+alter table t_user set (parallel_workers =64);  
+
+## 
 
 
 

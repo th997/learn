@@ -7,6 +7,8 @@ services:
        - /e/docker/oceanbase/ob:/root/ob
        - /e/docker/oceanbase/obagent:/root/obagent
        - /e/docker/oceanbase/obd:/root/.obd
+       #- ./config:/root/config
+     #command: sh -c "while true; do sleep 1; done"
      ports:  
        - "52881:2881" 
        - "58088:2881" 

@@ -8,7 +8,7 @@ services:
      volumes:
        # chmod 644 ./config/*
        # chmod -R 777 data
-       - /d/docker/nfs/mysql8:/var/lib/mysql
+       - /e/docker/nfs/mysql8:/var/lib/mysql
        - ./config8/:/etc/my.cnf.d
      command: --authentication_policy=mysql_native_password
      restart: always

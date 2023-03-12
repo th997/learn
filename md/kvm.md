@@ -122,7 +122,8 @@ users:
     sudo:
       - ALL=(ALL) ALL
     # mkpasswd --method=SHA-512 --rounds=4096
-    passwd: $6$rounds=4096$OGrzSSSDuOR5KQB5$YDdefbO5frzagjxAJ.JvpaNnJlGSioItfiR4UiZLdK3DY1/w6LVFNR8LxIplS.68Gbpgd.vPq9htvPJ63VVjP.
+    # 123456
+    passwd: $6$rounds=4096$q/aa9wUuu3NnhUmN$o9nzBT5lTZG3Jn6NnG.qzX262PM6RY01N8uXNOadzNhn5f.F7TmyQiO.YYL/pQby6TUuG/WJSs6YSbbzEVnSg.
 apt:
   primary:
     - arches: [ default ]
@@ -134,9 +135,9 @@ apt:
 ```
 
 ```shell
-# wget https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.img -O ubu2204.img.bak
-export NAME=ubu2204c
-export IP=10.10.10.203
+# wget https://cloud-images.ubuntu.com/releases/22.04//release/ubuntu-22.04-server-cloudimg-amd64.img -O ubu2204.img.bak
+export NAME=ubu2204a
+export IP=10.10.10.201
 export GATEWAY=10.10.10.1
 cat > network.yml <<EOF
 version: 2
@@ -153,6 +154,6 @@ sed -i 's/\$GATEWAY/$GATEWAY/' network.yml
 sed -i "s/hostname:.*/hostname: $NAME/" init.yml
 cloud-localds -v --network-config=network.yml  $NAME-init.img init.yml
 cp ubu2204.img.bak $NAME.img
-qemu-img resize $NAME.img +40G
-sudo virt-install --name $NAME --virt-type kvm --os-type Linux --os-variant ubuntu22.04 --memory 4096 --vcpus 2 --network bridge=kvm_br,model=virtio --disk $NAME.img,device=disk,bus=virtio --disk $NAME-init.img,device=cdrom --graphics none --import
+qemu-img resize $NAME.img +100G
+sudo virt-install --name $NAME --virt-type kvm --os-variant ubuntu22.04 --memory 16000 --vcpus 2 --network bridge=kvm_br,model=virtio --disk $NAME.img,device=disk,bus=virtio --disk $NAME-init.img,device=cdrom --graphics none --import
 ```

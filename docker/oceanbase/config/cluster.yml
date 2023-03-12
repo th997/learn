@@ -1,0 +1,75 @@
+# observer
+oceanbase-ce:
+  servers:
+    - name: server1
+      ip: 10.10.10.201
+    # - name: server2
+    #   ip: 172.16.16.62
+    # - name: server3
+    #   ip: 172.16.16.63
+  global:
+    home_path: /root/observer
+    datafile_size: 128G
+    log_disk_size: 4G
+    # mysql_port: 2881
+    # rpc_port: 2882
+  server1:
+    zone: zone1
+  # server2:
+  #   zone: zone2
+  # server3:
+  #   zone: zone3
+
+# obproxy
+obproxy-ce:
+  depends:
+    - oceanbase-ce
+  servers:
+    - 10.10.10.201
+    # - 172.16.16.62
+    # - 172.16.16.63
+  global:
+    # listen_port: 2883 
+    # prometheus_listen_port: 2884
+    home_path: /root/obproxy
+    enable_cluster_checkout: false
+    skip_proxy_sys_private_check: true
+    enable_strict_kernel_release: false
+
+# obagent
+obagent:
+  depends:
+    - oceanbase-ce
+  servers:
+    - name: server1
+      ip: 10.10.10.201
+    # - name: server2
+    #   ip: 172.16.16.62
+    # - name: server3
+    #   ip: 172.16.16.63
+  global:
+    home_path: /root/obagent
+    # server_port: 8088 
+    # pprof_port: 8089
+
+# prometheus
+prometheus:
+  servers:
+    - 10.10.10.201
+  depends:
+    - obagent
+  global:
+    home_path: /root/prometheus
+
+# grafana
+grafana:
+  servers:
+    - 10.10.10.201
+  depends:
+    - prometheus
+  global:
+    home_path: /root/grafana
+    login_password: oceanbase
+
+# obd cluster destroy obcluster
+# obd cluster autodeploy obcluster -c cluster.yml

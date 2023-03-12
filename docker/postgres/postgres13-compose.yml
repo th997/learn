@@ -1,12 +1,12 @@
 version: "3"
 services:
-   postgres:
-     image: postgres:15
-     container_name: postgres
+   postgres13:
+     image: postgres:13
+     container_name: postgres13
      ports: 
-       - "55432:5432"
+       - "55433:5432"
      volumes:
-       - /d/docker/nfs/postgres15:/var/lib/postgresql/data
+       - /e/docker/nfs/postgres13:/var/lib/postgresql/data
        - ./config:/etc/postgresql
      command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
      restart: always
