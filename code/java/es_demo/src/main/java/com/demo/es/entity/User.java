@@ -1,13 +1,16 @@
 package com.demo.es.entity;
 
+import cn.easyes.annotation.IndexName;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-@Document(indexName = "user")
+@Document(indexName = "user", shards = 3)
+@IndexName(value = "user1",shardsNum = 3,maxResultWindow = 1000000)
 @Data
 @ToString
 public class User {
@@ -15,6 +18,7 @@ public class User {
     private String id;
     @Indexed
     private String c1;
+    @Field(type = FieldType.Keyword)
     private String c2;
     private String c3;
     private String c4;
@@ -47,5 +51,6 @@ public class User {
     private String c31;
     private String c32;
     private String c33;
+    private String testUser;
 }
 

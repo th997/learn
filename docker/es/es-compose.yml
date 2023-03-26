@@ -1,0 +1,54 @@
+# https://hub.docker.com/_/elasticsearch
+version: '3.8'
+services:
+  es01:
+    image: elasticsearch:7.17.9
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    # chown -R 1000 /e/docker/es
+    volumes:
+      - /e/docker/es/es01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      default:
+        ipv4_address: 172.16.16.81
+  es02:
+    image: elasticsearch:7.17.9
+    container_name: es02
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    volumes:
+      - /e/docker/es/es02:/usr/share/elasticsearch/data
+    networks:
+      default:
+        ipv4_address: 172.16.16.82
+  es03:
+    image: elasticsearch:7.17.9
+    container_name: es03
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    volumes:
+      - /e/docker/es/es03:/usr/share/elasticsearch/data
+    networks:
+      default:
+        ipv4_address: 172.16.16.83
+
+networks:
+  default:
+    external:
+      name: mynetwork   

@@ -192,4 +192,6 @@ docker run -it --rm -v $PWD:/data busybox
 
 docker run -it --name python python
 
+docker run -it --rm  mycli
+
 

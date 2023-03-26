@@ -31,8 +31,8 @@ public class DataJdbcImportTest {
 
     @Test
     void testInsert5() throws Exception {
-//        testInsert("");
-//        testInsert("1");
+        testInsert("");
+        testInsert("1");
         testInsert("2");
         testInsert("3");
     }

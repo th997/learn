@@ -42,6 +42,8 @@ net.netfilter.nf_conntrack_max=10000000
 # bbr 5.4内核+ (lsmod | grep bbr)
 net.core.default_qdisc=fq
 net.ipv4.tcp_congestion_control=bbr
+# 最大内存映射区域
+vm.max_map_count=262144
 ```
 
 ## server

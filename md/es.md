@@ -4,9 +4,9 @@
 https://hub.docker.com/_/elasticsearch
 
 
-docker run -d --name es  -p 9200:9200 -p 9300:9300 \
+docker run -d --name es1  -p 9200:9200  \
 -e discovery.type=single-node \
-elasticsearch:7.9.3
+elasticsearch:7.14.2
 
 支持跨域访问
 docker run -d --name es  -p 9200:9200 -p 9300:9300 \
@@ -46,6 +46,16 @@ curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user/_doc/
 # query data
 http://localhost:9200/user/_search/
 
+http://localhost:9200/user/_count/
+
+http://localhost:9200/user/_mapping/
+
+http://localhost:9200/user/_settings/
+
+curl -X POST -H "Content-Type: application/json" http://localhost:9200/_sql?format=txt -d'
+{
+  "query": "SELECT c7,count(*) co FROM user group by c7 order by co desc limit 12"
+}'
 
 # delete index
 curl -X DELETE "http://localhost:9200/user1"
@@ -55,9 +65,16 @@ curl -X DELETE "http://localhost:9200/user1"
 curl -X PUT "localhost:9200/user/_mapping?pretty" -H 'Content-Type: application/json' -d'
 {
   "properties": {
-    "c6": { 
+    "c2": { 
       "type":     "text",
-      "fielddata": true
+      "enable": false
     }
   }
 }'
+
+# modify max_result_window
+curl -X PUT localhost:9200/user/_settings -H 'Content-Type: application/json' -d '{ "index.max_result_window" :"1200000"}'
+
+
+# 参考 
+https://cloud.tencent.com/developer/article/1587375
