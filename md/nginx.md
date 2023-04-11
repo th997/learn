@@ -104,11 +104,17 @@ listen mysql
 tar 安装
 yum -y install pcre-devel openssl openssl-devel
 apt-get install build-essential zlib1g-dev libpcre3-dev libssl-dev
+
 ./auto/configure --prefix=/usr/local/nginx \
---with-stream --with-http_stub_status_module --with-http_ssl_module --with-pcre --with-threads --with-file-aio --with-http_realip_module --with-http_v2_module \
---with-cc-opt="-static" --with-cc-opt="-flto -fuse-linker-plugin -O2"
+--with-stream --with-http_ssl_module --with-pcre --with-threads --with-file-aio --with-http_realip_module --with-http_v2_module --with-http_auth_request_module \
+--with-ld-opt="-static" --with-cc-opt="-static"
 make
+
+docker run -it --rm -v $PWD/objs/nginx:/nginx alpine /nginx
+
 sudo make install
+
+http://nginx.org/en/docs/configure.html
 
 # 创建软链接
 ln -s /usr/local/nginx/sbin/nginx /usr/sbin/nginx

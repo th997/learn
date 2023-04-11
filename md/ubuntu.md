@@ -483,3 +483,18 @@ apt update
 wget -O- https://deepin-wine.i-m.dev/setup.sh | sh
 apt install com.qq.weixin.deepin
 cp /opt/apps/com.qq.weixin.deepin/entries/applications/* /usr/share/applications/
+
+## 小狼毫输入法
+```shell
+apt-get install fcitx-rime
+cd ~/.config/fcitx/rime
+rsync -a ../rime rime_bak
+git https://github.com/iDvel/rime-ice
+rsync -a rime-ice/* ./
+cat > default.custom.yaml <<EOF
+patch:
+  __include: rime_ice_suggestion:/
+EOF
+sed -i 's#page_size: 5#page_size: 10#g' default.yaml
+vim rime_ice.schema.yaml
+```
