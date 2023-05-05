@@ -135,7 +135,8 @@ apt:
 ```
 
 ```shell
-# wget https://cloud-images.ubuntu.com/releases/22.04//release/ubuntu-22.04-server-cloudimg-amd64.img -O ubu2204.img.bak
+# wget https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.img -O ubu2204.img.bak
+# wget https://cloud-images.ubuntu.com/releases/20.04/release/ubuntu-20.04-server-cloudimg-amd64.img -O ubu2004.img.bak
 export NAME=ubu2204a
 export IP=10.10.10.201
 export GATEWAY=10.10.10.1

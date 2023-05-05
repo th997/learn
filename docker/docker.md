@@ -194,4 +194,6 @@ docker run -it --name python python
 
 docker run -it --rm  mycli
 
+docker run -it --rm -v $(pwd):/app -w /app -e http_proxy=http://10.10.10.106:1080 -e https_proxy=http://10.10.10.106:1080 node:18-alpine sh -c "npm install -g pnpm && pnpm install && pnpm build" 
 
+docker run -it -e http_proxy=http://10.10.10.106:1080 -e https_proxy=http://10.10.10.106:1080 --name debian debian:11 bash 
