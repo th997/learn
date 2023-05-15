@@ -498,3 +498,7 @@ EOF
 sed -i 's#page_size: 5#page_size: 10#g' default.yaml
 vim rime_ice.schema.yaml
 ```
+## cockpit 系统管理
+apt install cockpit
+vim /usr/lib/systemd/system/cockpit.socket
+systemctl enable --now cockpit.socket

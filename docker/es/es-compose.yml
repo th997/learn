@@ -4,6 +4,7 @@ services:
   es01:
     image: elasticsearch:7.17.9
     container_name: es01
+    restart: always
     environment:
       - node.name=es01
       - cluster.name=es-docker-cluster
@@ -22,6 +23,7 @@ services:
   es02:
     image: elasticsearch:7.17.9
     container_name: es02
+    restart: always
     environment:
       - node.name=es02
       - cluster.name=es-docker-cluster
@@ -36,6 +38,7 @@ services:
   es03:
     image: elasticsearch:7.17.9
     container_name: es03
+    restart: always
     environment:
       - node.name=es03
       - cluster.name=es-docker-cluster
