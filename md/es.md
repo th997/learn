@@ -44,13 +44,15 @@ curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user -d'
 curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user/_doc/1 -d '{"name":"mike","age":20,"region":"cn"}'
 
 # query data
-http://localhost:9200/user/_search/
+http://localhost:9200/user/_search?q=k1:v1+k2:v2
 
 http://localhost:9200/user/_count/
 
 http://localhost:9200/user/_mapping/
 
 http://localhost:9200/user/_settings/
+
+http://localhost:9200/_cat/indices
 
 curl -X POST -H "Content-Type: application/json" http://localhost:9200/_sql?format=txt -d'
 {
@@ -59,6 +61,8 @@ curl -X POST -H "Content-Type: application/json" http://localhost:9200/_sql?form
 
 # delete index
 curl -X DELETE "http://localhost:9200/user1"
+
+url -X DELETE 'http://localhost:9200/_all'
 
 
 # add index filed
