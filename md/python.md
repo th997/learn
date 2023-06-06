@@ -32,3 +32,8 @@ python2.7 manage.py collectstatic
 
 ## version
 python -m pip install -U "pylint<2.0.0" --user
+
+## venv
+python3 -m venv venv
+. venv/bin/activate
+

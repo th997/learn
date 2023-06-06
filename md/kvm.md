@@ -4,8 +4,7 @@
 
 ```
 sudo apt install qemu qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager virtinst
-sudo systemctl enable libvirtd 
-sudo systemctl start libvirtd 
+sudo systemctl enable --now libvirtd 
 sudo virt-manager
 ```
 
