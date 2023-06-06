@@ -44,7 +44,7 @@ curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user -d'
 curl -X PUT -H "Content-Type: application/json" http://localhost:9200/user/_doc/1 -d '{"name":"mike","age":20,"region":"cn"}'
 
 # query data
-http://localhost:9200/user/_search?q=k1:v1+k2:v2
+http://localhost:9200/user/_search?q=k1:v1+k2:v2+k3:>1
 
 http://localhost:9200/user/_count/
 
@@ -78,6 +78,9 @@ curl -X PUT "localhost:9200/user/_mapping?pretty" -H 'Content-Type: application/
 
 # modify max_result_window
 curl -X PUT localhost:9200/user/_settings -H 'Content-Type: application/json' -d '{ "index.max_result_window" :"1200000"}'
+
+# modify max_buckets
+curl -X PUT localhost:9200/_cluster/settings -H 'Content-Type: application/json' -d '{"persistent": {"search.max_buckets": 100000}}'
 
 
 # 参考 
