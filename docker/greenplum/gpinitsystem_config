@@ -1,0 +1,19 @@
+ARRAY_NAME="Greenplum Data Platform"
+
+SEG_PREFIX=gpseg
+
+PORT_BASE=6000
+
+declare -a DATA_DIRECTORY=(/gp/data/primary /gp/data/primary)
+
+MASTER_HOSTNAME=gp_master
+
+MASTER_DIRECTORY=/gp/data/master
+
+MASTER_PORT=5432
+
+TRUSTED_SHELL=ssh
+
+CHECK_POINT_SEGMENTS=8
+
+ENCODING=UNICODE

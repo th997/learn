@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  gp_master:
+    image: th9976/greenplumdb
+    hostname: gp_master
+    container_name: gp_master
+    tty: true
+    stdin_open: true
+    ports:
+      - "35432:5432"
+    user: "530:530"  
+    volumes:
+      - /e/docker/greenplumdb/data1:/gp/data
+  gp_seg1:
+    image: th9976/greenplumdb
+    hostname: gp_seg1
+    container_name: gp_seg1
+    tty: true
+    stdin_open: true
+    user: "530:530"  
+    volumes:
+      - /e/docker/greenplumdb/data2:/gp/data
+    depends_on:
+      - gp_master
+  gp_seg2:
+    image: th9976/greenplumdb
+    hostname: gp_seg2
+    container_name: gp_seg2
+    tty: true
+    stdin_open: true
+    user: "530:530"
+    volumes:
+      - /e/docker/greenplumdb/data3:/gp/data   
+    depends_on:
+      - gp_master

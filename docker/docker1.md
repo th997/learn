@@ -16,6 +16,8 @@ docker build -t='th9976/kafka:1.0' -f kafka/Dockerfile ./kafka
 docker build -t='th9976/hive:1.0' -f hive/Dockerfile ./hive
 docker build -t='th9976/cdh:1.0' -f cdh/Dockerfile ./cdh
 
+docker build -t='th9976/xx' ./ --build-arg http_proxy=http://10.10.10.106:1080 --build-arg https_proxy=http://10.10.10.106:1080
+
 ...
 ```
 

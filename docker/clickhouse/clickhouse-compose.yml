@@ -1,28 +1,28 @@
 version: "3"
 services:
    ck1:
-     image: yandex/clickhouse-server
+     image: antrea/clickhouse-server:23.4
      container_name: ck1
      restart: always
      ports: 
        - "28123:8123"
        - "29004:9004"
      volumes:
-       - /d/docker/ck/ck_data1:/var/lib/clickhouse
+       - /e/docker/ck/ck_data1:/var/lib/clickhouse
        - ./config/:/etc/clickhouse-server/
        - ./node01/:/clickhouse-server/metrika/
      networks:
        default:
          ipv4_address: 172.16.16.41
    ck2:
-     image: yandex/clickhouse-server
+     image: antrea/clickhouse-server:23.4
      container_name: ck2
      restart: always
      ports: 
        - "38123:8123"
        - "39004:9004"
      volumes:
-       - /d/docker/ck/ck_data2:/var/lib/clickhouse
+       - /e/docker/ck/ck_data2:/var/lib/clickhouse
        - ./config/:/etc/clickhouse-server/
        - ./node02/:/clickhouse-server/metrika/
      networks:
