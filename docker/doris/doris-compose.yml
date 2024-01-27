@@ -1,0 +1,55 @@
+# doris
+# https://doris.apache.org/zh-CN/docs/dev/install/construct-docker/run-docker-cluster
+
+# sysctl -w vm.max_map_count=2000000
+
+version: '3'
+services:
+  doris-fe:
+    #image: apache/doris:1.2.1-fe-x86_64
+    image: apache/doris:2.0.0_alpha-fe-x86_64
+    container_name: doris-fe
+    hostname: fe
+    restart: always
+    environment:
+      - FE_SERVERS=fe1:172.40.80.2:9010
+      - FE_ID=1
+    ports:
+      - 8030:8030
+      - 9030:9030
+    volumes:
+      - ./data/fe/doris-meta:/opt/apache-doris/fe/doris-meta
+      - ./data/fe/log:/opt/apache-doris/fe/log
+        #- ./data/fe/conf:/opt/apache-doris/fe/conf
+    networks:
+      doris_net:
+        ipv4_address: 172.40.80.2
+
+  doris-be:
+    #image: apache/doris:1.2.1-be-x86_64
+    image: apache/doris:2.0.0_alpha-be-x86_64
+    container_name: doris-be
+    hostname: be
+    restart: always
+    depends_on:
+      - doris-fe
+    environment:
+      - FE_SERVERS=fe1:172.40.80.2:9010
+      - BE_ADDR=172.40.80.3:9050
+    ports:
+      - 8040:8040
+    volumes:
+      - ./data/be/storage:/opt/apache-doris/be/storage
+      - ./data/be/log:/opt/apache-doris/be/log
+      #- ./data/be/script/:/docker-entrypoint-initdb.d/
+      #- ./data/be/conf:/opt/apache-doris/be/conf
+    networks:
+      doris_net:
+        ipv4_address: 172.40.80.3
+networks:
+  doris_net:
+    ipam:
+      config:
+        - subnet: 172.40.80.0/24
+
+
