@@ -26,6 +26,7 @@ net.ipv4.ip_local_port_range = 1024 65535
 net.ipv4.tcp_keepalive_time = 1800 # 最近一次数据包发送与第一次keep alive探测消息发送的事件间隔，用于确认TCP连接是否有效。
 net.ipv4.tcp_keepalive_intvl = 20 # 在未获得探测消息响应时，发送探测消息的时间间隔。
 net.ipv4.tcp_keepalive_probes = 5 # 判断TCP连接失效连续发送的探测消息个数，达到之后判定连接失效。
+net.ipv4.tcp_abort_on_overflow=1 #如果系统当前因后台进程无法处理的新连接而溢出，则允许系统重置新连接
 # tcp缓存,支持百万连接 (1G 4G 16G:1page=4k),(4k,4k,16M)..  https://www.cnblogs.com/51core/articles/13683820.html
 net.ipv4.tcp_mem = 262144 2097152 4194304
 net.ipv4.tcp_rmem = 4096 4096 16777216
@@ -43,7 +44,7 @@ net.netfilter.nf_conntrack_max=10000000
 net.core.default_qdisc=fq
 net.ipv4.tcp_congestion_control=bbr
 # 最大内存映射区域
-vm.max_map_count=262144
+vm.max_map_count=2000000
 ```
 
 ## server

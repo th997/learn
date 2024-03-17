@@ -1,0 +1,135 @@
+# mysql --connect-timeout 2 -h 172.30.90.11 -P9030 -uroot -e "ALTER SYSTEM ADD BACKEND \"starrocks-be1:9050\";"
+# mysql --connect-timeout 2 -h 172.30.90.11 -P9030 -uroot -e "ALTER SYSTEM ADD BACKEND \"starrocks-be2:9050\";"
+# mysql --connect-timeout 2 -h 172.30.90.11 -P9030 -uroot -e "ALTER SYSTEM ADD BACKEND \"starrocks-be3:9050\";"
+# mysql --connect-timeout 2 -h 172.30.90.11 -P9030 -uroot -e "ALTER SYSTEM ADD OBSERVER \"starrocks-fe2:9010\";"
+
+# see https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/docker-compose.yml
+
+version: '3'
+services:
+  starrocks-fe1:
+    image: starrocks/fe-ubuntu:3.2-latest
+    container_name: starrocks-fe1
+    hostname: starrocks-fe1
+    restart: always
+    user: root
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cp -f /starrocks/conf/fe.conf /opt/starrocks/fe/conf/
+        /opt/starrocks/fe/bin/start_fe.sh
+    ports:
+      - 8030:8030
+      - 9030:9030
+    volumes:
+      - ./conf:/starrocks/conf
+      - /e/docker/starrocks/logs/fe1:/starrocks/logs
+      - /e/docker/starrocks/fe1:/starrocks/fe
+    networks:
+      starrocks_net:
+        ipv4_address: 172.30.90.11
+
+  starrocks-fe2:
+    image: starrocks/fe-ubuntu:3.2-latest
+    container_name: starrocks-fe2
+    hostname: starrocks-fe2
+    restart: always
+    user: root
+    depends_on:
+      - starrocks-fe1       
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cp -f /starrocks/conf/fe.conf /opt/starrocks/fe/conf/
+        /opt/starrocks/fe/bin/start_fe.sh --helper 'starrocks-fe1:9010'
+    volumes:
+      - ./conf:/starrocks/conf
+      - /e/docker/starrocks/logs/fe2:/starrocks/logs
+      - /e/docker/starrocks/fe2:/starrocks/fe
+    networks:
+      starrocks_net:
+        ipv4_address: 172.30.90.12
+
+  starrocks-be1:
+    image: starrocks/be-ubuntu:3.2-latest
+    container_name: starrocks-be1
+    hostname: starrocks-be1
+    restart: always
+    user: root
+    depends_on:
+      - starrocks-fe1    
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ulimit -u 65535
+        ulimit -n 65535
+        cp -f /starrocks/conf/be.conf /opt/starrocks/be/conf/
+        /opt/starrocks/be/bin/start_be.sh
+    ports:
+      - 8040:8040
+    volumes:
+      - ./conf:/starrocks/conf
+      - /e/docker/starrocks/logs/be1:/starrocks/logs
+      - /e/docker/starrocks/be1:/starrocks/be
+      - /d/docker/starrocks/be1:/starrocks/bed
+    networks:
+      starrocks_net:
+        ipv4_address: 172.30.90.21
+
+  starrocks-be2:
+    image: starrocks/be-ubuntu:3.2-latest
+    container_name: starrocks-be2
+    hostname: starrocks-be2
+    restart: always
+    user: root
+    depends_on:
+      - starrocks-fe1    
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ulimit -u 65535
+        ulimit -n 65535
+        cp -f /starrocks/conf/be.conf /opt/starrocks/be/conf/
+        /opt/starrocks/be/bin/start_be.sh
+    volumes:
+      - ./conf:/starrocks/conf
+      - /e/docker/starrocks/logs/be2:/starrocks/logs
+      - /e/docker/starrocks/be2:/starrocks/be
+      - /d/docker/starrocks/be2:/starrocks/bed
+    networks:
+      starrocks_net:
+        ipv4_address: 172.30.90.22
+
+  starrocks-be3:
+    image: starrocks/be-ubuntu:3.2-latest
+    container_name: starrocks-be3
+    hostname: starrocks-be3
+    restart: always
+    user: root
+    depends_on:
+      - starrocks-fe1    
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ulimit -u 65535
+        ulimit -n 65535
+        cp -f /starrocks/conf/be.conf /opt/starrocks/be/conf/
+        /opt/starrocks/be/bin/start_be.sh
+    volumes:
+      - ./conf:/starrocks/conf
+      - /e/docker/starrocks/logs/be3:/starrocks/logs
+      - /e/docker/starrocks/be3:/starrocks/be
+      - /d/docker/starrocks/be3:/starrocks/bed
+    networks:
+      starrocks_net:
+        ipv4_address: 172.30.90.23
+networks:
+  starrocks_net:
+    ipam:
+      config:
+        - subnet: 172.30.90.0/24
