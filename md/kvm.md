@@ -87,9 +87,9 @@ virsh edit vm-name
 卸载密钥
 slmgr /upk
 安装密钥
-slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
+slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX # slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462D
 kms激活,kms服务器(openwrt支持)
-slmgr /skms 10.10.10.235
+slmgr /skms 10.10.10.235 # slmgr -skms kms.03k.org
 slmgr /ato
 ```
 

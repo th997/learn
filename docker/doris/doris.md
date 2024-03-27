@@ -67,20 +67,42 @@ mysql -uroot -P9030
 fe/bin/stop_fe.sh
 be/bin/stop_be.sh
 
+# 开机启动
+cat > /etc/systemd/system/doris_fe.service <<EOF
+[Unit]
+After=network.target
+[Service]
+LimitNOFILE=65535
+Environment="JAVA_HOME=/d/soft/java"
+ExecStart=/d/soft/fe/bin/start_fe.sh --daemon
+ExecStop=/d/soft/fe/bin/stop_fe.sh
+Restart=always
+RestartSec=60
+Type=forking
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable doris_fe --now
+
 ```
 
 ## 维护
 ```sql
 -- 添加be
-ALTER SYSTEM ADD BACKEND "10.177.242.210:9050";
+ALTER SYSTEM ADD BACKEND "be1:9050";
 -- 查看be
 SHOW BACKENDS;
--- 查看fe
-SHOW FRONTENDS;
 -- 删除be
 ALTER SYSTEM DROPP BACKEND "10067";
+-- 添加fe
+ALTER SYSTEM ADD OBSERVER "fe1:9010";
+-- 查看fe
+SHOW FRONTENDS;
 -- 查看fe配置
 SHOW FRONTEND CONFIG;
+-- 设置查询缓存
+set global enable_query_cache = true 
 -- 修改fe配置，重启生效
 ADMIN SET FRONTEND CONFIG ("fe_config_name" = "fe_config_value");
 -- 修改be配置
