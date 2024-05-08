@@ -111,3 +111,10 @@ ADMIN SET FRONTEND CONFIG ("fe_config_name" = "fe_config_value");
 -- http://be_host:be_webserver_port/varz   http://localhost:9040/varz
 
 ```
+
+## 调优
+```
+-- 设置查询缓存
+set global enable_query_cache = true 
+
+```

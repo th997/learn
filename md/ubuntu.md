@@ -373,11 +373,30 @@ bantime = 360000
 maxretry = 6
 findtime = 900
 backend = polling
+
 [ssh-iptables]
 enabled = true
 filter = sshd
 action = iptables[name=SSH, port=ssh, protocol=tcp]
+
+[frps]
+bantime = 3600
+maxretry = 10
+findtime = 900
+enabled = true
+filter = frps
+logpath = /var/log/frps.log
+action = iptables-multiport[name=frps, port="54389,53399", protocol=tcp]
+
 ```
+
+vim /etc/fail2ban/filter.d/frps.conf
+```
+[Definition]
+failregex = ^.*\[.*\] get a user connection \[<HOST>:[0-9]*\]
+ignoreregex =
+```
+
 sudo systemctl enable fail2ban
 sudo systemctl restart fail2ban
 
