@@ -1,15 +1,17 @@
 #!/bin/bash
 set -x
-name=starrocks
-#name=doris
-dir_install=/d/soft
+
+# please modify dir !!!
 dir_java=/d/soft/java
+dir_install=/d/soft
 dir_data=/e/data/$name
 
+# sub dir
+name=starrocks
+#name=doris
 dir_fe_meta=$dir_data/meta
 dir_be_data=$dir_data/data
 dir_log=$dir_data/log
-
 mkdir -p $dir_fe_meta $dir_be_data $dir_log
 
 # download
