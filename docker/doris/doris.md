@@ -116,5 +116,11 @@ ADMIN SET FRONTEND CONFIG ("fe_config_name" = "fe_config_value");
 ```
 -- 设置查询缓存
 set global enable_query_cache = true 
-
+-- 优化sql参数限制
+ADMIN SET FRONTEND CONFIG ("expr_children_limit" = "200000");
+-- be参数优化
+curl -XPOST http://10.10.10.88:8040/api/update_config?update_compaction_num_threads_per_disk=4
+curl -XPOST http://10.10.10.88:8040/api/update_config?update_compaction_check_interval_seconds=5
+curl -XPOST http://10.10.10.88:8040/api/update_config?update_compaction_per_tablet_min_interval_seconds=10
+curl -XPOST http://10.10.10.88:8040/api/update_config?flush_thread_num_per_store=4
 ```
