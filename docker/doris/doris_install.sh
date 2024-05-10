@@ -1,14 +1,15 @@
 #!/bin/bash
 set -x
 
+name=starrocks
+#name=doris
+
 # please modify dir !!!
 dir_java=/d/soft/java
 dir_install=/d/soft
 dir_data=/e/data/$name
 
 # sub dir
-name=starrocks
-#name=doris
 dir_fe_meta=$dir_data/meta
 dir_be_data=$dir_data/data
 dir_log=$dir_data/log
@@ -51,21 +52,20 @@ fi
 sysctl -p
 
 # fe config
+sed -i "/^LOG_DIR/c\LOG_DIR=$dir_log" fe/conf/fe.conf
+sed  -i '/^priority_networks/,$d' fe/conf/fe.conf
 cat >> fe/conf/fe.conf <<EOF
-JAVA_HOME=$dir_java
 priority_networks=10.0.0.0/8
-LOG_DIR=$dir_log
 sys_log_dir=$dir_log
 meta_dir=$dir_fe_meta
 EOF
 
 # be config
+sed  -i '/^priority_networks/,$d' be/conf/be.conf
 cat >> be/conf/be.conf <<EOF
-JAVA_HOME=$dir_java
 priority_networks=10.0.0.0/8
-LOG_DIR=$dir_log
 sys_log_dir=$dir_log
-storage_root_path=$dir_be_data
+storage_root_path=$dir_be_data,medium:ssd
 disable_storage_page_cache=false
 mem_limit=50%
 EOF
@@ -81,6 +81,7 @@ LimitSTACK=infinity
 LimitMEMLOCK=infinity
 Environment="JAVA_HOME=$dir_java"
 ExecStart=$dir_install/$name/fe/bin/start_fe.sh --daemon
+# ExecStart=$dir_install/$name/fe/bin/start_fe.sh --daemon --helper 'fe1:9010'
 ExecStop=$dir_install/$name/fe/bin/stop_fe.sh
 Restart=always
 RestartSec=60

@@ -94,9 +94,11 @@ ALTER SYSTEM ADD BACKEND "be1:9050";
 -- 查看be
 SHOW BACKENDS;
 -- 删除be
-ALTER SYSTEM DROPP BACKEND "10067";
+ALTER SYSTEM DROP BACKEND "10067";
 -- 添加fe
 ALTER SYSTEM ADD OBSERVER "fe1:9010";
+-- 添加fe
+ALTER SYSTEM ADD Follower "fe1:9010";
 -- 查看fe
 SHOW FRONTENDS;
 -- 查看fe配置
@@ -109,7 +111,8 @@ ADMIN SET FRONTEND CONFIG ("fe_config_name" = "fe_config_value");
 -- curl -X POST http://{be_ip}:{be_http_port}/api/update_config?{key}={value}\&persist=true
 -- 查看be配置
 -- http://be_host:be_webserver_port/varz   http://localhost:9040/varz
-
+-- 修改表副本数
+ALTER TABLE db.tb SET ("default.replication_num" = "3");
 ```
 
 ## 调优
