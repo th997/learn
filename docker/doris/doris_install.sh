@@ -4,7 +4,8 @@ set -x
 name=starrocks
 #name=doris
 
-# please modify dir !!!
+# please modify !!!
+fe_ip=10.10.10.106
 dir_java=/d/soft/java
 dir_install=/d/soft
 dir_data=/e/data/$name
@@ -14,6 +15,18 @@ dir_fe_meta=$dir_data/meta
 dir_be_data=$dir_data/data
 dir_log=$dir_data/log
 mkdir -p $dir_fe_meta $dir_be_data $dir_log
+
+# ip addr
+network_prefix=$(echo $fe_ip | cut -d '.' -f 1)
+all_ips=$(hostname -I)
+local_ip=''
+for ip in $all_ips; do
+    if [[ $ip =~ ^$network_prefix\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        local_ip=$ip
+        break
+    fi
+done
+local_net="$network_prefix.0.0.0/8"
 
 # download
 cd $dir_install
@@ -55,7 +68,7 @@ sysctl -p
 sed -i "/^LOG_DIR/c\LOG_DIR=$dir_log" fe/conf/fe.conf
 sed  -i '/^priority_networks/,$d' fe/conf/fe.conf
 cat >> fe/conf/fe.conf <<EOF
-priority_networks=10.0.0.0/8
+priority_networks=$local_net
 sys_log_dir=$dir_log
 meta_dir=$dir_fe_meta
 EOF
@@ -63,7 +76,7 @@ EOF
 # be config
 sed  -i '/^priority_networks/,$d' be/conf/be.conf
 cat >> be/conf/be.conf <<EOF
-priority_networks=10.0.0.0/8
+priority_networks=$local_net
 sys_log_dir=$dir_log
 storage_root_path=$dir_be_data,medium:ssd
 disable_storage_page_cache=false
@@ -71,6 +84,10 @@ mem_limit=50%
 EOF
 
 # fe service
+fe_start_exec="$dir_install/$name/fe/bin/start_fe.sh --daemon --helper '$fe_ip:9010'"
+if [[ "$fe_ip" = "$cur_ip" ]]; then
+    fe_start_exec=$dir_install/$name/fe/bin/start_fe.sh --daemon
+fi
 cat > /etc/systemd/system/"$name"fe.service <<EOF
 [Unit]
 After=network.target
@@ -80,8 +97,7 @@ LimitNOFILE=655350
 LimitSTACK=infinity
 LimitMEMLOCK=infinity
 Environment="JAVA_HOME=$dir_java"
-ExecStart=$dir_install/$name/fe/bin/start_fe.sh --daemon
-# ExecStart=$dir_install/$name/fe/bin/start_fe.sh --daemon --helper 'fe1:9010'
+ExecStart=$fe_start_exec
 ExecStop=$dir_install/$name/fe/bin/stop_fe.sh
 Restart=always
 RestartSec=60
@@ -114,4 +130,4 @@ systemctl enable "$name"fe --now
 systemctl enable "$name"be --now
 
 # config
-# mysql --connect-timeout 2 -h 10.10.10.88 -P9030 -uroot -e 'ALTER SYSTEM ADD BACKEND "10.10.10.88:9050";'
+mysql --connect-timeout 15 -h $fe_ip -P9030 -uroot -e "ALTER SYSTEM ADD BACKEND '$local_ip:9050';"
