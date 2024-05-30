@@ -100,7 +100,7 @@ Environment="JAVA_HOME=$dir_java"
 ExecStart=$fe_start_exec
 ExecStop=$dir_install/$name/fe/bin/stop_fe.sh
 Restart=always
-RestartSec=60
+RestartSec=10
 Type=forking
 [Install]
 WantedBy=multi-user.target
@@ -119,7 +119,7 @@ Environment="JAVA_HOME=$dir_java"
 ExecStart=$dir_install/$name/be/bin/start_be.sh --daemon
 ExecStop=$dir_install/$name/be/bin/stop_be.sh
 Restart=always
-RestartSec=60
+RestartSec=10
 Type=forking
 [Install]
 WantedBy=multi-user.target
