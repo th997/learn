@@ -5,7 +5,7 @@ name=starrocks
 #name=doris
 
 # please modify !!!
-fe_ip=10.10.10.106
+fe_ip="10.10.10.106"
 dir_java=/d/soft/java
 dir_install=/d/soft
 dir_data=/e/data/$name
@@ -37,9 +37,12 @@ if [[ "$name" = "doris" && ! -d "$name" ]]; then
 fi     
 
 if [[ "$name" = "starrocks" && ! -d "$name" ]]; then
-    wget https://releases.starrocks.io/starrocks/StarRocks-3.2.6.tar.gz
-    tar -zxvf StarRocks-3.2.6.tar.gz
-    ln -s StarRocks-3.2.6 $name
+    # wget https://releases.starrocks.io/starrocks/StarRocks-3.2.6.tar.gz
+    # tar -zxvf StarRocks-3.2.6.tar.gz
+    # ln -s StarRocks-3.2.6 $name
+    wget https://releases.starrocks.io/starrocks/StarRocks-3.3.0-rc01.tar.gz
+    tar -zxvf StarRocks-3.3.0-rc01.tar.gz
+    ln -s StarRocks-3.3.0-rc01 $name
 fi
 cd $name
 mkdir fe/log
@@ -85,8 +88,8 @@ EOF
 
 # fe service
 fe_start_exec="$dir_install/$name/fe/bin/start_fe.sh --daemon --helper '$fe_ip:9010'"
-if [[ "$fe_ip" = "$cur_ip" ]]; then
-    fe_start_exec=$dir_install/$name/fe/bin/start_fe.sh --daemon
+if [[ "$fe_ip" = "$local_ip" ]]; then
+    fe_start_exec="$dir_install/$name/fe/bin/start_fe.sh --daemon"
 fi
 cat > /etc/systemd/system/"$name"fe.service <<EOF
 [Unit]
