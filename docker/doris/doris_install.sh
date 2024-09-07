@@ -9,11 +9,11 @@ fe_ip="10.10.10.106"
 dir_java=/d/soft/java
 dir_install=/d/soft
 dir_data=/e/data/$name
+dir_log=$dir_data/log
 
 # sub dir
 dir_fe_meta=$dir_data/meta
 dir_be_data=$dir_data/data
-dir_log=$dir_data/log
 mkdir -p $dir_fe_meta $dir_be_data $dir_log
 
 # ip addr
@@ -40,15 +40,24 @@ if [[ "$name" = "starrocks" && ! -d "$name" ]]; then
     # wget https://releases.starrocks.io/starrocks/StarRocks-3.2.6.tar.gz
     # tar -zxvf StarRocks-3.2.6.tar.gz
     # ln -s StarRocks-3.2.6 $name
-    wget https://releases.starrocks.io/starrocks/StarRocks-3.3.0-rc01.tar.gz
-    tar -zxvf StarRocks-3.3.0-rc01.tar.gz
-    ln -s StarRocks-3.3.0-rc01 $name
+    wget https://releases.starrocks.io/starrocks/StarRocks-3.3.0.tar.gz
+    tar -zxvf StarRocks-3.3.0.tar.gz
+    ln -s StarRocks-3.3.0 $name
 fi
 cd $name
 mkdir fe/log
 
+# jdk
+# if [ ! -d "/usr/local/jdk17"]; then
+#     wget https://corretto.aws/downloads/latest/amazon-corretto-17-x64-linux-jdk.tar.gz 
+#     tar -zxvf amazon-corretto-17*.tar.gz /usr/local
+#     mv /usr/local/amazon-corretto-17* /user/local/jdk17
+# fi    
+
+# or apt install openjdk-17-jdk
+
 # system config
-# apt install openjdk-17-jdk
+
 systemctl enable ntpd --now
 if ! grep -q "vm.max_map_count=2000000" /etc/sysctl.conf ; then
     echo "vm.max_map_count=2000000">> /etc/sysctl.conf
@@ -83,10 +92,11 @@ priority_networks=$local_net
 sys_log_dir=$dir_log
 storage_root_path=$dir_be_data,medium:ssd
 disable_storage_page_cache=false
-mem_limit=50%
+mem_limit=60%
 EOF
 
 # fe service
+#chown -R service:service $dir_data $dir_log $dir_install/$name/
 fe_start_exec="$dir_install/$name/fe/bin/start_fe.sh --daemon --helper '$fe_ip:9010'"
 if [[ "$fe_ip" = "$local_ip" ]]; then
     fe_start_exec="$dir_install/$name/fe/bin/start_fe.sh --daemon"
@@ -95,6 +105,8 @@ cat > /etc/systemd/system/"$name"fe.service <<EOF
 [Unit]
 After=network.target
 [Service]
+#User=service
+#Group=service
 LimitNPROC=65535
 LimitNOFILE=655350
 LimitSTACK=infinity
@@ -114,6 +126,8 @@ cat > /etc/systemd/system/"$name"be.service <<EOF
 [Unit]
 After=network.target
 [Service]
+#User=service
+#Group=service
 LimitNPROC=65535
 LimitNOFILE=655350
 LimitSTACK=infinity

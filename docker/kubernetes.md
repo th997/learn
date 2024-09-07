@@ -74,6 +74,12 @@ sudo ip link delete cni0
 sudo rm -rf /var/lib/cni/
 sudo rm -rf /etc/cni/
 
+拉取镜像
+sudo systemctl set-environment HTTP_PROXY=127.0.0.1:1080
+sudo systemctl set-environment HTTPS_PROXY=127.0.0.1:1080
+sudo systemctl restart containerd.service
+sudo kubeadm config images pull
+
 初始化集群
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
 mkdir -p $HOME/.kube

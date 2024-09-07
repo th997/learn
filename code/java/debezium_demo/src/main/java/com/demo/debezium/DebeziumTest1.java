@@ -1,11 +1,13 @@
 package com.demo.debezium;
 
 import io.debezium.config.Configuration;
+import io.debezium.embedded.EmbeddedEngine;
 import io.debezium.engine.ChangeEvent;
 import io.debezium.engine.DebeziumEngine;
 import io.debezium.engine.format.Json;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,13 +26,14 @@ public class DebeziumTest1 {
                 .with("database.server.id", "184054")
                 .with("database.server.name", "mysql-db")
                 .with("database.include.list", "test")
-                .with("schema.history.internal", "io.debezium.storage.file.history.FileSchemaHistory")
-                .with("schema.history.internal.file.filename", "/tmp/schemahistory.dat")
+                .with("database.connectionTimeZone", "Asia/Shanghai")
                 .with("database.history", "io.debezium.relational.history.FileDatabaseHistory")
                 .with("database.history.file.filename", "/tmp/dbhistory.dat")
-                .with("database.connectionTimeZone", "Asia/Shanghai")
+                .with("schema.history.internal", "io.debezium.storage.file.history.FileSchemaHistory")
+                .with("schema.history.internal.file.filename", "/tmp/schemahistory.dat")
                 .with("include.schema.changes", "true")
                 .with("snapshot.mode", "initial")
+                .with("topic.prefix", "my-app-connector")
                 .build();
 
         DebeziumEngine<ChangeEvent<String, String>> engine = DebeziumEngine.create(Json.class)

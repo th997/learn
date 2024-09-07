@@ -7,7 +7,7 @@ sudo apt-get install -y docker.io
 
 // wget -qO- https://get.docker.com/ | sh
 
-sudo service docker start
+sudo systemctl enable docker --now 
 
 sudo docker version
 
@@ -32,7 +32,7 @@ sudo groupadd docker
 
 sudo gpasswd -a ${USRE} docker
 
-sudo service docker restart
+sudo systemctl restart docker
 
 ## image
 docker search spark

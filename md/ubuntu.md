@@ -98,7 +98,8 @@ dpkg-reconfigure openssh-server
 ```
 vim /etc/ssh/sshd_config
 PermitRootLogin yes
-service ssh restart
+systemctl reload ssh
+systemctl restart ssh
 ```
 
 ### 开机启动项目查看
@@ -137,7 +138,7 @@ https://downloads.realvnc.com/download/file/vnc.files/VNC-Server-6.10.1-Linux-x6
 https://blog.51cto.com/dgd2010/711213
 sudo vnclicense -add ANN2U-FM59S-DAGV4-4TK96-BDTKA
 systemctl enable vncserver-x11-serviced.service
-systemctl restart vncserver-x11-serviced.service
+ 
 ```
 
 ## snap

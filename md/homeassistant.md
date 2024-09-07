@@ -13,11 +13,11 @@ docker run -d \
   -e TZ=Asia/Shanghai \
   -e http_proxy="http://10.10.10.106:1080" \
   -e https_proxy="http://10.10.10.106:1080" \
-  -v /hass:/config \
-  --network=host \
+  -v ./config:/config \
+  -p 8123:8123 \
   homeassistant/home-assistant
-
 ```
+  --network=host \
 
 ## havcs
 wget https://github.com/cnk700i/havcs/archive/refs/tags/2021.5.4.zip

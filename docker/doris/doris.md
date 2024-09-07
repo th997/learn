@@ -90,40 +90,47 @@ systemctl enable doris_fe --now
 ## 维护
 ```sql
 -- 添加be
-ALTER SYSTEM ADD BACKEND "be1:9050";
+alter system add backend "be1:9050";
 -- 查看be
-SHOW BACKENDS;
+show backends;
 -- 删除be
-ALTER SYSTEM DROP BACKEND "10067";
+alter system drop backend "10067";
 -- 添加fe
-ALTER SYSTEM ADD OBSERVER "fe1:9010";
+alter system add observer "fe1:9010";
 -- 添加fe
-ALTER SYSTEM ADD Follower "fe1:9010";
+alter system add follower "fe1:9010";
 -- 查看fe
-SHOW FRONTENDS;
--- 查看fe配置
-SHOW FRONTEND CONFIG;
--- 设置查询缓存
-set global enable_query_cache = true 
--- 修改fe配置，重启生效
-ADMIN SET FRONTEND CONFIG ("fe_config_name" = "fe_config_value");
--- 修改be配置
--- curl -X POST http://{be_ip}:{be_http_port}/api/update_config?{key}={value}\&persist=true
--- 查看be配置
--- http://be_host:be_webserver_port/varz   http://localhost:9040/varz
+show frontends;
 -- 修改表副本数
-ALTER TABLE db.tb SET ("default.replication_num" = "3");
+alter table db.tb set ("default.replication_num" = "3");
+-- 授权
+create user 'user1'@'10.%' identified by '13pgu9assk8';
+grant select on *.* to 'user1'@'10.%';
+flush privileges;
+-- 查看be日志
+select * from information_schema.be_logs
 ```
 
 ## 调优
 ```
--- 设置查询缓存
-set global enable_query_cache = true 
--- 优化sql参数限制
-ADMIN SET FRONTEND CONFIG ("expr_children_limit" = "200000");
--- be参数优化
-curl -XPOST http://10.10.10.88:8040/api/update_config?update_compaction_num_threads_per_disk=4
-curl -XPOST http://10.10.10.88:8040/api/update_config?update_compaction_check_interval_seconds=5
-curl -XPOST http://10.10.10.88:8040/api/update_config?update_compaction_per_tablet_min_interval_seconds=10
-curl -XPOST http://10.10.10.88:8040/api/update_config?flush_thread_num_per_store=4
+-- 设置查询缓存 (新连接生效,持久保持不需要重启),查看 show variables like '%time_zone%';
+set global enable_query_cache = true
+set global enable_scan_datacache = true
+-- set global enable_profile = true;
+set global big_query_profile_threshold = '2s';
+set global query_cache_entry_max_bytes=16777216
+set global query_cache_entry_max_rows=1638400
+
+-- fe参数修改（重启失效），查看 show frontend config;
+admin set frontend config ("expr_children_limit" = "200000");
+admin set frontend config ("enable_fast_schema_evolution" = "true");
+admin set frontend config ("tablet_create_timeout_second"="20")
+admin set frontend config("lake_enable_batch_publish_version"="true");
+
+-- be参数修改，（重启失效），查看 select * from information_schema.be_configs set value = 4 where name like 'update_compaction_num_threads_per_disk';
+update information_schema.be_configs set value = 4 where name like 'update_compaction_num_threads_per_disk';
+update information_schema.be_configs set value = 5 where name like 'update_compaction_check_interval_seconds';
+update information_schema.be_configs set value =10 where name like 'update_compaction_per_tablet_min_interval_seconds';
+update information_schema.be_configs set value = 4 where name like 'number_tablet_writer_threads';
+
 ```
