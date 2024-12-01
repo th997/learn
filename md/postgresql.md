@@ -207,7 +207,21 @@ SELECT * FROM my_hash_partitioned_table;
 -- 设置表的并发 https://developer.aliyun.com/article/746075
 alter table t_user set (parallel_workers =64);  
 
-## 
+## 逻辑复制
+```sql
+wal_level = logical
+
+select * from pg_replication_slots;
+select * from pg_publication_tables where pubname !='dbz_publication'
+
+create publication my_publication for table "user",user_detail 
+
+alter table datatest.user replica identity default;
+alter table datatest.user_detail replica identity full;
+
+select pg_drop_replication_slot('debezium');
+drop publication dbz_publication;
+```
 
 
 

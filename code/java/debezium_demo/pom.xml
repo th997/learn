@@ -38,6 +38,11 @@
             <artifactId>debezium-connector-mysql</artifactId>
             <version>${version.debezium}</version>
         </dependency>
+        <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-connector-postgres</artifactId>
+            <version>${version.debezium}</version>
+        </dependency>
     </dependencies>
 
     <build>

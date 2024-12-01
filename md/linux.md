@@ -372,3 +372,32 @@ vim ~/.ssh/config
 Host *
     ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
 ```
+
+## xrdp
+```
+sudo apt-get install xrdp
+sudo adduser xrdp ssl-cert
+sudo systemctl enable xrdp
+
+如果黑屏，开头添加
+sudo vim /etc/xrdp/startwm.sh
+unset DBUS_SESSION_BUS_ADDRESS
+unset XDG_RUNTIME_DIR
+
+优化配置 
+sudo vim /etc/xrdp/xrdp.ini
+crypt_level=low
+
+sudo vim /etc/xrdp/sesman.ini
+MaxLoginRetry=6
+```
+
+## sshfs
+```
+sshfs -o allow_other,reconnect,follow_symlinks user@host:/ /mnt/tu
+vim /etc/fstab
+user@host:/ /mnt/tu fuse.sshfs _netdev,allow_other 0 0
+```
+
+
+
