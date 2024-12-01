@@ -1,0 +1,29 @@
+version: "2.2"
+services:
+  jobmanager:
+    image: flink:1.13.6
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    volumes:
+      - /d/docker/flink/checkpoint:/opt/flink/checkpoint
+      - /d/docker/flink/savepoint:/opt/flink/savepoint
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+
+  taskmanager:
+    image: flink:1.13.6
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    scale: 1
+    volumes:
+      - /d/docker/flink/checkpoint:/opt/flink/checkpoint
+      - /d/docker/flink/savepoint:/opt/flink/savepoint
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 3
