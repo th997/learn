@@ -44,8 +44,9 @@ public class PostgresToStarRocksJob {
         } else {
             env = StreamExecutionEnvironment.getExecutionEnvironment();
         }
+        //env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
         env.enableCheckpointing(3000, CheckpointingMode.AT_LEAST_ONCE);
-        String jobName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, PostgresToStarRocksJob.class.getSimpleName());
+        String jobName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, PostgresToStarRocksJob.class.getSimpleName()) + "_" + jobEnv;
         // json serialization
         Map<String, Object> customConverterConfigs = new HashMap<>();
         customConverterConfigs.put(JsonConverterConfig.DECIMAL_FORMAT_CONFIG, DecimalFormat.NUMERIC.name());
@@ -101,7 +102,7 @@ public class PostgresToStarRocksJob {
                         row.setRow(after.toString());
                     }
                     return row;
-                }).keyBy(row -> row.getDatabase() + "." + row.getTable()) // key by table
+                }).setParallelism(2).keyBy(row -> row.getDatabase() + "." + row.getTable()) // key by table
                 .addSink(SinkFunctionFactory.createSinkFunction(srOptions)).name("sr_sink");
         // start
         env.execute(jobName);

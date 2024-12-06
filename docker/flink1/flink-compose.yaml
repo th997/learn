@@ -3,27 +3,54 @@ services:
   jobmanager:
     image: flink:1.13.6
     ports:
-      - "8081:8081"
+      - "18081:8081"
     command: jobmanager
+    restart: always  
     volumes:
       - /d/docker/flink/checkpoint:/opt/flink/checkpoint
       - /d/docker/flink/savepoint:/opt/flink/savepoint
+      - /d/docker/flink/userlib:/opt/flink/userlib
+      - /d/docker/flink/ha:/opt/flink/ha
+
     environment:
+      - TZ=Asia/Shanghai
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
+        state.checkpoints.dir: file:///opt/flink/checkpoint
+        state.savepoints.dir: file:///opt/flink/savepoint
+        high-availability: ZOOKEEPER
+        high-availability.zookeeper.quorum: 172.16.16.21:2181,172.16.16.22:2181,172.16.16.23:2181
+        high-availability.zookeeper.path.root: /flink  
+        high-availability.storageDir: file:///opt/flink/ha
 
   taskmanager:
     image: flink:1.13.6
     depends_on:
       - jobmanager
     command: taskmanager
-    scale: 1
+    restart: always
+    #scale: 2
     volumes:
       - /d/docker/flink/checkpoint:/opt/flink/checkpoint
       - /d/docker/flink/savepoint:/opt/flink/savepoint
+      - /d/docker/flink/userlib:/opt/flink/userlib
+      - /d/docker/flink/ha:/opt/flink/ha
     environment:
+      - TZ=Asia/Shanghai
       - |
         FLINK_PROPERTIES=
+        taskmanager.numberOfTaskSlots: 4
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 3
+        state.backend: filesystem
+        state.checkpoints.dir: file:///opt/flink/checkpoint
+        state.savepoints.dir: file:///opt/flink/savepoint
+        high-availability: ZOOKEEPER
+        high-availability.zookeeper.quorum: 172.16.16.21:2181,172.16.16.22:2181,172.16.16.23:2181
+        high-availability.zookeeper.path.root: /flink  
+        high-availability.storageDir: file:///opt/flink/ha
+
+networks:
+  default:
+    external:
+      name: mynetwork        
