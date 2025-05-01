@@ -1,4 +1,3 @@
-version: "3"
 services:
 
    mysql:
@@ -7,7 +6,7 @@ services:
      ports: 
        - "53306:3306"
      volumes:
-       - /e/docker/nfs/mysql:/var/lib/mysql
+       - /d/docker/nfs/mysql:/var/lib/mysql
        # chmod 644 ./config/*
        - ./config/:/etc/mysql/conf.d
      #command: --default-authentication-plugin=mysql_native_password

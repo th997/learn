@@ -18,8 +18,6 @@ import com.starrocks.connector.flink.table.sink.SinkFunctionFactory;
 import com.starrocks.connector.flink.table.sink.StarRocksSinkOptions;
 import com.ververica.cdc.connectors.postgres.source.PostgresSourceBuilder;
 import com.ververica.cdc.debezium.JsonDebeziumDeserializationSchema;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.core.fs.Path;
@@ -28,13 +26,9 @@ import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.slf4j.Logger;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -47,10 +41,7 @@ public class PostgresToStarRocksJob {
     private static TypeConverter typeConverter = new PostgresToStarRocksConverter();
     private static SqlGenerator sqlGenerator = new StarRocksGenerator();
     private static Map<String, String> schemaMap = new ConcurrentHashMap<>();
-    private static DataSource srDataSource;
-    private static DataSource pgDataSource;
     private static AtomicLong count = new AtomicLong();
-
 
     public static void main(String[] args) throws Exception {
         log.info("{} start...", PostgresToStarRocksJob.class.getSimpleName());
@@ -95,6 +86,7 @@ public class PostgresToStarRocksJob {
         } else {
             dbMap = new HashMap<>(0);
         }
+        String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s?socketTimeout=%s", host, port, database, 36000);
         PostgresSourceBuilder<String> pgSourceBuilder = PostgresSourceBuilder.PostgresIncrementalSource.<String>builder() //
                 .hostname(host).port(port).database(database).username(username).password(password) //
                 .slotName(jobName) //
@@ -109,14 +101,6 @@ public class PostgresToStarRocksJob {
         if (tableList != null && tableList.length() > 0) {
             pgSourceBuilder.tableList(tableList.split(","));
         }
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(String.format("jdbc:postgresql://%s:%s/%s", host, port, database));
-        config.setUsername(username);
-        config.setPassword(password);
-        config.setMaximumPoolSize(2);
-        config.setConnectionTimeout(3000);
-        config.addDataSourceProperty("socketTimeout", new Integer(36000));
-        pgDataSource = new HikariDataSource(config);
         // starrocks sink
         String srJdbcUrl = parameterTool.get("sr.jdbc-url");
         String srUsername = parameterTool.get("sr.username");
@@ -136,14 +120,6 @@ public class PostgresToStarRocksJob {
             sqlGenerator = new StarRocksGenerator(1, replicationNum);
         }
         srOptions.enableUpsertDelete();
-        HikariConfig srConfig = new HikariConfig();
-        srConfig.setJdbcUrl(srJdbcUrl);
-        srConfig.setUsername(srUsername);
-        srConfig.setPassword(srPassword);
-        srConfig.setMaximumPoolSize(2);
-        srConfig.setConnectionTimeout(3000);
-        srConfig.addDataSourceProperty("socketTimeout", new Integer(36000));
-        srDataSource = new HikariDataSource(srConfig);
         // stream data
         long start = System.currentTimeMillis();
         env.fromSource(pgSourceBuilder.build(), WatermarkStrategy.noWatermarks(), "pg_source").setParallelism(1)//
@@ -159,7 +135,12 @@ public class PostgresToStarRocksJob {
                     String schemaJson = json.get("schema").toString();
                     String targetSchema = dbMap.getOrDefault(schema, schema);
                     if (!Objects.equals(schemaJsonOld, schemaJson)) {
-                        compareSchema(schema, table, targetSchema);
+                        Class.forName("org.postgresql.Driver");
+                        Class.forName("com.mysql.jdbc.Driver");
+                        try (Connection pgConn = DriverManager.getConnection(jdbcUrl, username, password); //
+                             Connection srConn = DriverManager.getConnection(srJdbcUrl, srUsername, srPassword)) {
+                            compareSchema(pgConn, schema, table, srConn, targetSchema);
+                        }
                         schemaMap.put(key, schemaJson);
                     }
                     DefaultStarRocksRowData row = new DefaultStarRocksRowData();
@@ -179,7 +160,7 @@ public class PostgresToStarRocksJob {
                         log.info("count={},time={}", co, System.currentTimeMillis() - start);
                     }
                     return row;
-                }).setParallelism(1).keyBy(row -> row.getDatabase() + "." + row.getTable()) // key by table
+                }).setParallelism(2).keyBy(row -> row.getDatabase() + "." + row.getTable()) // key by table
                 .addSink(SinkFunctionFactory.createSinkFunction(srOptions)).setParallelism(4).name("sr_sink");
         // .addSink(new DiscardingSink()).setParallelism(4).name("sr_sink");
         // start
@@ -187,42 +168,38 @@ public class PostgresToStarRocksJob {
         log.info("{} started", PostgresToStarRocksJob.class.getSimpleName());
     }
 
-    private synchronized static void compareSchema(String srcSchema, String srTable, String targetSchema) throws SQLException {
+    private synchronized static void compareSchema(Connection pgConn, String srcSchema, String srTable, Connection srConn, String targetSchema) throws SQLException {
         log.info("compareSchema start");
         long start = System.currentTimeMillis();
-        try (Connection pgConn = pgDataSource.getConnection(); Connection srConn = srDataSource.getConnection()) {
-            List<TableColumn> pgColumnList = pgTableQuery.queryTableColumn(pgConn, srcSchema, srTable);
-            List<TableColumn> srColumnList = srTableQuery.queryTableColumn(srConn, targetSchema, srTable);
-            List<TableColumn> convertColumnList = typeConverter.convert(pgColumnList);
-            String tableSql = sqlGenerator.generateTableSql(targetSchema, srTable, srColumnList, convertColumnList);
-            if (tableSql != null) {
-                log.info("compareSchema tableSql={}", tableSql);
-                if (srColumnList == null || srColumnList.isEmpty()) {
-                    try (Statement st = srConn.createStatement()) {
-                        st.execute(String.format("create database if not exists `%s`", targetSchema));
-                    }
-                }
+        List<TableColumn> pgColumnList = pgTableQuery.queryTableColumn(pgConn, srcSchema, srTable);
+        List<TableColumn> srColumnList = srTableQuery.queryTableColumn(srConn, targetSchema, srTable);
+        List<TableColumn> convertColumnList = typeConverter.convert(pgColumnList);
+        String tableSql = sqlGenerator.generateTableSql(targetSchema, srTable, srColumnList, convertColumnList);
+        if (tableSql != null) {
+            log.info("compareSchema tableSql={}", tableSql);
+            if (srColumnList == null || srColumnList.isEmpty()) {
                 try (Statement st = srConn.createStatement()) {
-                    st.execute(tableSql);
+                    st.execute(String.format("create database if not exists `%s`", targetSchema));
                 }
-                waitSrAltering(targetSchema);
             }
+            try (Statement st = srConn.createStatement()) {
+                st.execute(tableSql);
+            }
+            waitSrAltering(srConn, targetSchema);
         }
         log.info("compareSchema end, time={}", System.currentTimeMillis() - start);
     }
 
-    private static void waitSrAltering(String schema) throws SQLException {
+    private static void waitSrAltering(Connection srConn, String schema) throws SQLException {
         String sql = String.format("show alter table column from %s order by createtime desc limit 100", schema);
         while (true) {
             log.info("waitSrAltering running");
             boolean isBreak = true;
-            try (Connection srConn = srDataSource.getConnection()) {
-                try (Statement st = srConn.createStatement()) {
-                    try (ResultSet rs = st.executeQuery(sql)) {
-                        while (rs.next()) {
-                            if ("!FINISHED".equals(rs.getString("State"))) {
-                                isBreak = false;
-                            }
+            try (Statement st = srConn.createStatement()) {
+                try (ResultSet rs = st.executeQuery(sql)) {
+                    while (rs.next()) {
+                        if ("!FINISHED".equals(rs.getString("State"))) {
+                            isBreak = false;
                         }
                     }
                 }

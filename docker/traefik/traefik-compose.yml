@@ -1,0 +1,22 @@
+services:
+  traefik:
+    image: traefik:latest
+    command:
+      - --providers.docker
+      - --api.insecure=true 
+     # - --providers.docker.exposedbydefault=false # 默认情况下不暴露端口
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      # - ./traefik.toml:/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock # 允许 Traefik 访问 Docker socket
+    networks:
+      - proxy
+networks:
+  proxy:
+
+  # https://docs.traefik.cn/

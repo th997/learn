@@ -45,7 +45,7 @@ priority_networks=10.0.0.0/8
 LOG_DIR=/e/doris/logs
 sys_log_dir=/e/doris/logs
 storage_root_path=/e/doris/doris-data
-disable_storage_page_cache=false
+disable_storage_page_cache=true
 mem_limit=50%
 EOF
 
@@ -127,10 +127,11 @@ admin set frontend config ("enable_fast_schema_evolution" = "true");
 admin set frontend config ("tablet_create_timeout_second"="20")
 admin set frontend config("lake_enable_batch_publish_version"="true");
 
--- be参数修改，（重启失效），查看 select * from information_schema.be_configs set value = 4 where name like 'update_compaction_num_threads_per_disk';
+-- be参数修改，（重启失效），查看 select * from information_schema.be_configs where name like 'update_compaction_num_threads_per_disk';
 update information_schema.be_configs set value = 4 where name like 'update_compaction_num_threads_per_disk';
 update information_schema.be_configs set value = 5 where name like 'update_compaction_check_interval_seconds';
 update information_schema.be_configs set value =10 where name like 'update_compaction_per_tablet_min_interval_seconds';
 update information_schema.be_configs set value = 4 where name like 'number_tablet_writer_threads';
-
+update information_schema.be_configs set value = 60 where name like 'update_cache_expire_sec';
+update information_schema.be_configs set value = 33554432 where name like 'l0_max_mem_usage';
 ```

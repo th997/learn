@@ -8,6 +8,7 @@ import io.debezium.engine.format.Json;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DebeziumTestPg {
     public static void main(String[] args) {
@@ -36,15 +37,20 @@ public class DebeziumTestPg {
                 // 指定库表
                 .with("database.dbname", "postgres")
                 .with("scheme.include.list", "datatest")
-                .with("table.include.list", "datatest.type_test")
+                .with("table.include.list", "datatest.w2000")
                 .with("include.schema.changes", "true")
                 .with("snapshot.mode", "initial")
                 .build();
 
+        AtomicLong count = new AtomicLong();
+        long start = System.currentTimeMillis();
         DebeziumEngine<ChangeEvent<String, String>> engine = DebeziumEngine.create(Json.class)
                 .using(config.asProperties())
                 .notifying(record -> {
-                    System.out.println(record.value()); // 处理变更事件
+                    long co = count.incrementAndGet();
+                    if (co % 10000 == 0) {
+                        System.out.println("count=" + co + ",time=" + (System.currentTimeMillis() - start));
+                    }
                 }).build();
 
         ExecutorService executor = Executors.newSingleThreadExecutor();

@@ -399,5 +399,19 @@ vim /etc/fstab
 user@host:/ /mnt/tu fuse.sshfs _netdev,allow_other 0 0
 ```
 
-
-
+## wifi
+获取wifi列表
+nmcli device wifi list
+连接wifi
+sudo nmcli device wifi connect xxx password "12345678"
+共享热点(band a为指5G,channel 44为指定信道)
+sudo nmcli device wifi hotspot con-name Hotspot ifname wlp0s20f3 band a channel 44 ssid tu password "12345678" 
+显示连接
+sudo nmcli connection show
+删除热点
+sudo nmcli connection delete Hotspot
+查看当前信道
+iwlist wlp0s20f3 channel
+重启
+sudo nmcli con down Hotspot
+sudo nmcli con up Hotspot

@@ -45,3 +45,16 @@ python web_demo.py
 ## ChatGLM3微调
 https://github.com/THUDM/ChatGLM3/blob/main/finetune_chatmodel_demo/README.md 
 
+
+## ollama
+docker run -d --gpus=all -v /d/docker/ollama:/root/.ollama -p 11434:11434 -e HTTPS_PROXY=http://10.10.10.106:1080  -e OLLAMA_ORIGINS="*" -e OLLAMA_HOST=0.0.0.0 --restart always --name ollama ollama/ollama
+
+docker exec -it ollama ollama run gemma2
+
+curl http://localhost:11434/v1/models
+
+https://ollama.com/library
+
+https://github.com/ollama/ollama/blob/main/docs/openai.md
+
+docker run -d -p 11436:8080 --gpus all --add-host=host.docker.internal:host-gateway -v /d/docker/open-webui:/app/backend/data   -e HTTPS_PROXY=http://10.10.10.106:1080 -e ENABLE_RAG_WEB_SEARCH=true --name open-webui --restart always ghcr.io/open-webui/open-webui:cuda

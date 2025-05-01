@@ -134,10 +134,11 @@ remmina
 
 ## vncserver
 ```
-https://downloads.realvnc.com/download/file/vnc.files/VNC-Server-6.10.1-Linux-x64.deb
+https://downloads.realvnc.com/download/file/vnc.files/VNC-Server-6.11.0-Linux-x64.deb
 https://blog.51cto.com/dgd2010/711213
 sudo vnclicense -add ANN2U-FM59S-DAGV4-4TK96-BDTKA
-systemctl enable vncserver-x11-serviced.service
+sudo systemctl enable vncserver-x11-serviced.service
+sudo systemctl restart vncserver-x11-serviced.service
  
 ```
 
@@ -382,12 +383,12 @@ action = iptables[name=SSH, port=ssh, protocol=tcp]
 
 [frps]
 bantime = 3600
-maxretry = 10
-findtime = 900
+maxretry = 30
+findtime = 1800
 enabled = true
 filter = frps
 logpath = /var/log/frps.log
-action = iptables-multiport[name=frps, port="54389,53399", protocol=tcp]
+action = iptables-multiport[name=frps, port="3389,53389,53390,53391,53489,50022,50122", protocol=tcp]
 
 ```
 
