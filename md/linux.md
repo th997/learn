@@ -415,3 +415,11 @@ iwlist wlp0s20f3 channel
 重启
 sudo nmcli con down Hotspot
 sudo nmcli con up Hotspot
+
+## 私钥生成公钥
+ssh-keygen -y -f id_rsa
+
+## 防火墙关闭
+sudo iptables -F
+sudo iptables -X
+sudo netfilter-persistent save

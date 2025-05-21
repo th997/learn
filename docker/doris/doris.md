@@ -114,17 +114,17 @@ select * from information_schema.be_logs
 ## 调优
 ```
 -- 设置查询缓存 (新连接生效,持久保持不需要重启),查看 show variables like '%time_zone%';
-set global enable_query_cache = true
-set global enable_scan_datacache = true
+set global enable_query_cache = true;
+set global enable_scan_datacache = true;
 -- set global enable_profile = true;
 set global big_query_profile_threshold = '2s';
-set global query_cache_entry_max_bytes=16777216
-set global query_cache_entry_max_rows=1638400
+set global query_cache_entry_max_bytes=16777216;
+set global query_cache_entry_max_rows=1638400;
 
 -- fe参数修改（重启失效），查看 show frontend config;
 admin set frontend config ("expr_children_limit" = "200000");
 admin set frontend config ("enable_fast_schema_evolution" = "true");
-admin set frontend config ("tablet_create_timeout_second"="20")
+admin set frontend config ("tablet_create_timeout_second"="20");
 admin set frontend config("lake_enable_batch_publish_version"="true");
 
 -- be参数修改，（重启失效），查看 select * from information_schema.be_configs where name like 'update_compaction_num_threads_per_disk';

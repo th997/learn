@@ -8,7 +8,7 @@ name=starrocks
 fe_ip="10.10.10.106"
 dir_java=/d/soft/java
 dir_install=/d/soft
-dir_data=/e/data/$name
+dir_data=/d/data/$name
 dir_log=$dir_data/log
 
 # sub dir
@@ -38,11 +38,11 @@ fi
 
 if [[ "$name" = "starrocks" && ! -d "$name" ]]; then
     # wget https://releases.starrocks.io/starrocks/StarRocks-3.2.6.tar.gz
-    # tar -zxvf StarRocks-3.2.6.tar.gz
-    # ln -s StarRocks-3.2.6 $name
-    wget https://releases.starrocks.io/starrocks/StarRocks-3.3.0.tar.gz
-    tar -zxvf StarRocks-3.3.0.tar.gz
-    ln -s StarRocks-3.3.0 $name
+    # wget https://releases.starrocks.io/starrocks/StarRocks-3.3.14-ubuntu-amd64.tar.gz
+    # wget https://releases.starrocks.io/starrocks/StarRocks-3.4.3-centos-amd64.tar.gz    
+    wget https://releases.starrocks.io/starrocks/StarRocks-3.4.3-ubuntu-amd64.tar.gz
+    tar -zxvf StarRocks-3.4*.tar.gz
+    ln -s $(ls -d StarRocks-3.4*/) $name
 fi
 cd $name
 mkdir fe/log
@@ -91,7 +91,6 @@ cat >> be/conf/be.conf <<EOF
 priority_networks=$local_net
 sys_log_dir=$dir_log
 storage_root_path=$dir_be_data,medium:ssd
-disable_storage_page_cache=false
 mem_limit=60%
 EOF
 

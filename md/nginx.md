@@ -105,13 +105,13 @@ tar 安装
 yum -y install pcre-devel openssl openssl-devel
 apt-get install build-essential zlib1g-dev libpcre3-dev libssl-dev
 
-./configure --prefix=/usr/local/nginx --http-log-path=/var/log/nginx/access.log  --error-log-path=/var/log/nginx/error.log \
---with-stream --with-stream_ssl_preread_module --with-http_ssl_module --with-stream_realip_module --with-stream_ssl_module  --with-pcre --with-threads --with-file-aio --with-http_realip_module --with-http_v2_module --with-http_auth_request_module --with-http_sub_module \
---with-ld-opt="-Wl,-O1"  --with-cc-opt="-O2"
+./auto/configure --prefix=/usr/local/nginx --http-log-path=/var/log/nginx/access.log  --error-log-path=/var/log/nginx/error.log \
+--with-stream --with-stream_ssl_preread_module --with-http_ssl_module --with-stream_realip_module --with-stream_ssl_module  --with-pcre --with-threads --with-file-aio --with-http_realip_module --with-http_v2_module --with-http_auth_request_module --with-http_sub_module --with-http_v3_module \
+--with-ld-opt="-Wl,-O1,-Os"  --with-cc-opt="-O2 -Os"
 
 #--with-ld-opt="-static" --with-cc-opt="-static"
 
-make
+make -j$(nproc)
 
 sudo make install
 
